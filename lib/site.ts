@@ -1,2 +1,2 @@
-// Update this to your final Vercel/custom domain after claiming the deployment.
-export const baseUrl = "https://stickerly-rai-studio.vercel.app";
+export const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://stickerly-rai-studio.vercel.app";
