@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ArrowLeft, ShoppingCart, ExternalLink, Minus, Plus } from "lucide-react";
-import { Product, getProductName, getProductDescription } from "@/lib/products";
+import { Product, getProductName, getProductDescription, getProductTagline } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useCart } from "@/components/cart/CartContext";
 
@@ -78,9 +78,10 @@ export function ProductDetail({
             <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               {name}
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground">
-              {description}
-            </p>
+            <div
+              className="catalog-description mt-4 text-lg text-muted-foreground [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-4 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_p]:mb-3 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5 [&_br]:hidden"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
             <p className="mt-6 text-3xl font-bold">${product.priceUSD}</p>
 
             <div className="mt-6 flex items-center gap-3">
@@ -172,12 +173,25 @@ export function ProductDetail({
                   <div className="flex flex-1 flex-col p-6">
                     <div className="flex items-start justify-between gap-3">
                       <h3 className="text-lg font-semibold">{getProductName(p, t)}</h3>
-                      <span className="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
-                        ${p.priceUSD}
-                      </span>
+                      <div className="flex shrink-0 items-center gap-2 rounded-full bg-primary/10 px-3 py-1">
+                        {p.originalPriceUSD && p.originalPriceUSD > p.priceUSD ? (
+                          <>
+                            <span className="text-xs text-muted-foreground line-through">
+                              ${p.originalPriceUSD.toFixed(2)}
+                            </span>
+                            <span className="text-sm font-semibold text-primary">
+                              ${p.priceUSD.toFixed(2)}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-sm font-semibold text-primary">
+                            ${p.priceUSD.toFixed(2)}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     <p className="mt-2 line-clamp-2 flex-1 text-sm text-muted-foreground">
-                      {getProductDescription(p, t)}
+                      {getProductTagline(p, t)}
                     </p>
                     <span className="mt-4 inline-flex items-center text-sm font-medium text-primary">
                       {t("viewDetails")} →

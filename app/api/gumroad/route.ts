@@ -7,6 +7,7 @@ interface GumroadApiProduct {
   name: string;
   description: string;
   price: number;
+  offer_price?: number;
   currency: string;
   thumbnail_url?: string;
   preview_url?: string;
@@ -144,10 +145,22 @@ export async function POST(request: NextRequest) {
         ? apiProduct.tags
         : deriveTags(apiProduct.name, apiProduct.description);
 
+      const originalPrice =
+        typeof apiProduct.offer_price === "number" &&
+        apiProduct.offer_price < apiProduct.price
+          ? apiProduct.price / 100
+          : undefined;
+      const priceUSD =
+        typeof apiProduct.offer_price === "number" &&
+        apiProduct.offer_price < apiProduct.price
+          ? apiProduct.offer_price / 100
+          : apiProduct.price / 100;
+
       return NextResponse.json({
         title: apiProduct.name,
         description: apiProduct.description,
-        priceUSD: apiProduct.price / 100,
+        priceUSD,
+        originalPriceUSD: originalPrice,
         currency: apiProduct.currency || "USD",
         image: apiProduct.thumbnail_url || apiProduct.preview_url || "",
         tags,

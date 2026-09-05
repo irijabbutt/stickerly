@@ -5,7 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Check, ExternalLink } from "lucide-react";
-import { Product, ProductCategory, getProductName, getProductDescription } from "@/lib/products";
+import { Product, ProductCategory, getProductName, getProductTagline } from "@/lib/products";
 import { useCart } from "@/components/cart/CartContext";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useProducts } from "@/hooks/useProducts";
@@ -109,12 +109,25 @@ export function ProductGrid() {
                         </h3>
                       </Link>
                     )}
-                    <span className="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
-                      ${product.priceUSD}
-                    </span>
+                    <div className="flex shrink-0 items-center gap-2 rounded-full bg-primary/10 px-3 py-1">
+                      {product.originalPriceUSD && product.originalPriceUSD > product.priceUSD ? (
+                        <>
+                          <span className="text-xs text-muted-foreground line-through">
+                            ${product.originalPriceUSD.toFixed(2)}
+                          </span>
+                          <span className="text-sm font-semibold text-primary">
+                            ${product.priceUSD.toFixed(2)}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-sm font-semibold text-primary">
+                          ${product.priceUSD.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <p className="mt-2 flex-1 text-sm text-muted-foreground">
-                    {getProductDescription(product, t)}
+                  <p className="mt-2 line-clamp-2 flex-1 text-sm text-muted-foreground">
+                    {getProductTagline(product, t)}
                   </p>
                   <div className="mt-6 flex flex-col gap-2">
                     <button

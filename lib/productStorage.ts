@@ -12,6 +12,7 @@ export interface GumroadMetadata {
   title: string;
   description: string;
   priceUSD: number;
+  originalPriceUSD?: number;
   currency: string;
   image: string;
   tags: string[];
@@ -71,6 +72,7 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
     name: displayName,
     description: metadata.description,
     priceUSD: metadata.priceUSD,
+    originalPriceUSD: metadata.originalPriceUSD,
     gumroadProductId: parsed.productId,
     gumroadSeller: parsed.seller,
     category: input.category,
