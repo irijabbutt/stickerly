@@ -19,7 +19,7 @@ interface GumroadApiProduct {
 async function fetchProductFromApi(
   productPermalink: string
 ): Promise<GumroadApiProduct | null> {
-  const accessToken = process.env.GUMROAD_ACCESS_TOKEN;
+  const accessToken = process.env.GUMROAD_TOKEN || process.env.GUMROAD_ACCESS_TOKEN;
   if (!accessToken) return null;
 
   const headers = { Authorization: `Bearer ${accessToken}` };
