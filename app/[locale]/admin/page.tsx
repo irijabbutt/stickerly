@@ -88,6 +88,7 @@ const emptyInput: AdminProductInput = {
   category: "stickers",
   image: "",
   images: [],
+  discountPercent: 0,
 };
 
 function ProductForm({ onSaved }: { onSaved: () => void }) {
@@ -196,6 +197,28 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
           </select>
         </div>
         <div>
+          <label htmlFor="discountPercent" className="block text-sm font-medium">
+            Discount percentage
+          </label>
+          <input
+            id="discountPercent"
+            type="number"
+            min={0}
+            max={100}
+            value={input.discountPercent ?? 0}
+            onChange={(e) =>
+              setInput((i) => ({
+                ...i,
+                discountPercent: Math.max(0, Math.min(100, parseInt(e.target.value, 10) || 0)),
+              }))
+            }
+            className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <p className="mt-1 text-xs text-muted-foreground">
+            Leave at 0 to use the Gumroad price. The original price will be shown struck through.
+          </p>
+        </div>
+        <div>
           <label className="block text-sm font-medium">
             Product images ({input.images.length}/{MAX_PRODUCT_IMAGES})
           </label>
@@ -271,7 +294,19 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
           <p className="text-sm font-medium text-green-600">Product added</p>
           <p className="mt-1 text-sm font-semibold">{preview.name}</p>
           <p className="text-sm text-muted-foreground">
-            ${preview.priceUSD.toFixed(2)} · {preview.category}
+            {preview.originalPriceUSD ? (
+              <>
+                <span className="line-through">
+                  ${preview.originalPriceUSD.toFixed(2)}
+                </span>{" "}
+                <span className="font-semibold text-primary">
+                  ${preview.priceUSD.toFixed(2)}
+                </span>
+              </>
+            ) : (
+              <>${preview.priceUSD.toFixed(2)}</>
+            )}{" "}
+            · {preview.category}
           </p>
           {preview.tags.length > 0 && (
             <p className="mt-1 text-xs text-muted-foreground">
@@ -323,7 +358,19 @@ function ProductList({
                   <div>
                     <p className="font-medium">{product.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      ${product.priceUSD.toFixed(2)} · {product.category}
+                      {product.originalPriceUSD ? (
+                        <>
+                          <span className="line-through">
+                            ${product.originalPriceUSD.toFixed(2)}
+                          </span>{" "}
+                          <span className="font-semibold text-primary">
+                            ${product.priceUSD.toFixed(2)}
+                          </span>
+                        </>
+                      ) : (
+                        <>${product.priceUSD.toFixed(2)}</>
+                      )}{" "}
+                      · {product.category}
                     </p>
                     {product.tags.length > 0 && (
                       <p className="text-xs text-muted-foreground">

@@ -63,7 +63,18 @@ export function CheckoutSummary() {
                   <div>
                     <p className="font-medium">{getProductName(product, tp)}</p>
                     <p className="text-sm text-muted-foreground">
-                      ${product.priceUSD}
+                      {product.originalPriceUSD && product.originalPriceUSD > product.priceUSD ? (
+                        <>
+                          <span className="line-through">
+                            ${product.originalPriceUSD.toFixed(2)}
+                          </span>{" "}
+                          <span className="font-semibold text-primary">
+                            ${product.priceUSD.toFixed(2)}
+                          </span>
+                        </>
+                      ) : (
+                        <>${product.priceUSD.toFixed(2)}</>
+                      )}
                     </p>
                   </div>
                   <p className="font-semibold">

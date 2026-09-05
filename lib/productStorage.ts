@@ -7,6 +7,7 @@ export interface AdminProductInput {
   category: Product['category'];
   image: string;
   images: string[];
+  discountPercent?: number;
 }
 
 export interface GumroadMetadata {
@@ -67,6 +68,13 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
   const displayName = metadata.title || parsed.productId;
   const id = slugify(displayName);
 
+  const discountPercent = Math.max(0, Math.min(100, input.discountPercent || 0));
+  const originalPrice = metadata.priceUSD;
+  const discountedPrice =
+    discountPercent > 0
+      ? Math.round(originalPrice * (1 - discountPercent / 100) * 100) / 100
+      : originalPrice;
+
   const product: Product & { isAdmin: boolean } = {
     id,
     slug: id,
@@ -74,8 +82,8 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
     descriptionKey: `admin.${id}.description`,
     name: displayName,
     description: metadata.description,
-    priceUSD: metadata.priceUSD,
-    originalPriceUSD: metadata.originalPriceUSD,
+    priceUSD: discountedPrice,
+    originalPriceUSD: discountPercent > 0 ? originalPrice : undefined,
     gumroadProductId: parsed.productId,
     gumroadSeller: parsed.seller,
     category: input.category,
