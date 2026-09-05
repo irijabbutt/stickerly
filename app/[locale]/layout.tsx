@@ -118,7 +118,7 @@ export default async function LocaleLayout({
             <NextIntlClientProvider messages={messages} locale={locale} timeZone="UTC">
               <CartProvider>
                 <Header />
-                <div className="flex justify-center bg-background/80 px-4 py-2 backdrop-blur-md">
+                <div className="flex justify-center bg-background/80 px-4 py-2 backdrop-blur-md dark:bg-black dark:backdrop-blur-none">
                   <SaleCountdown />
                 </div>
                 <main className="flex-1">{children}</main>
