@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ArrowLeft, ShoppingCart, ExternalLink, Minus, Plus } from "lucide-react";
+import { ArrowLeft, ShoppingCart, ExternalLink, Minus, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Product, getProductName, getProductDescription, getProductTagline } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useCart } from "@/components/cart/CartContext";
@@ -12,15 +12,37 @@ function ProductImageGallery({ images, alt }: { images: string[]; alt: string })
   const [active, setActive] = useState(0);
   if (images.length === 0) return null;
 
+  const showArrows = images.length > 1;
+  const prev = () => setActive((i) => (i === 0 ? images.length - 1 : i - 1));
+  const next = () => setActive((i) => (i === images.length - 1 ? 0 : i + 1));
+
   return (
     <div className="space-y-4">
-      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-muted to-background p-8 lg:p-12">
+      <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-muted to-background p-8 lg:p-12">
         <img
           src={images[active]}
           alt={`${alt} ${active + 1}`}
           className="h-full w-full object-contain"
           loading="eager"
         />
+        {showArrows && (
+          <>
+            <button
+              onClick={prev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-sm backdrop-blur-sm hover:bg-background transition"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              onClick={next}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-background/80 p-2 text-foreground shadow-sm backdrop-blur-sm hover:bg-background transition"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </>
+        )}
       </div>
       {images.length > 1 && (
         <div className="flex gap-3 overflow-x-auto pb-2">
@@ -112,10 +134,6 @@ export function ProductDetail({
             <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               {name}
             </h1>
-            <div
-              className="catalog-description mt-4 text-lg text-muted-foreground [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-4 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_p]:mb-3 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5 [&_br]:hidden"
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
             <div className="mt-6 flex items-center gap-3">
               {product.originalPriceUSD && product.originalPriceUSD > product.priceUSD ? (
                 <>
@@ -178,6 +196,11 @@ export function ProductDetail({
                 </span>
               )}
             </div>
+
+            <div
+              className="catalog-description mt-8 text-lg text-muted-foreground [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-4 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_p]:mb-3 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5 [&_br]:hidden"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
 
             {product.tags.length > 0 && (
               <div className="mt-8">

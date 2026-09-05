@@ -10,6 +10,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AnimeBackground } from "@/components/effects/AnimeBackground";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { SaleCountdown } from "@/components/sections/SaleCountdown";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -117,6 +118,9 @@ export default async function LocaleLayout({
             <NextIntlClientProvider messages={messages} locale={locale} timeZone="UTC">
               <CartProvider>
                 <Header />
+                <div className="flex justify-center border-b border-border bg-background/80 px-4 py-2 backdrop-blur-md">
+                  <SaleCountdown />
+                </div>
                 <main className="flex-1">{children}</main>
                 <Footer />
                 <CartDrawer />

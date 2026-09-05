@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { AnimeScene } from "@/components/effects/AnimeScene";
-import { SaleCountdown } from "./SaleCountdown";
 
 export function Hero() {
   const t = useTranslations("hero");
@@ -29,7 +28,6 @@ export function Hero() {
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
               {t("subheadline")}
             </p>
-            <SaleCountdown />
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
               <a
                 href="#products"

@@ -34,7 +34,7 @@ export function SaleCountdown() {
 
   if (!mounted) {
     return (
-      <div className="mt-6 inline-flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3">
+      <div className="inline-flex items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3">
         <Timer className="h-5 w-5 text-primary" />
         <span className="text-sm font-medium text-primary">{t("flashSale")}</span>
         <div className="flex items-center gap-2">
@@ -58,7 +58,7 @@ export function SaleCountdown() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="mt-6 inline-flex flex-wrap items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3"
+      className="inline-flex flex-wrap items-center gap-3 rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3"
     >
       <Timer className="h-5 w-5 text-primary" />
       <span className="text-sm font-medium text-primary">{t("flashSale")}</span>
