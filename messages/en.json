@@ -29,6 +29,8 @@
     "addToCart": "Add to cart",
     "added": "Added",
     "viewCart": "View cart",
+    "viewDetails": "View details",
+    "tags": "Tags",
     "price": "${price}",
     "empty": "No products found in this category.",
     "cuteStickerPack": {

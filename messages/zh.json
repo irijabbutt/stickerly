@@ -29,6 +29,8 @@
     "addToCart": "加入购物车",
     "added": "已添加",
     "viewCart": "查看购物车",
+    "viewDetails": "查看详情",
+    "tags": "标签",
     "price": "${price}",
     "empty": "该分类下暂无产品。",
     "cuteStickerPack": {

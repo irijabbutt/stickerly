@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Check } from "lucide-react";
+import { ShoppingCart, Check, ArrowRight } from "lucide-react";
 import { Product, ProductCategory } from "@/lib/products";
 import { useCart } from "@/components/cart/CartContext";
 
 export function ProductGrid({ products }: { products: Product[] }) {
   const t = useTranslations("products");
+  const locale = useLocale();
   const [filter, setFilter] = useState<ProductCategory | "all">("all");
   const { addItem } = useCart();
   const [addedId, setAddedId] = useState<string | null>(null);
@@ -69,16 +71,21 @@ export function ProductGrid({ products }: { products: Product[] }) {
                 key={product.id}
                 className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
               >
-                <div className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background text-5xl">
+                <Link
+                  href={`/${locale}/products/${product.slug}/`}
+                  className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background text-5xl transition hover:opacity-90"
+                >
                   {product.category === "stickers" && "🌟"}
                   {product.category === "animated" && "✨"}
                   {product.category === "3d" && "🧊"}
-                </div>
+                </Link>
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-lg font-semibold">
-                      {t(`${product.nameKey}`)}
-                    </h3>
+                    <Link href={`/${locale}/products/${product.slug}/`}>
+                      <h3 className="text-lg font-semibold hover:underline">
+                        {t(`${product.nameKey}`)}
+                      </h3>
+                    </Link>
                     <span className="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
                       ${product.priceUSD}
                     </span>
@@ -86,20 +93,29 @@ export function ProductGrid({ products }: { products: Product[] }) {
                   <p className="mt-2 flex-1 text-sm text-muted-foreground">
                     {t(`${product.descriptionKey}`)}
                   </p>
-                  <button
-                    onClick={() => handleAdd(product)}
-                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-2.5 text-sm font-medium text-background hover:opacity-90 transition"
-                  >
-                    {addedId === product.id ? (
-                      <>
-                        <Check className="h-4 w-4" /> {t("added")}
-                      </>
-                    ) : (
-                      <>
-                        <ShoppingCart className="h-4 w-4" /> {t("addToCart")}
-                      </>
-                    )}
-                  </button>
+                  <div className="mt-6 flex flex-col gap-2">
+                    <button
+                      onClick={() => handleAdd(product)}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-2.5 text-sm font-medium text-background hover:opacity-90 transition"
+                    >
+                      {addedId === product.id ? (
+                        <>
+                          <Check className="h-4 w-4" /> {t("added")}
+                        </>
+                      ) : (
+                        <>
+                          <ShoppingCart className="h-4 w-4" /> {t("addToCart")}
+                        </>
+                      )}
+                    </button>
+                    <Link
+                      href={`/${locale}/products/${product.slug}/`}
+                      className="inline-flex w-full items-center justify-center gap-1 rounded-full border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
+                    >
+                      {t("viewDetails") || "View details"}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
