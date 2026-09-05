@@ -1,13 +1,14 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { useTranslations, useLocale } from "next-intl";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCart } from "./CartContext";
-import { buildGumroadCartUrl } from "@/lib/gumroad";
 
 export function CartDrawer() {
   const t = useTranslations("cart");
   const tp = useTranslations("products");
+  const locale = useLocale();
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalPrice } = useCart();
 
   if (!isOpen) return null;
@@ -107,14 +108,13 @@ export function CartDrawer() {
                 <span>{t("subtotal")}</span>
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
-              <a
-                href={buildGumroadCartUrl(items)}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={`/${locale}/checkout/`}
+                onClick={() => setIsOpen(false)}
                 className="flex w-full items-center justify-center rounded-full bg-foreground px-6 py-3 text-background font-medium hover:opacity-90 transition"
               >
                 {t("checkout")}
-              </a>
+              </Link>
               <button
                 onClick={() => setIsOpen(false)}
                 className="w-full text-center text-sm text-muted-foreground hover:text-foreground"

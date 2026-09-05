@@ -60,7 +60,8 @@
     "floatingShapes": {
       "name": "フローティングシェイプス3D",
       "description": "ヒーローセクションや背景に最適な抽象的な浮遊3Dシェイプ。"
-    }
+    },
+    "buyNow": "今すぐ購入"
   },
   "categories": {
     "stickers": {
@@ -156,5 +157,21 @@
     "tagline": "好奇心旺盛なクリエイター向けのプレミアムデジタル素材。",
     "rights": "© {year} Stickerly. All rights reserved.",
     "powered": "Checkout powered by Gumroad"
+  },
+  "checkout": {
+    "title": "チェックアウト — Stickerly",
+    "description": "カートを確認し、Gumroadで安全に購入を完了します。プレミアムステッカー、アニメーションUIコンポーネント、3Dデザイン素材。",
+    "summaryTitle": "チェックアウト",
+    "summarySubtitle": "商品を確認して、安全な支払いのためGumroadに進みます。",
+    "quantity": "数量",
+    "remove": "削除",
+    "subtotal": "小計",
+    "total": "合計",
+    "emptyTitle": "カートは空です",
+    "emptySubtitle": "ステッカー、アニメーションUIコンポーネント、3D素材を追加してください。",
+    "continueShopping": "買い物を続ける",
+    "proceedToGumroad": "Gumroadに進む",
+    "secureNote": "安全に購入を完了するため、Gumroadにリダイレクトされます。",
+    "itemCount": "{count} 点"
   }
 }

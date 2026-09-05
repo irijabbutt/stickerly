@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ArrowLeft, ShoppingCart, ExternalLink, Minus, Plus } from "lucide-react";
 import { Product } from "@/lib/products";
+import { buildGumroadProductUrl } from "@/lib/gumroad";
 import { useCart } from "@/components/cart/CartContext";
 
 function categoryEmoji(category: Product["category"]) {
@@ -113,7 +114,7 @@ export function ProductDetail({
                 {added ? t("added") : t("addToCart")}
               </button>
               <a
-                href={`https://gumroad.com/l/${product.gumroadProductId}`}
+                href={buildGumroadProductUrl(product)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 py-3 font-medium hover:bg-muted transition"

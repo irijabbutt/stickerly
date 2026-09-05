@@ -4,9 +4,10 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Check, ArrowRight } from "lucide-react";
+import { ShoppingCart, Check, ArrowRight, ExternalLink } from "lucide-react";
 import { Product, ProductCategory } from "@/lib/products";
 import { useCart } from "@/components/cart/CartContext";
+import { buildGumroadProductUrl } from "@/lib/gumroad";
 
 export function ProductGrid({ products }: { products: Product[] }) {
   const t = useTranslations("products");
@@ -111,13 +112,23 @@ export function ProductGrid({ products }: { products: Product[] }) {
                         </>
                       )}
                     </button>
-                    <Link
-                      href={`/${locale}/products/${product.slug}/`}
-                      className="inline-flex w-full items-center justify-center gap-1 rounded-full border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
-                    >
-                      {t("viewDetails") || "View details"}
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link
+                        href={`/${locale}/products/${product.slug}/`}
+                        className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
+                      >
+                        {t("viewDetails") || "View details"}
+                      </Link>
+                      <a
+                        href={buildGumroadProductUrl(product)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        {t("buyNow")}
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -8,6 +8,16 @@ function getGumroadProductId(product: Product): string {
 }
 
 /**
+ * Build a direct Gumroad product page URL for a single product.
+ *
+ * Override real Gumroad IDs without touching code by setting environment
+ * variables like NEXT_PUBLIC_GUMROAD_PRODUCT_ID_CUTE_STICKER_PACK.
+ */
+export function buildGumroadProductUrl(product: Product): string {
+  return `https://gumroad.com/l/${getGumroadProductId(product)}`;
+}
+
+/**
  * Build a Gumroad checkout URL for the given products.
  * Gumroad supports multiple products in one checkout via repeated
  * `product_ids` query parameters on /checkout.

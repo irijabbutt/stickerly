@@ -60,7 +60,8 @@
     "floatingShapes": {
       "name": "فلوٹنگ شیپز 3D",
       "description": "ہیرو سیکشنز اور پس منظر کے لیے موزوں خلاصہ فلوٹنگ 3D شیپز۔"
-    }
+    },
+    "buyNow": "ابھی خریدیں"
   },
   "categories": {
     "stickers": {
@@ -156,5 +157,21 @@
     "tagline": "متجسس تخلیق کاروں کے لیے پریمیم ڈیجیٹل اثاثے۔",
     "rights": "© {year} Stickerly۔ جملہ حقوق محفوظ ہیں۔",
     "powered": "چیک آؤٹ Gumroad کے ذریعے تقویت یافتہ"
+  },
+  "checkout": {
+    "title": "چیک آؤٹ — Stickerly",
+    "description": "اپنی ٹوکری کا جائزہ لیں اور Gumroad پر محفوظ طریقے سے خریداری مکمل کریں۔ پریمیم اسٹیکرز، اینیمیٹڈ UI اجزاء، اور 3D ڈیزائن اثاثے۔",
+    "summaryTitle": "چیک آؤٹ",
+    "summarySubtitle": "اپنی اشیاء کا جائزہ لیں اور محفوظ ادائیگی کے لیے Gumroad پر جائیں۔",
+    "quantity": "مقدار",
+    "remove": "ہٹائیں",
+    "subtotal": "کل",
+    "total": "کل رقم",
+    "emptyTitle": "آپ کی ٹوکری خالی ہے",
+    "emptySubtitle": "شروع کرنے کے لیے اسٹیکرز، اینیمیٹڈ UI اجزاء، یا 3D اثاثے شامل کریں۔",
+    "continueShopping": "خریداری جاری رکھیں",
+    "proceedToGumroad": "Gumroad پر جائیں",
+    "secureNote": "آپ کو خریداری محفوظ طریقے سے مکمل کرنے کے لیے Gumroad پر بھیجا جائے گا۔",
+    "itemCount": "{count} اشیاء"
   }
 }

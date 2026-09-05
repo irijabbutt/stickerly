@@ -60,7 +60,8 @@
     "floatingShapes": {
       "name": "漂浮3D形状",
       "description": "适用于首屏和背景的抽象漂浮3D形状。"
-    }
+    },
+    "buyNow": "立即购买"
   },
   "categories": {
     "stickers": {
@@ -156,5 +157,21 @@
     "tagline": "为充满好奇的创作者提供优质数字素材。",
     "rights": "© {year} Stickerly。保留所有权利。",
     "powered": "结账由Gumroad提供支持"
+  },
+  "checkout": {
+    "title": "结账 — Stickerly",
+    "description": "查看购物车并通过Gumroad安全完成购买。高品质贴纸、动画UI组件和3D设计素材。",
+    "summaryTitle": "结账",
+    "summarySubtitle": "确认商品后前往Gumroad进行安全付款。",
+    "quantity": "数量",
+    "remove": "移除",
+    "subtotal": "小计",
+    "total": "合计",
+    "emptyTitle": "购物车是空的",
+    "emptySubtitle": "添加贴纸、动画UI组件或3D素材以开始。",
+    "continueShopping": "继续购物",
+    "proceedToGumroad": "前往Gumroad",
+    "secureNote": "你将被重定向到Gumroad以安全完成购买。",
+    "itemCount": "{count} 件商品"
   }
 }

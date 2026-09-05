@@ -60,7 +60,8 @@
     "floatingShapes": {
       "name": "Floating Shapes 3D",
       "description": "Abstract floating 3D shapes perfect for hero sections and backgrounds."
-    }
+    },
+    "buyNow": "Buy now"
   },
   "categories": {
     "stickers": {
@@ -156,5 +157,21 @@
     "tagline": "Premium digital assets for curious creators.",
     "rights": "© {year} Stickerly. All rights reserved.",
     "powered": "Checkout powered by Gumroad"
+  },
+  "checkout": {
+    "title": "Checkout — Stickerly",
+    "description": "Review your cart and complete your purchase securely on Gumroad. Premium stickers, animated UI components, and 3D design assets.",
+    "summaryTitle": "Checkout",
+    "summarySubtitle": "Review your items and continue to Gumroad for secure payment.",
+    "quantity": "Qty",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "emptyTitle": "Your cart is empty",
+    "emptySubtitle": "Add stickers, animated UI components, or 3D assets to get started.",
+    "continueShopping": "Continue shopping",
+    "proceedToGumroad": "Continue to Gumroad",
+    "secureNote": "You will be redirected to Gumroad to complete your purchase securely.",
+    "itemCount": "{count} items"
   }
 }
