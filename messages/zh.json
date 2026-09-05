@@ -61,7 +61,8 @@
       "name": "漂浮3D形状",
       "description": "适用于首屏和背景的抽象漂浮3D形状。"
     },
-    "buyNow": "立即购买"
+    "buyNow": "立即购买",
+    "comingSoon": "即将推出"
   },
   "categories": {
     "stickers": {
@@ -172,6 +173,8 @@
     "continueShopping": "继续购物",
     "proceedToGumroad": "前往Gumroad",
     "secureNote": "你将被重定向到Gumroad以安全完成购买。",
-    "itemCount": "{count} 件商品"
+    "itemCount": "{count} 件商品",
+    "comingSoon": "即将推出",
+    "notReadyNote": "结账前需要配置 Gumroad 产品 ID。"
   }
 }

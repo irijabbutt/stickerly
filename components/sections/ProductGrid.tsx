@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Check, ArrowRight, ExternalLink } from "lucide-react";
 import { Product, ProductCategory } from "@/lib/products";
 import { useCart } from "@/components/cart/CartContext";
-import { buildGumroadProductUrl } from "@/lib/gumroad";
+import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 
 export function ProductGrid({ products }: { products: Product[] }) {
   const t = useTranslations("products");
@@ -119,15 +119,21 @@ export function ProductGrid({ products }: { products: Product[] }) {
                       >
                         {t("viewDetails") || "View details"}
                       </Link>
-                      <a
-                        href={buildGumroadProductUrl(product)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
-                      >
-                        <ExternalLink className="h-3.5 w-3.5" />
-                        {t("buyNow")}
-                      </a>
+                      {isGumroadProductReady(product) ? (
+                        <a
+                          href={buildGumroadProductUrl(product) ?? undefined}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          {t("buyNow")}
+                        </a>
+                      ) : (
+                        <span className="inline-flex cursor-not-allowed items-center justify-center gap-1 rounded-full border border-border bg-muted/50 px-3 py-2 text-sm font-medium text-muted-foreground">
+                          {t("comingSoon")}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>

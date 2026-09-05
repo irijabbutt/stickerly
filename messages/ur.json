@@ -61,7 +61,8 @@
       "name": "فلوٹنگ شیپز 3D",
       "description": "ہیرو سیکشنز اور پس منظر کے لیے موزوں خلاصہ فلوٹنگ 3D شیپز۔"
     },
-    "buyNow": "ابھی خریدیں"
+    "buyNow": "ابھی خریدیں",
+    "comingSoon": "بہت جلد"
   },
   "categories": {
     "stickers": {
@@ -172,6 +173,8 @@
     "continueShopping": "خریداری جاری رکھیں",
     "proceedToGumroad": "Gumroad پر جائیں",
     "secureNote": "آپ کو خریداری محفوظ طریقے سے مکمل کرنے کے لیے Gumroad پر بھیجا جائے گا۔",
-    "itemCount": "{count} اشیاء"
+    "itemCount": "{count} اشیاء",
+    "comingSoon": "بہت جلد",
+    "notReadyNote": "چیک آؤٹ سے پہلے Gumroad پروڈکٹ IDs کو کنفیگر کرنے کی ضرورت ہے۔"
   }
 }

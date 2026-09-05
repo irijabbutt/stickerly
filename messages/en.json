@@ -61,7 +61,8 @@
       "name": "Floating Shapes 3D",
       "description": "Abstract floating 3D shapes perfect for hero sections and backgrounds."
     },
-    "buyNow": "Buy now"
+    "buyNow": "Buy now",
+    "comingSoon": "Coming soon"
   },
   "categories": {
     "stickers": {
@@ -172,6 +173,8 @@
     "continueShopping": "Continue shopping",
     "proceedToGumroad": "Continue to Gumroad",
     "secureNote": "You will be redirected to Gumroad to complete your purchase securely.",
-    "itemCount": "{count} items"
+    "itemCount": "{count} items",
+    "comingSoon": "Coming soon",
+    "notReadyNote": "Gumroad product IDs need to be configured before checkout."
   }
 }

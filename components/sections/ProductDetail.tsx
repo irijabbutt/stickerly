@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ArrowLeft, ShoppingCart, ExternalLink, Minus, Plus } from "lucide-react";
 import { Product } from "@/lib/products";
-import { buildGumroadProductUrl } from "@/lib/gumroad";
+import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useCart } from "@/components/cart/CartContext";
 
 function categoryEmoji(category: Product["category"]) {
@@ -113,15 +113,21 @@ export function ProductDetail({
                 <ShoppingCart className="h-4 w-4" />
                 {added ? t("added") : t("addToCart")}
               </button>
-              <a
-                href={buildGumroadProductUrl(product)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 py-3 font-medium hover:bg-muted transition"
-              >
-                <ExternalLink className="h-4 w-4" />
-                {tc("checkout")}
-              </a>
+              {isGumroadProductReady(product) ? (
+                <a
+                  href={buildGumroadProductUrl(product) ?? undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 py-3 font-medium hover:bg-muted transition"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  {tc("checkout")}
+                </a>
+              ) : (
+                <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-full border border-border bg-muted/50 px-6 py-3 font-medium text-muted-foreground">
+                  {t("comingSoon")}
+                </span>
+              )}
             </div>
 
             {product.tags.length > 0 && (

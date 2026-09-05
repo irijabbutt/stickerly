@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { Minus, Plus, ShoppingBag, ArrowRight, Lock, Trash2 } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
-import { buildGumroadCartUrl } from "@/lib/gumroad";
+import { buildGumroadCartUrl, isGumroadCartReady } from "@/lib/gumroad";
 
 export function CheckoutSummary() {
   const t = useTranslations("checkout");
@@ -112,17 +112,24 @@ export function CheckoutSummary() {
             <span>${totalPrice.toFixed(2)}</span>
           </div>
 
-          <a
-            href={gumroadUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 font-medium text-background hover:opacity-90 transition"
-          >
-            <Lock className="h-4 w-4" />
-            {t("proceedToGumroad")}
-          </a>
+          {isGumroadCartReady(items) && gumroadUrl ? (
+            <a
+              href={gumroadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 font-medium text-background hover:opacity-90 transition"
+            >
+              <Lock className="h-4 w-4" />
+              {t("proceedToGumroad")}
+            </a>
+          ) : (
+            <span className="mt-6 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full bg-muted px-6 py-3 font-medium text-muted-foreground">
+              <Lock className="h-4 w-4" />
+              {t("comingSoon")}
+            </span>
+          )}
           <p className="mt-3 text-center text-xs text-muted-foreground">
-            {t("secureNote")}
+            {isGumroadCartReady(items) ? t("secureNote") : t("notReadyNote")}
           </p>
         </div>
 

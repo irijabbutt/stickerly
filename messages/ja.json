@@ -61,7 +61,8 @@
       "name": "フローティングシェイプス3D",
       "description": "ヒーローセクションや背景に最適な抽象的な浮遊3Dシェイプ。"
     },
-    "buyNow": "今すぐ購入"
+    "buyNow": "今すぐ購入",
+    "comingSoon": "近日公開"
   },
   "categories": {
     "stickers": {
@@ -172,6 +173,8 @@
     "continueShopping": "買い物を続ける",
     "proceedToGumroad": "Gumroadに進む",
     "secureNote": "安全に購入を完了するため、Gumroadにリダイレクトされます。",
-    "itemCount": "{count} 点"
+    "itemCount": "{count} 点",
+    "comingSoon": "近日公開",
+    "notReadyNote": "チェックアウトの前に Gumroad の商品 ID を設定する必要があります。"
   }
 }
