@@ -1,13 +1,13 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
-import { useCart } from "@/components/cart/CartContext";
 
 export function CTABanner() {
   const t = useTranslations("ctaBanner");
-  const { setIsOpen } = useCart();
+  const locale = useLocale();
 
   return (
     <section className="py-20 lg:py-28">
@@ -22,12 +22,12 @@ export function CTABanner() {
             {t("title")}
           </h2>
           <p className="mt-4 text-lg opacity-90">{t("subtitle")}</p>
-          <button
-            onClick={() => setIsOpen(true)}
+          <Link
+            href={`/${locale}/#products`}
             className="mt-8 inline-flex items-center rounded-full bg-primary-foreground px-8 py-3 text-base font-semibold text-primary hover:opacity-90 transition"
           >
             {t("button")}
-          </button>
+          </Link>
           <div className="mt-4">
             <a
               href="https://rijabai.gumroad.com/affiliates"
