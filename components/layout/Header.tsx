@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useCart } from "@/components/cart/CartContext";
 import { Logo } from "@/components/icons/Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -41,6 +42,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <LocaleSwitcher />
+          <ThemeToggle />
           <button
             onClick={() => setIsOpen(true)}
             className="relative rounded-full p-2 hover:bg-muted transition"

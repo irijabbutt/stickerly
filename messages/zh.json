@@ -10,7 +10,9 @@
     "faq": "常见问题",
     "cart": "购物车",
     "openCart": "打开购物车",
-    "closeCart": "关闭购物车"
+    "closeCart": "关闭购物车",
+    "themeLight": "切换到浅色模式",
+    "themeDark": "切换到深色模式"
   },
   "hero": {
     "badge": "每周上新创意素材",

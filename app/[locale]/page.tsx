@@ -1,5 +1,4 @@
 import { Hero } from "@/components/sections/Hero";
-import { StickerCharacters } from "@/components/sections/StickerCharacters";
 import { ProductGrid } from "@/components/sections/ProductGrid";
 import { Features } from "@/components/sections/Features";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -8,7 +7,7 @@ import { FAQ } from "@/components/sections/FAQ";
 import { CTABanner } from "@/components/sections/CTABanner";
 import { products } from "@/lib/products";
 import { baseUrl } from "@/lib/site";
-import type { Locale } from "@/lib/i18n";
+import { locales, type Locale } from "@/lib/i18n";
 
 async function loadMessages(locale: Locale) {
   return (await import(`../../messages/${locale}.json`)).default;
@@ -37,9 +36,9 @@ export async function generateMetadata({
     alternates: {
       canonical: `${baseUrl}/${locale}/`,
       languages: {
-        "en": `${baseUrl}/en/`,
-        "zh": `${baseUrl}/zh/`,
-        "ur": `${baseUrl}/ur/`,
+        ...Object.fromEntries(
+          locales.map((l) => [l, `${baseUrl}/${l}/`])
+        ),
         "x-default": `${baseUrl}/en/`,
       },
     },
@@ -105,7 +104,6 @@ export default async function HomePage({
         }}
       />
       <Hero />
-      <StickerCharacters />
       <ProductGrid products={products} />
       <Features />
       <HowItWorks />

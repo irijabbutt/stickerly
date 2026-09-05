@@ -10,7 +10,9 @@
     "faq": "FAQ",
     "cart": "Cart",
     "openCart": "Open cart",
-    "closeCart": "Close cart"
+    "closeCart": "Close cart",
+    "themeLight": "Switch to light mode",
+    "themeDark": "Switch to dark mode"
   },
   "hero": {
     "badge": "New creative drops weekly",

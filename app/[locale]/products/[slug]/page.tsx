@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { products } from "@/lib/products";
 import { baseUrl } from "@/lib/site";
-import type { Locale } from "@/lib/i18n";
+import { locales, type Locale } from "@/lib/i18n";
 import { ProductDetail } from "@/components/sections/ProductDetail";
 
 async function loadMessages(locale: Locale) {
@@ -10,11 +10,9 @@ async function loadMessages(locale: Locale) {
 }
 
 export async function generateStaticParams() {
-  return products.flatMap((product) => [
-    { locale: "en", slug: product.slug },
-    { locale: "zh", slug: product.slug },
-    { locale: "ur", slug: product.slug },
-  ]);
+  return products.flatMap((product) =>
+    locales.map((locale) => ({ locale, slug: product.slug }))
+  );
 }
 
 export async function generateMetadata({
@@ -41,9 +39,9 @@ export async function generateMetadata({
     alternates: {
       canonical: productUrl,
       languages: {
-        en: `${baseUrl}/en/products/${slug}/`,
-        zh: `${baseUrl}/zh/products/${slug}/`,
-        ur: `${baseUrl}/ur/products/${slug}/`,
+        ...Object.fromEntries(
+          locales.map((l) => [l, `${baseUrl}/${l}/products/${slug}/`])
+        ),
         "x-default": `${baseUrl}/en/products/${slug}/`,
       },
     },

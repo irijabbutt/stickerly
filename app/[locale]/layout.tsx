@@ -8,7 +8,8 @@ import { CartProvider } from "@/components/cart/CartContext";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { InteractiveBackground } from "@/components/effects/InteractiveBackground";
+import { AnimeBackground } from "@/components/effects/AnimeBackground";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -28,6 +29,20 @@ export function generateStaticParams() {
 async function loadMessages(locale: Locale) {
   return (await import(`../../messages/${locale}.json`)).default;
 }
+
+const themeInitScript = `
+(function() {
+  try {
+    const theme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (theme === 'dark' || (!theme && systemDark)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  } catch (e) {}
+})();
+`;
 
 export async function generateMetadata({
   params,
@@ -92,18 +107,23 @@ export default async function LocaleLayout({
       dir={isRtl ? "rtl" : "ltr"}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="relative isolate min-h-full flex flex-col text-foreground">
-        <InteractiveBackground />
-        <div className="relative z-10 flex min-h-full flex-1 flex-col bg-background/80 backdrop-blur-sm">
-          <NextIntlClientProvider messages={messages} locale={locale} timeZone="UTC">
-            <CartProvider>
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-              <CartDrawer />
-            </CartProvider>
-          </NextIntlClientProvider>
-        </div>
+        <ThemeProvider>
+          <AnimeBackground />
+          <div className="relative z-10 flex min-h-full flex-1 flex-col bg-background/70 backdrop-blur-[2px] dark:bg-background/50">
+            <NextIntlClientProvider messages={messages} locale={locale} timeZone="UTC">
+              <CartProvider>
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+                <CartDrawer />
+              </CartProvider>
+            </NextIntlClientProvider>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
