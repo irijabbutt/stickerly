@@ -48,5 +48,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...homeEntries, ...categoryEntries, ...productEntries];
+  const checkoutEntries = locales.map((locale) => ({
+    url: `${baseUrl}/${locale}/checkout/`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+    alternates: {
+      languages: Object.fromEntries(
+        locales.map((l) => [l, `${baseUrl}/${l}/checkout/`])
+      ),
+    },
+  }));
+
+  return [
+    ...homeEntries,
+    ...categoryEntries,
+    ...productEntries,
+    ...checkoutEntries,
+  ];
 }
