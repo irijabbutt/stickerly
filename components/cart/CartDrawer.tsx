@@ -55,8 +55,13 @@ export function CartDrawer() {
                   key={product.id}
                   className="flex gap-4 rounded-2xl border border-border p-3"
                 >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-muted text-2xl">
-                    🎨
+                  <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-muted p-2">
+                    <img
+                      src={product.image}
+                      alt={tp(product.nameKey)}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">

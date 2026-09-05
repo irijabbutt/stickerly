@@ -73,11 +73,14 @@ export function ProductGrid({ products }: { products: Product[] }) {
               >
                 <Link
                   href={`/${locale}/products/${product.slug}/`}
-                  className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background text-5xl transition hover:opacity-90"
+                  className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 transition hover:opacity-90"
                 >
-                  {product.category === "stickers" && "🌟"}
-                  {product.category === "animated" && "✨"}
-                  {product.category === "3d" && "🧊"}
+                  <img
+                    src={product.image}
+                    alt={t(product.nameKey)}
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
                 </Link>
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-start justify-between gap-3">
