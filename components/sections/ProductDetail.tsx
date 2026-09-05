@@ -116,7 +116,20 @@ export function ProductDetail({
               className="catalog-description mt-4 text-lg text-muted-foreground [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-4 [&_h2]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mt-3 [&_h3]:mb-1 [&_p]:mb-3 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5 [&_br]:hidden"
               dangerouslySetInnerHTML={{ __html: description }}
             />
-            <p className="mt-6 text-3xl font-bold">${product.priceUSD}</p>
+            <div className="mt-6 flex items-center gap-3">
+              {product.originalPriceUSD && product.originalPriceUSD > product.priceUSD ? (
+                <>
+                  <span className="text-xl text-muted-foreground line-through">
+                    ${product.originalPriceUSD.toFixed(2)}
+                  </span>
+                  <span className="text-3xl font-bold text-primary">
+                    ${product.priceUSD.toFixed(2)}
+                  </span>
+                </>
+              ) : (
+                <span className="text-3xl font-bold">${product.priceUSD.toFixed(2)}</span>
+              )}
+            </div>
 
             <div className="mt-6 flex items-center gap-3">
               <span className="text-sm font-medium text-muted-foreground">

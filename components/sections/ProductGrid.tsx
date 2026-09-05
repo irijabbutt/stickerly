@@ -74,41 +74,24 @@ export function ProductGrid() {
                 key={product.id}
                 className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
               >
-                {product.isAdmin ? (
-                  <div className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6">
-                    <img
-                      src={product.images?.[0] || product.image}
-                      alt={getProductName(product, t)}
-                      className="h-full w-full object-contain"
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <Link
-                    href={`/${locale}/products/${product.slug}/`}
-                    className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 transition hover:opacity-90"
-                  >
-                    <img
-                      src={product.images?.[0] || product.image}
-                      alt={getProductName(product, t)}
-                      className="h-full w-full object-contain"
-                      loading="lazy"
-                    />
-                  </Link>
-                )}
+                <Link
+                  href={`/${locale}/products/${product.slug}/`}
+                  className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 transition hover:opacity-90"
+                >
+                  <img
+                    src={product.images?.[0] || product.image}
+                    alt={getProductName(product, t)}
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
+                </Link>
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-start justify-between gap-3">
-                    {product.isAdmin ? (
-                      <h3 className="text-lg font-semibold">
+                    <Link href={`/${locale}/products/${product.slug}/`}>
+                      <h3 className="text-lg font-semibold hover:underline">
                         {getProductName(product, t)}
                       </h3>
-                    ) : (
-                      <Link href={`/${locale}/products/${product.slug}/`}>
-                        <h3 className="text-lg font-semibold hover:underline">
-                          {getProductName(product, t)}
-                        </h3>
-                      </Link>
-                    )}
+                    </Link>
                     <div className="flex shrink-0 items-center gap-2 rounded-full bg-primary/10 px-3 py-1">
                       {product.originalPriceUSD && product.originalPriceUSD > product.priceUSD ? (
                         <>
@@ -144,47 +127,29 @@ export function ProductGrid() {
                         </>
                       )}
                     </button>
-                    {product.isAdmin ? (
-                      isGumroadProductReady(product) ? (
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link
+                        href={`/${locale}/products/${product.slug}/`}
+                        className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
+                      >
+                        {t("viewDetails")}
+                      </Link>
+                      {isGumroadProductReady(product) ? (
                         <a
                           href={buildGumroadProductUrl(product, { wanted: true }) ?? undefined}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
+                          className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
                           {t("buyNow")}
                         </a>
                       ) : (
-                        <span className="inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-2 text-sm font-medium text-muted-foreground">
+                        <span className="inline-flex cursor-not-allowed items-center justify-center gap-1 rounded-full border border-border bg-muted/50 px-3 py-2 text-sm font-medium text-muted-foreground">
                           {t("comingSoon")}
                         </span>
-                      )
-                    ) : (
-                      <div className="grid grid-cols-2 gap-2">
-                        <Link
-                          href={`/${locale}/products/${product.slug}/`}
-                          className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
-                        >
-                          {t("viewDetails") || "View details"}
-                        </Link>
-                        {isGumroadProductReady(product) ? (
-                          <a
-                            href={buildGumroadProductUrl(product, { wanted: true }) ?? undefined}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
-                          >
-                            <ExternalLink className="h-3.5 w-3.5" />
-                            {t("buyNow")}
-                          </a>
-                        ) : (
-                          <span className="inline-flex cursor-not-allowed items-center justify-center gap-1 rounded-full border border-border bg-muted/50 px-3 py-2 text-sm font-medium text-muted-foreground">
-                            {t("comingSoon")}
-                          </span>
-                        )}
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

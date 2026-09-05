@@ -1,77 +1,19 @@
-import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { products } from "@/lib/products";
-import { baseUrl } from "@/lib/site";
-import { locales, type Locale } from "@/lib/i18n";
-import { buildGumroadProductUrl } from "@/lib/gumroad";
-import { ProductDetail } from "@/components/sections/ProductDetail";
-
-async function loadMessages(locale: Locale) {
-  return (await import(`../../../../messages/${locale}.json`)).default;
-}
-
-export async function generateStaticParams() {
-  return products.flatMap((product) =>
-    locales.map((locale) => ({ locale, slug: product.slug }))
-  );
-}
+import { ProductDetailClient } from "@/components/sections/ProductDetailClient";
+import { type Locale } from "@/lib/i18n";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
-  const { locale, slug } = await params;
-  const product = products.find((p) => p.slug === slug);
-  if (!product) return {};
-
-  const messages = await loadMessages(locale);
-  const tProducts = messages.products;
-  const name = resolveNested(tProducts, product.nameKey) || product.nameKey;
-  const description =
-    resolveNested(tProducts, product.descriptionKey) || product.descriptionKey;
-
-  const productUrl = `${baseUrl}/${locale}/products/${slug}/`;
-
+  const { locale } = await params;
   return {
-    metadataBase: new URL(baseUrl),
-    title: `${name} — Stickerly`,
-    description,
+    title: "Product — Stickerly",
     alternates: {
-      canonical: productUrl,
-      languages: {
-        ...Object.fromEntries(
-          locales.map((l) => [l, `${baseUrl}/${l}/products/${slug}/`])
-        ),
-        "x-default": `${baseUrl}/en/products/${slug}/`,
-      },
-    },
-    openGraph: {
-      title: `${name} — Stickerly`,
-      description,
-      url: productUrl,
-      siteName: "Stickerly",
-      locale,
-      type: "website",
-      images: [{ url: product.image, alt: name }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${name} — Stickerly`,
-      description,
-      images: [product.image],
+      canonical: `/${locale}/products/`,
     },
   };
-}
-
-function resolveNested(obj: Record<string, unknown>, key: string): string | undefined {
-  const value = key.split(".").reduce<unknown>((acc, part) => {
-    if (acc && typeof acc === "object" && part in acc) {
-      return (acc as Record<string, unknown>)[part];
-    }
-    return undefined;
-  }, obj);
-  return typeof value === "string" ? value : undefined;
 }
 
 export default async function ProductPage({
@@ -79,42 +21,6 @@ export default async function ProductPage({
 }: {
   params: Promise<{ locale: Locale; slug: string }>;
 }) {
-  const { locale, slug } = await params;
-  const product = products.find((p) => p.slug === slug);
-  if (!product) notFound();
-
-  const messages = await loadMessages(locale);
-  const tProducts = messages.products;
-  const name = resolveNested(tProducts, product.nameKey) || product.nameKey;
-  const description =
-    resolveNested(tProducts, product.descriptionKey) || product.descriptionKey;
-
-  const related = products
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 3);
-
-  const productLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name,
-    description,
-    image: `${baseUrl}${product.image}`,
-    offers: {
-      "@type": "Offer",
-      price: product.priceUSD.toFixed(2),
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: buildGumroadProductUrl(product) ?? `${baseUrl}/${locale}/products/${slug}/`,
-    },
-  };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
-      />
-      <ProductDetail product={product} locale={locale} related={related} />
-    </>
-  );
+  const { slug } = await params;
+  return <ProductDetailClient slug={slug} />;
 }
