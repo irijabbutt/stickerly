@@ -5,6 +5,8 @@ import { baseUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
 
+const categories = ["stickers", "animated-ui", "3d-scenes"] as const;
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const homeEntries = locales.flatMap((locale) => ({
     url: `${baseUrl}/${locale}/`,
@@ -17,6 +19,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ),
     },
   }));
+
+  const categoryEntries = categories.flatMap((category) =>
+    locales.map((locale) => ({
+      url: `${baseUrl}/${locale}/category/${category}/`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+      alternates: {
+        languages: Object.fromEntries(
+          locales.map((l) => [l, `${baseUrl}/${l}/category/${category}/`])
+        ),
+      },
+    }))
+  );
 
   const productEntries = products.flatMap((product) =>
     locales.map((locale) => ({
@@ -32,5 +48,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
-  return [...homeEntries, ...productEntries];
+  return [...homeEntries, ...categoryEntries, ...productEntries];
 }

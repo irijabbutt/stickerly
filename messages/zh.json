@@ -62,6 +62,27 @@
       "description": "适用于首屏和背景的抽象漂浮3D形状。"
     }
   },
+  "categories": {
+    "stickers": {
+      "title": "贴纸包 — 创作者剪贴画",
+      "description": "浏览手绘贴纸包、萌系角色和剪贴画套装。提供PNG和SVG格式，免版税。",
+      "headline": "脱颖而出的贴纸包",
+      "subheadline": "为社交媒体帖子、应用和创意项目准备的手绘剪贴画与萌系角色。"
+    },
+    "animated": {
+      "title": "动画UI组件 — React动效",
+      "description": "基于React和Framer Motion构建的生产级动画UI组件、加载器和过渡效果。",
+      "headline": "轻松实现动效UI",
+      "subheadline": "适用于现代网页应用的生产级React动画、加载器和过渡效果。"
+    },
+    "3d": {
+      "title": "3D设计素材 — 图标与场景",
+      "description": "包含Three.js源文件和GLB模型的交互式3D图标场景与抽象形状。",
+      "headline": "为大胆设计而生的3D素材",
+      "subheadline": "包含Three.js源文件的交互式3D图标构成与抽象场景。"
+    },
+    "viewAll": "查看全部产品"
+  },
   "cart": {
     "title": "您的购物车",
     "empty": "购物车是空的。",

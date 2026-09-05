@@ -62,6 +62,27 @@
       "description": "Abstract floating 3D shapes perfect for hero sections and backgrounds."
     }
   },
+  "categories": {
+    "stickers": {
+      "title": "Sticker Packs — Clip Art for Creators",
+      "description": "Browse hand-drawn sticker packs, kawaii characters, and clip-art sets. PNG and SVG formats, royalty-free.",
+      "headline": "Sticker packs that stand out",
+      "subheadline": "Hand-drawn clip art and kawaii characters for social posts, apps, and creative projects."
+    },
+    "animated": {
+      "title": "Animated UI Components — Motion for React",
+      "description": "Production-ready animated UI components, loaders, and transitions built with React and Framer Motion.",
+      "headline": "Motion UI made easy",
+      "subheadline": "Production-ready React animations, loaders, and transitions for modern web apps."
+    },
+    "3d": {
+      "title": "3D Design Assets — Icons & Scenes",
+      "description": "Interactive 3D icon scenes and abstract shapes with Three.js source files and GLB models.",
+      "headline": "3D assets for bold designs",
+      "subheadline": "Interactive 3D icon compositions and abstract scenes with Three.js source files."
+    },
+    "viewAll": "View all products"
+  },
   "cart": {
     "title": "Your cart",
     "empty": "Your cart is empty.",
