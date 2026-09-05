@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LogOut, Plus, Trash2, ExternalLink } from "lucide-react";
+import { LogOut, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { Product } from "@/lib/products";
 import { login, logout, isAdminSession, AdminCredentials } from "@/lib/adminAuth";
 import {
@@ -83,30 +83,37 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
 }
 
 const emptyInput: AdminProductInput = {
-  name: "",
-  description: "",
-  priceUSD: 0,
   gumroadUrl: "",
   category: "stickers",
   image: "",
-  tags: "",
-  isPack: true,
 };
 
 function ProductForm({ onSaved }: { onSaved: () => void }) {
   const [input, setInput] = useState<AdminProductInput>(emptyInput);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [preview, setPreview] = useState<Product | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setError(null);
-    const created = createAdminProduct(input);
-    if (!created) {
-      setError("Invalid Gumroad URL. Use https://seller.gumroad.com/l/PRODUCT_ID");
-      return;
+    setPreview(null);
+
+    try {
+      const created = await createAdminProduct(input);
+      if (!created) {
+        setError("Invalid Gumroad URL. Use https://seller.gumroad.com/l/PRODUCT_ID");
+        return;
+      }
+      setPreview(created);
+      setInput(emptyInput);
+      onSaved();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to add product");
+    } finally {
+      setLoading(false);
     }
-    setInput(emptyInput);
-    onSaved();
   };
 
   return (
@@ -115,47 +122,22 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
       className="rounded-2xl border border-border bg-background p-6 shadow-sm"
     >
       <h2 className="text-lg font-semibold">Add Product</h2>
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
-          <label htmlFor="name" className="block text-sm font-medium">
-            Product name
-          </label>
-          <input
-            id="name"
-            value={input.name}
-            onChange={(e) => setInput((i) => ({ ...i, name: e.target.value }))}
-            className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            required
-          />
-        </div>
-        <div className="sm:col-span-2">
-          <label htmlFor="description" className="block text-sm font-medium">
-            Description
-          </label>
-          <textarea
-            id="description"
-            rows={3}
-            value={input.description}
-            onChange={(e) =>
-              setInput((i) => ({ ...i, description: e.target.value }))
-            }
-            className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            required
-          />
-        </div>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Paste a Gumroad product URL. Title, description, price and tags are fetched automatically.
+      </p>
+      <div className="mt-4 grid gap-4">
         <div>
-          <label htmlFor="price" className="block text-sm font-medium">
-            Price (USD)
+          <label htmlFor="gumroadUrl" className="block text-sm font-medium">
+            Gumroad product URL
           </label>
           <input
-            id="price"
-            type="number"
-            step="0.01"
-            min="0"
-            value={input.priceUSD}
+            id="gumroadUrl"
+            type="url"
+            value={input.gumroadUrl}
             onChange={(e) =>
-              setInput((i) => ({ ...i, priceUSD: parseFloat(e.target.value) || 0 }))
+              setInput((i) => ({ ...i, gumroadUrl: e.target.value }))
             }
+            placeholder="https://rijabai.gumroad.com/l/stickers1"
             className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             required
           />
@@ -180,69 +162,50 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
             <option value="3d">3D Scenes</option>
           </select>
         </div>
-        <div className="sm:col-span-2">
-          <label htmlFor="gumroadUrl" className="block text-sm font-medium">
-            Gumroad product URL
-          </label>
-          <input
-            id="gumroadUrl"
-            type="url"
-            value={input.gumroadUrl}
-            onChange={(e) =>
-              setInput((i) => ({ ...i, gumroadUrl: e.target.value }))
-            }
-            placeholder="https://rijabai.gumroad.com/l/stickers1"
-            className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            required
-          />
-        </div>
-        <div className="sm:col-span-2">
+        <div>
           <label htmlFor="image" className="block text-sm font-medium">
-            Image path
+            Image path or URL
           </label>
           <input
             id="image"
             value={input.image}
             onChange={(e) => setInput((i) => ({ ...i, image: e.target.value }))}
-            placeholder="/products/kawaii-animals.svg"
+            placeholder="/products/kawaii-animals.svg or https://..."
             className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
-        </div>
-        <div className="sm:col-span-2">
-          <label htmlFor="tags" className="block text-sm font-medium">
-            Tags (comma separated)
-          </label>
-          <input
-            id="tags"
-            value={input.tags}
-            onChange={(e) => setInput((i) => ({ ...i, tags: e.target.value }))}
-            placeholder="stickers, png, kawaii"
-            className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
-        <div className="flex items-center gap-2 sm:col-span-2">
-          <input
-            id="isPack"
-            type="checkbox"
-            checked={input.isPack}
-            onChange={(e) =>
-              setInput((i) => ({ ...i, isPack: e.target.checked }))
-            }
-            className="h-4 w-4 rounded border-border"
-          />
-          <label htmlFor="isPack" className="text-sm font-medium">
-            This product is a pack
-          </label>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Leave empty to use the cover image from Gumroad.
+          </p>
         </div>
       </div>
       {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
       <button
         type="submit"
-        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background hover:opacity-90 transition"
+        disabled={loading}
+        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background hover:opacity-90 transition disabled:opacity-50"
       >
-        <Plus className="h-4 w-4" />
-        Add product
+        {loading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <Plus className="h-4 w-4" />
+        )}
+        {loading ? "Fetching from Gumroad..." : "Add product"}
       </button>
+
+      {preview && (
+        <div className="mt-6 rounded-xl border border-border bg-muted/30 p-4">
+          <p className="text-sm font-medium text-green-600">Product added</p>
+          <p className="mt-1 text-sm font-semibold">{preview.name}</p>
+          <p className="text-sm text-muted-foreground">
+            ${preview.priceUSD.toFixed(2)} · {preview.category}
+          </p>
+          {preview.tags.length > 0 && (
+            <p className="mt-1 text-xs text-muted-foreground">
+              Tags: {preview.tags.join(", ")}
+            </p>
+          )}
+        </div>
+      )}
     </form>
   );
 }
@@ -280,6 +243,11 @@ function ProductList({
                   <p className="text-sm text-muted-foreground">
                     ${product.priceUSD.toFixed(2)} · {product.category}
                   </p>
+                  {product.tags.length > 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      {product.tags.join(", ")}
+                    </p>
+                  )}
                   {url && (
                     <a
                       href={url}

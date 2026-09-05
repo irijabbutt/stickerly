@@ -3,14 +3,18 @@ import { Product } from './products';
 const STORAGE_KEY = 'stickerly-admin-products';
 
 export interface AdminProductInput {
-  name: string;
-  description: string;
-  priceUSD: number;
   gumroadUrl: string;
   category: Product['category'];
   image: string;
-  tags: string;
-  isPack: boolean;
+}
+
+export interface GumroadMetadata {
+  title: string;
+  description: string;
+  priceUSD: number;
+  currency: string;
+  image: string;
+  tags: string[];
 }
 
 function slugify(text: string): string {
@@ -26,9 +30,6 @@ function parseGumroadUrl(url: string): { seller?: string; productId: string } | 
   try {
     const parsed = new URL(url);
     const hostParts = parsed.hostname.split('.');
-    // Supported formats:
-    // https://seller.gumroad.com/l/PRODUCT_ID
-    // https://gumroad.com/l/PRODUCT_ID
     const pathMatch = parsed.pathname.match(/\/l\/([^/]+)/);
     if (!pathMatch) return null;
     const productId = pathMatch[1];
@@ -39,28 +40,43 @@ function parseGumroadUrl(url: string): { seller?: string; productId: string } | 
   }
 }
 
-export function createAdminProduct(input: AdminProductInput): Product | null {
+export async function fetchGumroadMetadata(url: string): Promise<GumroadMetadata> {
+  const response = await fetch('/api/gumroad', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url }),
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.error || `Failed to fetch Gumroad metadata (${response.status})`);
+  }
+
+  return response.json();
+}
+
+export async function createAdminProduct(input: AdminProductInput): Promise<Product | null> {
   const parsed = parseGumroadUrl(input.gumroadUrl);
   if (!parsed) return null;
 
-  const id = slugify(input.name);
+  const metadata = await fetchGumroadMetadata(input.gumroadUrl);
+  const displayName = metadata.title || parsed.productId;
+  const id = slugify(displayName);
+
   const product: Product & { isAdmin: boolean } = {
     id,
     slug: id,
     nameKey: `admin.${id}.name`,
     descriptionKey: `admin.${id}.description`,
-    name: input.name,
-    description: input.description,
-    priceUSD: input.priceUSD,
+    name: displayName,
+    description: metadata.description,
+    priceUSD: metadata.priceUSD,
     gumroadProductId: parsed.productId,
     gumroadSeller: parsed.seller,
     category: input.category,
-    image: input.image || '/products/kawaii-animals.svg',
-    tags: input.tags
-      .split(',')
-      .map((tag) => tag.trim())
-      .filter(Boolean),
-    isPack: input.isPack,
+    image: input.image || metadata.image || '/products/kawaii-animals.svg',
+    tags: metadata.tags.length > 0 ? metadata.tags : ['digital', input.category],
+    isPack: true,
     isAdmin: true,
   };
 

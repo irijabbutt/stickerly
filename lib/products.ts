@@ -17,21 +17,7 @@ export interface Product {
   isAdmin?: boolean;
 }
 
-export const products: Product[] = [
-  {
-    id: 'stickers1',
-    slug: 'stickers1',
-    nameKey: 'stickers1.name',
-    descriptionKey: 'stickers1.description',
-    priceUSD: 4.99,
-    gumroadProductId: 'stickers1',
-    gumroadSeller: 'rijabai',
-    category: 'stickers',
-    image: '/products/kawaii-animals.svg',
-    tags: ['stickers', 'png', 'kawaii', 'animals'],
-    isPack: true,
-  },
-];
+export const products: Product[] = [];
 
 export type TranslateFn = (key: string) => string;
 
