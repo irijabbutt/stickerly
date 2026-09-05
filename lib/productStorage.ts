@@ -6,6 +6,7 @@ export interface AdminProductInput {
   gumroadUrl: string;
   category: Product['category'];
   image: string;
+  images: string[];
 }
 
 export interface GumroadMetadata {
@@ -16,6 +17,8 @@ export interface GumroadMetadata {
   currency: string;
   image: string;
   tags: string[];
+  ratingValue?: number;
+  reviewCount?: number;
 }
 
 function slugify(text: string): string {
@@ -76,7 +79,10 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
     gumroadProductId: parsed.productId,
     gumroadSeller: parsed.seller,
     category: input.category,
-    image: input.image || metadata.image || '/products/kawaii-animals.svg',
+    image: input.images[0] || input.image || metadata.image || '/products/kawaii-animals.svg',
+    images: input.images.length > 0 ? input.images : undefined,
+    ratingValue: metadata.ratingValue,
+    reviewCount: metadata.reviewCount,
     tags: metadata.tags.length > 0 ? metadata.tags : ['digital', input.category],
     isPack: true,
     isAdmin: true,
@@ -84,7 +90,14 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
 
   const existing = getAdminProducts();
   const updated = [...existing.filter((p) => p.id !== product.id), product];
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Storage failed";
+    throw new Error(
+      `Failed to save product. Images may be too large for browser storage. ${message}`
+    );
+  }
   return product;
 }
 

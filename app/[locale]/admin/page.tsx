@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { LogOut, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { LogOut, Plus, Trash2, ExternalLink, Loader2, X, ImageIcon } from "lucide-react";
 import { Product } from "@/lib/products";
 import { login, logout, isAdminSession, AdminCredentials } from "@/lib/adminAuth";
 import {
@@ -11,6 +11,7 @@ import {
   AdminProductInput,
 } from "@/lib/productStorage";
 import { buildGumroadProductUrl } from "@/lib/gumroad";
+import { processImageFiles, MAX_PRODUCT_IMAGES } from "@/lib/imageUpload";
 
 function LoginForm({ onLogin }: { onLogin: () => void }) {
   const [credentials, setCredentials] = useState<AdminCredentials>({
@@ -86,6 +87,7 @@ const emptyInput: AdminProductInput = {
   gumroadUrl: "",
   category: "stickers",
   image: "",
+  images: [],
 };
 
 function ProductForm({ onSaved }: { onSaved: () => void }) {
@@ -93,6 +95,8 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<Product | null>(null);
+  const [processingImages, setProcessingImages] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,6 +118,35 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(null);
+    setProcessingImages(true);
+    try {
+      const results = await processImageFiles(e.target.files, {
+        maxTotal: MAX_PRODUCT_IMAGES,
+        existingCount: input.images.length,
+      });
+      if (results.length > 0) {
+        setInput((i) => ({
+          ...i,
+          images: [...i.images, ...results.map((r) => r.dataUrl)],
+        }));
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to process images");
+    } finally {
+      setProcessingImages(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setInput((i) => ({
+      ...i,
+      images: i.images.filter((_, idx) => idx !== index),
+    }));
   };
 
   return (
@@ -163,18 +196,59 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
           </select>
         </div>
         <div>
-          <label htmlFor="image" className="block text-sm font-medium">
-            Image path or URL
+          <label className="block text-sm font-medium">
+            Product images ({input.images.length}/{MAX_PRODUCT_IMAGES})
           </label>
-          <input
-            id="image"
-            value={input.image}
-            onChange={(e) => setInput((i) => ({ ...i, image: e.target.value }))}
-            placeholder="/products/kawaii-animals.svg or https://..."
-            className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          <p className="mt-1 text-xs text-muted-foreground">
-            Leave empty to use the cover image from Gumroad.
+          <div className="mt-2 flex flex-wrap gap-3">
+            {input.images.map((src, idx) => (
+              <div
+                key={`${src.slice(0, 24)}-${idx}`}
+                className="relative h-20 w-20 overflow-hidden rounded-lg border border-border bg-muted"
+              >
+                <img
+                  src={src}
+                  alt={`Preview ${idx + 1}`}
+                  className="h-full w-full object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => removeImage(idx)}
+                  className="absolute right-1 top-1 rounded-full bg-background/90 p-1 text-muted-foreground hover:text-red-500"
+                  aria-label={`Remove image ${idx + 1}`}
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+            ))}
+            {input.images.length < MAX_PRODUCT_IMAGES && (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={processingImages}
+                className="flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-muted/50 text-muted-foreground hover:bg-muted disabled:opacity-50"
+              >
+                {processingImages ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    <ImageIcon className="h-4 w-4" />
+                    <span className="text-xs">Add</span>
+                  </>
+                )}
+              </button>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileChange}
+              className="sr-only"
+            />
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Upload up to {MAX_PRODUCT_IMAGES} images. The first image is used as the catalog cover.
+            Large images are resized automatically.
           </p>
         </div>
       </div>
@@ -238,27 +312,36 @@ function ProductList({
                 key={product.id}
                 className="flex items-start justify-between gap-4 rounded-xl border border-border p-4"
               >
-                <div>
-                  <p className="font-medium">{product.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    ${product.priceUSD.toFixed(2)} · {product.category}
-                  </p>
-                  {product.tags.length > 0 && (
-                    <p className="text-xs text-muted-foreground">
-                      {product.tags.join(", ")}
+                <div className="flex items-start gap-4">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted p-2">
+                    <img
+                      src={product.images?.[0] || product.image}
+                      alt={product.name || product.id}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-medium">{product.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      ${product.priceUSD.toFixed(2)} · {product.category}
                     </p>
-                  )}
-                  {url && (
-                    <a
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-1 inline-flex items-center gap-1 text-sm text-primary hover:underline"
-                    >
-                      <ExternalLink className="h-3 w-3" />
-                      {url}
-                    </a>
-                  )}
+                    {product.tags.length > 0 && (
+                      <p className="text-xs text-muted-foreground">
+                        {product.tags.join(", ")}
+                      </p>
+                    )}
+                    {url && (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-1 inline-flex items-center gap-1 text-sm text-primary hover:underline"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        {url}
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <button
                   onClick={() => handleDelete(product.id)}

@@ -59,7 +59,7 @@ export function CartDrawer() {
                 >
                   <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-muted p-2">
                     <img
-                      src={product.image}
+                      src={product.images?.[0] || product.image}
                       alt={getProductName(product, tp)}
                       className="h-full w-full object-contain"
                       loading="lazy"

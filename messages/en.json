@@ -140,7 +140,9 @@
     "quote1": "The animated UI pack saved me hours of prototyping. Clean, playful, and easy to customize.",
     "author1": "Ayesha K., Product Designer",
     "quote2": "My sticker commissions doubled after I started using Stickerly clip art in my social posts.",
-    "author2": "Li W., Content Creator"
+    "author2": "Li W., Content Creator",
+    "outOf": "out of",
+    "basedOn": "Based on {count, plural, =1 {1 Gumroad review} other {{count} Gumroad reviews}}"
   },
   "faq": {
     "title": "Frequently asked questions",

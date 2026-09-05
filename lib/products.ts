@@ -9,6 +9,9 @@ export interface Product {
   description?: string;
   priceUSD: number;
   originalPriceUSD?: number;
+  images?: string[];
+  ratingValue?: number;
+  reviewCount?: number;
   gumroadProductId: string;
   gumroadSeller?: string;
   category: ProductCategory;

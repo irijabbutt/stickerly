@@ -140,7 +140,9 @@
     "quote1": "动画UI包为我节省了大量原型设计时间。干净、有趣且易于定制。",
     "author1": "Ayesha K.，产品设计师",
     "quote2": "自从在社媒帖子中使用Stickerly剪贴画后，我的贴纸定制订单翻了一倍。",
-    "author2": "Li W.，内容创作者"
+    "author2": "Li W.，内容创作者",
+    "outOf": "满分",
+    "basedOn": "基于 {count} 条 Gumroad 评价"
   },
   "faq": {
     "title": "常见问题",

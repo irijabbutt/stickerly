@@ -78,6 +78,29 @@ function decodeHtmlEntities(text: string): string {
     .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
 }
 
+interface AggregateRating {
+  ratingValue?: number;
+  reviewCount?: number;
+}
+
+function parseAggregateRating(html: string): AggregateRating | undefined {
+  const match = html.match(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/i);
+  if (!match) return undefined;
+  try {
+    const data = JSON.parse(match[1]);
+    const rating = data.aggregateRating || data[0]?.aggregateRating;
+    if (rating) {
+      return {
+        ratingValue: typeof rating.ratingValue === "string" ? parseFloat(rating.ratingValue) : rating.ratingValue,
+        reviewCount: typeof rating.reviewCount === "string" ? parseInt(rating.reviewCount, 10) : rating.reviewCount,
+      };
+    }
+  } catch {
+    // Ignore malformed JSON-LD.
+  }
+  return undefined;
+}
+
 function deriveTags(title: string, description: string): string[] {
   const stopWords = new Set([
     "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
@@ -138,6 +161,25 @@ export async function POST(request: NextRequest) {
     }
     const productPermalink = pathMatch[1];
 
+    // Gumroad's authenticated API does not expose reviews/ratings, so we always
+    // scrape the public product page for aggregate rating data.
+    const pageResponse = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+      },
+      next: { revalidate: 0 },
+    });
+
+    let html = "";
+    let pageRating: AggregateRating | undefined;
+    if (pageResponse.ok) {
+      html = await pageResponse.text();
+      pageRating = parseAggregateRating(html);
+    }
+
     // Prefer authenticated Gumroad API when an access token is configured.
     const apiProduct = await fetchProductFromApi(productPermalink);
     if (apiProduct) {
@@ -164,28 +206,18 @@ export async function POST(request: NextRequest) {
         currency: apiProduct.currency || "USD",
         image: apiProduct.thumbnail_url || apiProduct.preview_url || "",
         tags,
+        ratingValue: pageRating?.ratingValue,
+        reviewCount: pageRating?.reviewCount,
       });
     }
 
     // Fall back to public-page metadata scraping.
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-      },
-      next: { revalidate: 0 },
-    });
-
-    if (!response.ok) {
+    if (!pageResponse.ok) {
       return NextResponse.json(
-        { error: `Gumroad returned ${response.status}` },
+        { error: `Gumroad returned ${pageResponse.status}` },
         { status: 502 }
       );
     }
-
-    const html = await response.text();
 
     const title =
       parseMeta(html, "og:title") ||
@@ -210,6 +242,8 @@ export async function POST(request: NextRequest) {
       currency: priceCurrency,
       image,
       tags,
+      ratingValue: pageRating?.ratingValue,
+      reviewCount: pageRating?.reviewCount,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";

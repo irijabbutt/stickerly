@@ -8,6 +8,47 @@ import { Product, getProductName, getProductDescription, getProductTagline } fro
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useCart } from "@/components/cart/CartContext";
 
+function ProductImageGallery({ images, alt }: { images: string[]; alt: string }) {
+  const [active, setActive] = useState(0);
+  if (images.length === 0) return null;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-muted to-background p-8 lg:p-12">
+        <img
+          src={images[active]}
+          alt={`${alt} ${active + 1}`}
+          className="h-full w-full object-contain"
+          loading="eager"
+        />
+      </div>
+      {images.length > 1 && (
+        <div className="flex gap-3 overflow-x-auto pb-2">
+          {images.map((src, idx) => (
+            <button
+              key={`${src.slice(0, 24)}-${idx}`}
+              onClick={() => setActive(idx)}
+              className={`relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-muted p-2 transition ${
+                active === idx
+                  ? "border-primary ring-2 ring-primary"
+                  : "border-border hover:border-primary/50"
+              }`}
+              aria-label={`View image ${idx + 1}`}
+            >
+              <img
+                src={src}
+                alt={`${alt} thumbnail ${idx + 1}`}
+                className="h-full w-full object-contain"
+                loading="lazy"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function categoryEmoji(category: Product["category"]) {
   if (category === "stickers") return "🌟";
   if (category === "animated") return "✨";
@@ -62,14 +103,7 @@ export function ProductDetail({
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-muted to-background p-8 lg:p-12">
-            <img
-              src={product.image}
-              alt={name}
-              className="h-full w-full object-contain"
-              loading="eager"
-            />
-          </div>
+          <ProductImageGallery images={product.images?.length ? product.images : [product.image]} alt={name} />
 
           <div className="flex flex-col">
             <span className="w-fit rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary capitalize">
@@ -164,7 +198,7 @@ export function ProductDetail({
                 >
                   <div className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 text-5xl">
                     <img
-                      src={p.image}
+                      src={p.images?.[0] || p.image}
                       alt={getProductName(p, t)}
                       className="h-full w-full object-contain"
                       loading="lazy"

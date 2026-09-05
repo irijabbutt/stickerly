@@ -77,7 +77,7 @@ export function ProductGrid() {
                 {product.isAdmin ? (
                   <div className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6">
                     <img
-                      src={product.image}
+                      src={product.images?.[0] || product.image}
                       alt={getProductName(product, t)}
                       className="h-full w-full object-contain"
                       loading="lazy"
@@ -89,7 +89,7 @@ export function ProductGrid() {
                     className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 transition hover:opacity-90"
                   >
                     <img
-                      src={product.image}
+                      src={product.images?.[0] || product.image}
                       alt={getProductName(product, t)}
                       className="h-full w-full object-contain"
                       loading="lazy"

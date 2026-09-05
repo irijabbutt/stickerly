@@ -4,7 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ShoppingCart, Check, ArrowLeft, ExternalLink } from "lucide-react";
-import { Product, getProductName, getProductDescription } from "@/lib/products";
+import { Product, getProductName, getProductTagline } from "@/lib/products";
 import { useCart } from "@/components/cart/CartContext";
 import { useState } from "react";
 import { useProducts } from "@/hooks/useProducts";
@@ -63,7 +63,7 @@ export function CategoryGrid({
               {product.isAdmin ? (
                 <div className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6">
                   <img
-                    src={product.image}
+                    src={product.images?.[0] || product.image}
                     alt={getProductName(product, t)}
                     className="h-full w-full object-contain"
                     loading="lazy"
@@ -75,7 +75,7 @@ export function CategoryGrid({
                   className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 transition hover:opacity-90"
                 >
                   <img
-                    src={product.image}
+                    src={product.images?.[0] || product.image}
                     alt={getProductName(product, t)}
                     className="h-full w-full object-contain"
                     loading="lazy"
@@ -99,8 +99,8 @@ export function CategoryGrid({
                     ${product.priceUSD}
                   </span>
                 </div>
-                <p className="mt-2 flex-1 text-sm text-muted-foreground">
-                  {getProductDescription(product, t)}
+                <p className="mt-2 line-clamp-2 flex-1 text-sm text-muted-foreground">
+                  {getProductTagline(product, t)}
                 </p>
                 <div className="mt-6 flex flex-col gap-2">
                   <button
