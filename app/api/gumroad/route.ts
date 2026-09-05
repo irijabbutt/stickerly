@@ -1,5 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const GUMROAD_API_BASE = "https://api.gumroad.com/v2";
+
+interface GumroadApiProduct {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  currency: string;
+  thumbnail_url?: string;
+  preview_url?: string;
+  tags?: string[];
+  short_url?: string;
+  permalink?: string;
+  custom_permalink?: string;
+}
+
+async function fetchProductFromApi(
+  productPermalink: string
+): Promise<GumroadApiProduct | null> {
+  const accessToken = process.env.GUMROAD_ACCESS_TOKEN;
+  if (!accessToken) return null;
+
+  const headers = { Authorization: `Bearer ${accessToken}` };
+
+  // Try direct lookup by permalink first.
+  const direct = await fetch(
+    `${GUMROAD_API_BASE}/products/${encodeURIComponent(productPermalink)}`,
+    { headers }
+  );
+  if (direct.ok) {
+    const data = await direct.json();
+    if (data.success && data.product) return data.product as GumroadApiProduct;
+  }
+
+  // Fall back to listing all products and matching the URL slug.
+  const list = await fetch(`${GUMROAD_API_BASE}/products`, { headers });
+  if (!list.ok) return null;
+
+  const data = await list.json();
+  if (!data.success || !Array.isArray(data.products)) return null;
+
+  const match = (data.products as GumroadApiProduct[]).find((product) => {
+    const slug = productPermalink.toLowerCase();
+    const urls = [
+      product.permalink,
+      product.custom_permalink,
+      product.short_url,
+    ];
+    return urls.some(
+      (url) => url && url.toLowerCase().endsWith(slug)
+    );
+  });
+
+  return match || null;
+}
+
 function parseMeta(html: string, property: string): string | undefined {
   const regex = new RegExp(
     `<meta[^>]+(?:property|name)="${property}"[^>]+content="([^"]*)"`,
@@ -75,6 +131,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const pathMatch = parsedUrl.pathname.match(/\/l\/([^/]+)/);
+    if (!pathMatch) {
+      return NextResponse.json({ error: "Invalid Gumroad URL" }, { status: 400 });
+    }
+    const productPermalink = pathMatch[1];
+
+    // Prefer authenticated Gumroad API when an access token is configured.
+    const apiProduct = await fetchProductFromApi(productPermalink);
+    if (apiProduct) {
+      const tags = apiProduct.tags?.length
+        ? apiProduct.tags
+        : deriveTags(apiProduct.name, apiProduct.description);
+
+      return NextResponse.json({
+        title: apiProduct.name,
+        description: apiProduct.description,
+        priceUSD: apiProduct.price / 100,
+        currency: apiProduct.currency || "USD",
+        image: apiProduct.thumbnail_url || apiProduct.preview_url || "",
+        tags,
+      });
+    }
+
+    // Fall back to public-page metadata scraping.
     const response = await fetch(url, {
       headers: {
         "User-Agent":
