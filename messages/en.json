@@ -1,0 +1,131 @@
+{
+  "metadata": {
+    "title": "Stickerly — Clip Art, Animated UI & 3D Design Assets",
+    "description": "Premium digital stickers, animated UI components, and interactive 3D design assets for creators. Instant download via Gumroad."
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "features": "Features",
+    "faq": "FAQ",
+    "cart": "Cart",
+    "openCart": "Open cart",
+    "closeCart": "Close cart"
+  },
+  "hero": {
+    "badge": "New creative drops weekly",
+    "headline": "Stickers, motion & 3D assets that make your designs pop",
+    "subheadline": "Download curated clip-art packs, animated UI components, and interactive 3D scenes. Royalty-free, multilingual, and ready for your next project.",
+    "ctaPrimary": "Browse products",
+    "ctaSecondary": "See how it works"
+  },
+  "products": {
+    "title": "Curated design assets",
+    "subtitle": "Pick a pack, add it to your cart, and check out securely on Gumroad.",
+    "filterAll": "All",
+    "filterStickers": "Stickers",
+    "filterAnimated": "Animated UI",
+    "filter3d": "3D Scenes",
+    "addToCart": "Add to cart",
+    "added": "Added",
+    "viewCart": "View cart",
+    "price": "${price}",
+    "empty": "No products found in this category.",
+    "cuteStickerPack": {
+      "name": "Cute Sticker Pack",
+      "description": "60+ adorable hand-drawn stickers in PNG and SVG formats."
+    },
+    "motionUiKit": {
+      "name": "Motion UI Kit",
+      "description": "Production-ready React animations and transitions using Framer Motion."
+    },
+    "threeDIconScene": {
+      "name": "3D Icon Scene",
+      "description": "Interactive 3D icon composition with Three.js source files."
+    },
+    "kawaiiAnimals": {
+      "name": "Kawaii Animals",
+      "description": "A playful set of kawaii animal stickers for social posts and apps."
+    },
+    "loaderCollection": {
+      "name": "Loader Collection",
+      "description": "Smooth animated loaders and spinners for modern web apps."
+    },
+    "floatingShapes": {
+      "name": "Floating Shapes 3D",
+      "description": "Abstract floating 3D shapes perfect for hero sections and backgrounds."
+    }
+  },
+  "cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty.",
+    "browse": "Browse products",
+    "remove": "Remove",
+    "quantity": "Qty",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout on Gumroad",
+    "continue": "Continue shopping"
+  },
+  "features": {
+    "title": "Why creators love Stickerly",
+    "instant": {
+      "title": "Instant downloads",
+      "description": "Get your files immediately after purchase through Gumroad."
+    },
+    "multilingual": {
+      "title": "Multilingual ready",
+      "description": "Shop in English, Chinese, or Urdu with RTL support built in."
+    },
+    "royalty": {
+      "title": "Royalty-free license",
+      "description": "Use assets in personal and commercial projects without hidden fees."
+    },
+    "secure": {
+      "title": "Secure checkout",
+      "description": "Payments are processed safely by Gumroad."
+    }
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "step1": {
+      "title": "Pick your assets",
+      "description": "Browse stickers, animated UI, and 3D scenes."
+    },
+    "step2": {
+      "title": "Add to cart",
+      "description": "Build your bundle and review your total."
+    },
+    "step3": {
+      "title": "Checkout & download",
+      "description": "Pay securely on Gumroad and download instantly."
+    }
+  },
+  "testimonials": {
+    "title": "Loved by designers",
+    "quote1": "The animated UI pack saved me hours of prototyping. Clean, playful, and easy to customize.",
+    "author1": "Ayesha K., Product Designer",
+    "quote2": "My sticker commissions doubled after I started using Stickerly clip art in my social posts.",
+    "author2": "Li W., Content Creator"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "q1": "What format are the files in?",
+    "a1": "Stickers ship as PNG and SVG. Animated UI components are React/Framer Motion snippets. 3D scenes include GLB files and Three.js examples.",
+    "q2": "Can I use these commercially?",
+    "a2": "Yes. Every pack includes a royalty-free license for personal and commercial projects.",
+    "q3": "How do I receive my files?",
+    "a3": "After checkout on Gumroad, you get an instant download link and a delivery email.",
+    "q4": "Do you offer refunds?",
+    "a4": "Because files are digital, refunds are handled by Gumroad on a case-by-case basis."
+  },
+  "ctaBanner": {
+    "title": "Ready to upgrade your creative toolkit?",
+    "subtitle": "Join hundreds of creators using Stickerly assets every week.",
+    "button": "Start shopping"
+  },
+  "footer": {
+    "tagline": "Premium digital assets for curious creators.",
+    "rights": "© {year} Stickerly. All rights reserved.",
+    "powered": "Checkout powered by Gumroad"
+  }
+}
