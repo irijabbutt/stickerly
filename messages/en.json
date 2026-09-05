@@ -81,7 +81,9 @@
       "headline": "3D assets for bold designs",
       "subheadline": "Interactive 3D icon compositions and abstract scenes with Three.js source files."
     },
-    "viewAll": "View all products"
+    "viewAll": "View all products",
+    "showcaseTitle": "Shop by category",
+    "showcaseSubtitle": "Choose your creative toolkit — clip-art stickers, motion UI components, or interactive 3D scenes."
   },
   "cart": {
     "title": "Your cart",

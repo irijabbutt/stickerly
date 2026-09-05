@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/Hero";
+import { CategoryShowcase } from "@/components/sections/CategoryShowcase";
 import { ProductGrid } from "@/components/sections/ProductGrid";
 import { Features } from "@/components/sections/Features";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -104,6 +105,7 @@ export default async function HomePage({
         }}
       />
       <Hero />
+      <CategoryShowcase />
       <ProductGrid products={products} />
       <Features />
       <HowItWorks />

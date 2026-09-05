@@ -81,7 +81,9 @@
       "headline": "为大胆设计而生的3D素材",
       "subheadline": "包含Three.js源文件的交互式3D图标构成与抽象场景。"
     },
-    "viewAll": "查看全部产品"
+    "viewAll": "查看全部产品",
+    "showcaseTitle": "按类别选购",
+    "showcaseSubtitle": "选择你的创意工具包 — 剪贴画贴纸、动态UI组件或交互式3D场景。"
   },
   "cart": {
     "title": "您的购物车",
