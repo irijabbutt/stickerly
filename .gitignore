@@ -48,3 +48,5 @@ next-env.d.ts
 # local tooling
 bin/
 gh.exe
+
+.vercel

@@ -32,11 +32,14 @@ export async function generateMetadata({
   const description =
     resolveNested(tProducts, product.descriptionKey) || product.descriptionKey;
 
+  const productUrl = `${baseUrl}/${locale}/products/${slug}/`;
+
   return {
+    metadataBase: new URL(baseUrl),
     title: `${name} — Stickerly`,
     description,
     alternates: {
-      canonical: `${baseUrl}/${locale}/products/${slug}/`,
+      canonical: productUrl,
       languages: {
         en: `${baseUrl}/en/products/${slug}/`,
         zh: `${baseUrl}/zh/products/${slug}/`,
@@ -47,10 +50,17 @@ export async function generateMetadata({
     openGraph: {
       title: `${name} — Stickerly`,
       description,
-      url: `${baseUrl}/${locale}/products/${slug}/`,
+      url: productUrl,
       siteName: "Stickerly",
       locale,
       type: "website",
+      images: [{ url: product.image, alt: name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${name} — Stickerly`,
+      description,
+      images: [product.image],
     },
   };
 }

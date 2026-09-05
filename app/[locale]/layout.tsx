@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
 import { locales } from "@/lib/i18n";
+import { baseUrl } from "@/lib/site";
 import { CartProvider } from "@/components/cart/CartContext";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { Header } from "@/components/layout/Header";
@@ -35,9 +36,38 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const messages = await loadMessages(locale);
+  const title = messages.metadata.title;
+  const description = messages.metadata.description;
+
   return {
-    title: messages.metadata.title,
-    description: messages.metadata.description,
+    metadataBase: new URL(baseUrl),
+    title,
+    description,
+    alternates: {
+      canonical: `/${locale}/`,
+      languages: Object.fromEntries(
+        locales.map((l) => [l, `/${l}/`])
+      ),
+    },
+    openGraph: {
+      title,
+      description,
+      url: `/${locale}/`,
+      siteName: "Stickerly",
+      locale,
+      type: "website",
+      images: [{ url: "/logo.svg", alt: "Stickerly" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/logo.svg"],
+    },
+    icons: {
+      icon: "/icon.svg",
+      apple: "/icon.svg",
+    },
   };
 }
 

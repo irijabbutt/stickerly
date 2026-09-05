@@ -3,12 +3,7 @@
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const FloatingStickers = dynamic(
-  () => import("@/components/three/FloatingStickers").then((m) => m.FloatingStickers),
-  { ssr: false, loading: () => <div className="h-64 w-full" /> }
-);
+import { AnimeScene } from "@/components/effects/AnimeScene";
 
 export function Hero() {
   const t = useTranslations("hero");
@@ -54,9 +49,9 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative h-80 w-full rounded-3xl border border-border bg-muted/50 lg:h-[420px]"
+            className="relative h-80 w-full rounded-3xl border border-border shadow-lg lg:h-[420px]"
           >
-            <FloatingStickers />
+            <AnimeScene />
           </motion.div>
         </div>
       </div>
