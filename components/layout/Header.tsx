@@ -1,15 +1,16 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import Image from "next/image";
+import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/components/cart/CartContext";
+import { Logo } from "@/components/icons/Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 
 export function Header() {
   const t = useTranslations("nav");
+  const locale = useLocale();
   const { totalItems, setIsOpen } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -22,15 +23,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="Stickerly"
-            width={140}
-            height={40}
-            className="h-8 w-auto"
-            priority
-          />
+        <Link href={`/${locale}`} className="flex items-center text-foreground">
+          <Logo className="h-7 w-auto sm:h-8" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">

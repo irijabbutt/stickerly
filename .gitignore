@@ -42,3 +42,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .node
+
+.vercel
+
+# local tooling
+bin/
+gh.exe

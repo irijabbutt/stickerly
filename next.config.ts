@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin("./lib/i18n.ts");
 const nextConfig: NextConfig = {
   output: "export",
   distDir: "dist",
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },

@@ -7,6 +7,7 @@ import { CartProvider } from "@/components/cart/CartContext";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { InteractiveBackground } from "@/components/effects/InteractiveBackground";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -61,15 +62,18 @@ export default async function LocaleLayout({
       dir={isRtl ? "rtl" : "ltr"}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
-        <NextIntlClientProvider messages={messages} locale={locale} timeZone="UTC">
-          <CartProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <CartDrawer />
-          </CartProvider>
-        </NextIntlClientProvider>
+      <body className="relative isolate min-h-full flex flex-col text-foreground">
+        <InteractiveBackground />
+        <div className="relative z-10 flex min-h-full flex-1 flex-col bg-background/80 backdrop-blur-sm">
+          <NextIntlClientProvider messages={messages} locale={locale} timeZone="UTC">
+            <CartProvider>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <CartDrawer />
+            </CartProvider>
+          </NextIntlClientProvider>
+        </div>
       </body>
     </html>
   );

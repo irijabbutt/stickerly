@@ -1,8 +1,12 @@
-import { useTranslations } from "next-intl";
+"use client";
+
+import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
+import { Logo } from "@/components/icons/Logo";
 
 export function Footer() {
   const t = useTranslations("footer");
+  const locale = useLocale();
   const year = new Date().getFullYear();
 
   return (
@@ -10,11 +14,8 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="text-center md:text-start">
-            <Link href="/" className="flex items-center justify-center md:justify-start gap-2 text-xl font-bold">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent text-primary-foreground">
-                S
-              </span>
-              <span>Stickerly</span>
+            <Link href={`/${locale}`} className="inline-flex items-center justify-center md:justify-start text-foreground">
+              <Logo className="h-6 w-auto sm:h-7" />
             </Link>
             <p className="mt-2 text-sm text-muted-foreground">{t("tagline")}</p>
           </div>
