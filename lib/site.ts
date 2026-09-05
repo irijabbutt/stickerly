@@ -1,2 +1,2 @@
 export const baseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://stickerly-rai-studio.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://stickerly1.vercel.app";

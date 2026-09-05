@@ -56,3 +56,6 @@ bin/
 gh.exe
 
 .vercel
+
+# Gumroad config with real product IDs
+gumroad-config.json
