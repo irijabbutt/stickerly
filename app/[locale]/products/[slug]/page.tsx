@@ -80,6 +80,10 @@ export default async function ProductPage({
   const description =
     resolveNested(tProducts, product.descriptionKey) || product.descriptionKey;
 
+  const related = products
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 3);
+
   const productLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -101,7 +105,7 @@ export default async function ProductPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
       />
-      <ProductDetail product={product} locale={locale} />
+      <ProductDetail product={product} locale={locale} related={related} />
     </>
   );
 }

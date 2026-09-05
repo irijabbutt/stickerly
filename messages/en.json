@@ -31,6 +31,8 @@
     "viewCart": "View cart",
     "viewDetails": "View details",
     "tags": "Tags",
+    "backToProducts": "Back to products",
+    "relatedTitle": "You may also like",
     "price": "${price}",
     "empty": "No products found in this category.",
     "cuteStickerPack": {
