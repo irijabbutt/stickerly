@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ArrowLeft, ShoppingCart, ExternalLink, Minus, Plus } from "lucide-react";
-import { Product } from "@/lib/products";
+import { Product, getProductName, getProductDescription } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useCart } from "@/components/cart/CartContext";
 
@@ -47,7 +47,8 @@ export function ProductDetail({
     setQuantity((q) => Math.max(1, q + delta));
   };
 
-  const name = t(product.nameKey);
+  const name = getProductName(product, t);
+  const description = getProductDescription(product, t);
 
   return (
     <section className="py-12 lg:py-20">
@@ -78,7 +79,7 @@ export function ProductDetail({
               {name}
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">
-              {t(product.descriptionKey)}
+              {description}
             </p>
             <p className="mt-6 text-3xl font-bold">${product.priceUSD}</p>
 
@@ -115,7 +116,7 @@ export function ProductDetail({
               </button>
               {isGumroadProductReady(product) ? (
                 <a
-                  href={buildGumroadProductUrl(product) ?? undefined}
+                  href={buildGumroadProductUrl(product, { wanted: true }) ?? undefined}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 py-3 font-medium hover:bg-muted transition"
@@ -163,20 +164,20 @@ export function ProductDetail({
                   <div className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 text-5xl">
                     <img
                       src={p.image}
-                      alt={t(p.nameKey)}
+                      alt={getProductName(p, t)}
                       className="h-full w-full object-contain"
                       loading="lazy"
                     />
                   </div>
                   <div className="flex flex-1 flex-col p-6">
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-lg font-semibold">{t(p.nameKey)}</h3>
+                      <h3 className="text-lg font-semibold">{getProductName(p, t)}</h3>
                       <span className="rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
                         ${p.priceUSD}
                       </span>
                     </div>
                     <p className="mt-2 line-clamp-2 flex-1 text-sm text-muted-foreground">
-                      {t(p.descriptionKey)}
+                      {getProductDescription(p, t)}
                     </p>
                     <span className="mt-4 inline-flex items-center text-sm font-medium text-primary">
                       {t("viewDetails")} →

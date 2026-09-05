@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
+import { getProductName } from "@/lib/products";
 import { useCart } from "./CartContext";
 
 export function CartDrawer() {
@@ -59,14 +60,14 @@ export function CartDrawer() {
                   <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-muted p-2">
                     <img
                       src={product.image}
-                      alt={tp(product.nameKey)}
+                      alt={getProductName(product, tp)}
                       className="h-full w-full object-contain"
                       loading="lazy"
                     />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">
-                      {tp(`${product.nameKey}`)}
+                      {getProductName(product, tp)}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       ${product.priceUSD}

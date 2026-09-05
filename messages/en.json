@@ -37,6 +37,10 @@
     "relatedTitle": "You may also like",
     "price": "${price}",
     "empty": "No products found in this category.",
+    "stickers1": {
+      "name": "Kawaii Anime Creature Stickers",
+      "description": "A pack of cute kawaii anime creature stickers for social posts, apps, and creative projects. Transparent PNG files."
+    },
     "cuteStickerPack": {
       "name": "Cute Sticker Pack",
       "description": "60+ adorable hand-drawn stickers in PNG and SVG formats."
@@ -105,7 +109,7 @@
     },
     "multilingual": {
       "title": "Multilingual ready",
-      "description": "Shop in English, Chinese, Japanese, or Urdu with RTL support built in."
+      "description": "Shop in English, Chinese, Japanese, Korean, or Urdu with RTL support built in."
     },
     "royalty": {
       "title": "Royalty-free license",
@@ -152,7 +156,8 @@
   "ctaBanner": {
     "title": "Ready to upgrade your creative toolkit?",
     "subtitle": "Join hundreds of creators using Stickerly assets every week.",
-    "button": "Start shopping"
+    "button": "Start shopping",
+    "affiliate": "Become an affiliate — 3% commission"
   },
   "footer": {
     "tagline": "Premium digital assets for curious creators.",

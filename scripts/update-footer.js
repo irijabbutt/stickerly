@@ -1,4 +1,6 @@
-"use client";
+const fs = require('fs');
+
+const footer = `"use client";
 
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
@@ -27,3 +29,7 @@ export function Footer() {
     </footer>
   );
 }
+`;
+
+fs.writeFileSync('components/layout/Footer.tsx', footer);
+console.log('Updated components/layout/Footer.tsx');

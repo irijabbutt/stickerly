@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { locales, Locale } from "@/lib/i18n";
 
 const labels: Record<Locale, string> = {
+  ko: "한국어",
   en: "English",
   zh: "中文",
   ur: "اردو",

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { products, ProductCategory } from "@/lib/products";
+import { ProductCategory } from "@/lib/products";
 import { baseUrl } from "@/lib/site";
 import { locales, type Locale } from "@/lib/i18n";
 import { CategoryGrid } from "@/components/sections/CategoryGrid";
@@ -81,8 +81,6 @@ export default async function CategoryPage({
   const key = slugToKey[category];
   if (!key) notFound();
 
-  const categoryProducts = products.filter((p) => p.category === categorySlugs[category]);
-
   const messages = await loadMessages(locale);
   const data = messages.categories[key];
 
@@ -110,7 +108,7 @@ export default async function CategoryPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <CategoryGrid products={categoryProducts} categoryKey={key} />
+      <CategoryGrid categoryKey={key} />
     </>
   );
 }

@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { products } from "@/lib/products";
 import { baseUrl } from "@/lib/site";
 import { locales, type Locale } from "@/lib/i18n";
+import { buildGumroadProductUrl } from "@/lib/gumroad";
 import { ProductDetail } from "@/components/sections/ProductDetail";
 
 async function loadMessages(locale: Locale) {
@@ -103,7 +104,7 @@ export default async function ProductPage({
       price: product.priceUSD.toFixed(2),
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
-      url: `https://gumroad.com/l/${product.gumroadProductId}`,
+      url: buildGumroadProductUrl(product) ?? `${baseUrl}/${locale}/products/${slug}/`,
     },
   };
 

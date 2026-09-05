@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { Minus, Plus, ShoppingBag, ArrowRight, Lock, Trash2 } from "lucide-react";
+import { getProductName } from "@/lib/products";
 import { useCart } from "@/components/cart/CartContext";
 import { buildGumroadCartUrl, isGumroadCartReady } from "@/lib/gumroad";
 
@@ -52,7 +53,7 @@ export function CheckoutSummary() {
               <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-xl bg-muted p-2">
                 <img
                   src={product.image}
-                  alt={tp(product.nameKey)}
+                  alt={getProductName(product, tp)}
                   className="h-full w-full object-contain"
                   loading="lazy"
                 />
@@ -60,7 +61,7 @@ export function CheckoutSummary() {
               <div className="flex flex-1 flex-col justify-between">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="font-medium">{tp(product.nameKey)}</p>
+                    <p className="font-medium">{getProductName(product, tp)}</p>
                     <p className="text-sm text-muted-foreground">
                       ${product.priceUSD}
                     </p>

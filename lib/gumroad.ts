@@ -42,19 +42,41 @@ export function isGumroadCartReady(
   return items.length > 0 && items.every(({ product }) => isGumroadProductReady(product));
 }
 
+function buildSellerProductUrl(product: Product, id: string): string {
+  if (product.gumroadSeller) {
+    return 'https://' + product.gumroadSeller + '.gumroad.com/l/' + id;
+  }
+  return 'https://gumroad.com/l/' + id;
+}
+
 /**
  * Build a direct Gumroad product page URL for a single product.
  *
  * Override real Gumroad IDs without touching code by setting environment
- * variables like NEXT_PUBLIC_GUMROAD_PRODUCT_ID_CUTE_STICKER_PACK.
+ * variables like NEXT_PUBLIC_GUMROAD_PRODUCT_ID_STICKERS1.
+ *
+ * When a seller subdomain is configured, the URL points to
+ * https://SELLER.gumroad.com/l/ID so the link resolves to the correct
+ * creator even when the slug collides in Gumroad's global namespace.
+ *
+ * Pass `wanted: true` to append `?wanted=true`, which opens Gumroad's
+ * direct purchase / library flow for the product.
  *
  * Returns null when the resolved ID is a placeholder, so callers can disable
  * or hide the buy button instead of linking to the wrong product.
  */
-export function buildGumroadProductUrl(product: Product): string | null {
+export function buildGumroadProductUrl(
+  product: Product,
+  options?: { wanted?: boolean },
+): string | null {
   const id = getGumroadProductId(product);
   if (!isConfiguredId(id)) return null;
-  return 'https://gumroad.com/l/' + id;
+
+  const url = new URL(buildSellerProductUrl(product, id));
+  if (options?.wanted) {
+    url.searchParams.set('wanted', 'true');
+  }
+  return url.toString();
 }
 
 /**
@@ -63,7 +85,7 @@ export function buildGumroadProductUrl(product: Product): string | null {
  * `product_ids` query parameters on /checkout.
  *
  * Override real Gumroad IDs without touching code by setting environment
- * variables like NEXT_PUBLIC_GUMROAD_PRODUCT_ID_CUTE_STICKER_PACK.
+ * variables like NEXT_PUBLIC_GUMROAD_PRODUCT_ID_STICKERS1.
  * Your Gumroad product ID is the slug/permalink from your product URL:
  * https://gumroad.com/l/YOUR_PRODUCT_ID -> "YOUR_PRODUCT_ID"
  *

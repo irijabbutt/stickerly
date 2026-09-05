@@ -9,6 +9,7 @@ import { CTABanner } from "@/components/sections/CTABanner";
 import { products } from "@/lib/products";
 import { baseUrl } from "@/lib/site";
 import { locales, type Locale } from "@/lib/i18n";
+import { buildGumroadProductUrl } from "@/lib/gumroad";
 
 async function loadMessages(locale: Locale) {
   return (await import(`../../messages/${locale}.json`)).default;
@@ -69,7 +70,7 @@ export default async function HomePage({
     name: "Stickerly",
     url: `${baseUrl}/`,
     logo: `${baseUrl}/logo.svg`,
-    sameAs: ["https://gumroad.com/stickerly"],
+    sameAs: ["https://rijabai.gumroad.com/"],
   };
 
   const productListLd = {
@@ -90,7 +91,9 @@ export default async function HomePage({
           price: product.priceUSD.toFixed(2),
           priceCurrency: "USD",
           availability: "https://schema.org/InStock",
-          url: `https://gumroad.com/l/${product.gumroadProductId}`,
+          url:
+            buildGumroadProductUrl(product) ??
+            `${baseUrl}/${locale}/products/${product.slug}/`,
         },
       },
     })),
@@ -106,7 +109,7 @@ export default async function HomePage({
       />
       <Hero />
       <CategoryShowcase />
-      <ProductGrid products={products} />
+      <ProductGrid />
       <Features />
       <HowItWorks />
       <Testimonials />

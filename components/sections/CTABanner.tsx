@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
+import { ExternalLink } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
 
 export function CTABanner() {
@@ -27,6 +28,17 @@ export function CTABanner() {
           >
             {t("button")}
           </button>
+          <div className="mt-4">
+            <a
+              href="https://rijabai.gumroad.com/affiliates"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/30 px-6 py-2 text-sm font-medium text-primary-foreground hover:bg-primary-foreground/10 transition"
+            >
+              <ExternalLink className="h-4 w-4" />
+              {t("affiliate")}
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>
