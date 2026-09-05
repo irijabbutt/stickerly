@@ -19,7 +19,11 @@
     "headline": "Stickers, motion & 3D assets that make your designs pop",
     "subheadline": "Download curated clip-art packs, animated UI components, and interactive 3D scenes. Royalty-free, multilingual, and ready for your next project.",
     "ctaPrimary": "Browse products",
-    "ctaSecondary": "See how it works"
+    "ctaSecondary": "See how it works",
+    "flashSale": "Flash sale — 1 hour left",
+    "hours": "hrs",
+    "minutes": "min",
+    "seconds": "sec"
   },
   "products": {
     "title": "Curated design assets",
