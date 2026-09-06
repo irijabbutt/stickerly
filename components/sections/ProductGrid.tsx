@@ -4,13 +4,14 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ArrowRight } from "lucide-react";
 import { Product, ProductCategory, getProductName, getProductTagline } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useProducts } from "@/hooks/useProducts";
 
 export function ProductGrid() {
   const t = useTranslations("products");
+  const tc = useTranslations("categories");
   const locale = useLocale();
   const products = useProducts();
   const [filter, setFilter] = useState<ProductCategory | "all">("all");
@@ -26,16 +27,25 @@ export function ProductGrid() {
     filter === "all" ? products : products.filter((p) => p.category === filter);
 
   return (
-    <section id="products" className="bg-muted/30 py-20 lg:py-28">
+    <section id="products" className="bg-muted/30 py-20 lg:py-28 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            {t("title")}
-          </h2>
-          <p className="mt-4 text-muted-foreground">{t("subtitle")}</p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              {t("title")}
+            </h2>
+            <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
+          </div>
+          <Link
+            href={`/${locale}/categories`}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+          >
+            {tc("viewAll") || "View all products"}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-2">
+        <div className="mt-8 flex flex-wrap items-center gap-2">
           {filters.map((f) => (
             <button
               key={f.key}
@@ -51,35 +61,29 @@ export function ProductGrid() {
           ))}
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={filter}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3 }}
-            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
+        {/* Horizontal Scrolling Container */}
+        <div className="mt-10 relative">
+          <div className="flex gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scrollbar-none [-ms-overflow-style:none] [supports(scrollbar-width:none)]:scrollbar-none">
             {filtered.map((product) => (
               <div
                 key={product.id}
-                className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
+                className="group relative flex flex-col shrink-0 w-[300px] sm:w-[350px] snap-start overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
               >
                 <Link
                   href={`/${locale}/products/${product.slug}/`}
-                  className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 transition hover:opacity-90"
+                  className="relative flex h-64 w-full items-center justify-center overflow-hidden bg-gradient-to-br from-muted to-background p-0 transition hover:opacity-90"
                 >
                   <img
                     src={product.images?.[0] || product.image}
                     alt={getProductName(product, t)}
-                    className="h-full w-full object-contain"
+                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
                 </Link>
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-start justify-between gap-3">
                     <Link href={`/${locale}/products/${product.slug}/`}>
-                      <h3 className="text-lg font-semibold hover:underline">
+                      <h3 className="text-lg font-semibold hover:underline line-clamp-1">
                         {getProductName(product, t)}
                       </h3>
                     </Link>
@@ -104,7 +108,6 @@ export function ProductGrid() {
                     {getProductTagline(product, t)}
                   </p>
                   
-                  {/* Updated Button Layout */}
                   <div className="mt-6 grid grid-cols-2 gap-2">
                     <Link
                       href={`/${locale}/products/${product.slug}/`}
@@ -131,8 +134,8 @@ export function ProductGrid() {
                 </div>
               </div>
             ))}
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
 
         {filtered.length === 0 && (
           <p className="mt-12 text-center text-muted-foreground">{t("empty")}</p>
