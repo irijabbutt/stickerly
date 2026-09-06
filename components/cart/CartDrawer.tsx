@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { getProductName } from "@/lib/products";
+import { buildGumroadCartUrl } from "@/lib/gumroad";
 import { useCart } from "./CartContext";
 
 export function CartDrawer() {
@@ -13,6 +14,9 @@ export function CartDrawer() {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalPrice } = useCart();
 
   if (!isOpen) return null;
+
+  const gumroadUrl = buildGumroadCartUrl(items);
+  const checkoutHref = gumroadUrl || `/${locale}/checkout/`;
 
   return (
     <div
@@ -111,7 +115,7 @@ export function CartDrawer() {
               <span>${totalPrice.toFixed(2)}</span>
             </div>
             <Link
-              href={`/${locale}/checkout/`}
+              href={checkoutHref}
               onClick={() => setIsOpen(false)}
               className="flex w-full items-center justify-center rounded-full bg-foreground px-6 py-3 text-background font-medium hover:opacity-90 transition"
             >
