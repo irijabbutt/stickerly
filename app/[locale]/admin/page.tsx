@@ -49,7 +49,7 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
               setCredentials((c) => ({ ...c, email: e.target.value }))
             }
             className="mt-1 w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            placeholder="admin@stickerly.com"
+            placeholder="email.com"
             required
           />
         </div>
