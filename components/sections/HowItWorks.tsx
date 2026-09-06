@@ -2,15 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { Search, ShoppingCart, Download } from "lucide-react";
+import { Search, Download } from "lucide-react";
 
 export function HowItWorks() {
   const t = useTranslations("howItWorks");
 
   const steps = [
     { key: "step1", icon: Search },
-    { key: "step2", icon: ShoppingCart },
-    { key: "step3", icon: Download },
+    { key: "step2", icon: Download },
   ];
 
   return (
@@ -21,7 +20,7 @@ export function HowItWorks() {
             {t("title")}
           </h2>
         </div>
-        <div className="mt-12 grid gap-8 md:grid-cols-3">
+        <div className="mt-12 grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
           {steps.map(({ key, icon: Icon }, i) => (
             <motion.div
               key={key}
@@ -29,7 +28,7 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
-              className="relative flex flex-col items-center text-center"
+              className="relative flex flex-col items-center text-center p-6"
             >
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-foreground text-background text-xl font-bold shadow-lg">
                 {i + 1}
