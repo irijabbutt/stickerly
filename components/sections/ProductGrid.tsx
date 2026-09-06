@@ -4,9 +4,8 @@ import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, Check, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Product, ProductCategory, getProductName, getProductTagline } from "@/lib/products";
-import { useCart } from "@/components/cart/CartContext";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useProducts } from "@/hooks/useProducts";
 
@@ -15,8 +14,6 @@ export function ProductGrid() {
   const locale = useLocale();
   const products = useProducts();
   const [filter, setFilter] = useState<ProductCategory | "all">("all");
-  const { addItem } = useCart();
-  const [addedId, setAddedId] = useState<string | null>(null);
 
   const filters: { key: ProductCategory | "all"; label: string }[] = [
     { key: "all", label: t("filterAll") },
@@ -27,12 +24,6 @@ export function ProductGrid() {
 
   const filtered =
     filter === "all" ? products : products.filter((p) => p.category === filter);
-
-  const handleAdd = (product: Product) => {
-    addItem(product);
-    setAddedId(product.id);
-    setTimeout(() => setAddedId(null), 1500);
-  };
 
   return (
     <section id="products" className="bg-muted/30 py-20 lg:py-28">
@@ -112,44 +103,30 @@ export function ProductGrid() {
                   <p className="mt-2 line-clamp-2 flex-1 text-sm text-muted-foreground">
                     {getProductTagline(product, t)}
                   </p>
-                  <div className="mt-6 flex flex-col gap-2">
-                    <button
-                      onClick={() => handleAdd(product)}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-2.5 text-sm font-medium text-background hover:opacity-90 transition"
+                  
+                  {/* Updated Button Layout */}
+                  <div className="mt-6 grid grid-cols-2 gap-2">
+                    <Link
+                      href={`/${locale}/products/${product.slug}/`}
+                      className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
                     >
-                      {addedId === product.id ? (
-                        <>
-                          <Check className="h-4 w-4" /> {t("added")}
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingCart className="h-4 w-4" /> {t("addToCart")}
-                        </>
-                      )}
-                    </button>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Link
-                        href={`/${locale}/products/${product.slug}/`}
-                        className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
+                      {t("viewDetails")}
+                    </Link>
+                    {isGumroadProductReady(product) ? (
+                      <a
+                        href={buildGumroadProductUrl(product, { wanted: true }) ?? undefined}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-1 rounded-full bg-foreground px-3 py-2 text-sm font-medium text-background hover:opacity-90 transition"
                       >
-                        {t("viewDetails")}
-                      </Link>
-                      {isGumroadProductReady(product) ? (
-                        <a
-                          href={buildGumroadProductUrl(product, { wanted: true }) ?? undefined}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5" />
-                          {t("buyNow")}
-                        </a>
-                      ) : (
-                        <span className="inline-flex cursor-not-allowed items-center justify-center gap-1 rounded-full border border-border bg-muted/50 px-3 py-2 text-sm font-medium text-muted-foreground">
-                          {t("comingSoon")}
-                        </span>
-                      )}
-                    </div>
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        {t("buyNow")}
+                      </a>
+                    ) : (
+                      <span className="inline-flex cursor-not-allowed items-center justify-center gap-1 rounded-full border border-border bg-muted/50 px-3 py-2 text-sm font-medium text-muted-foreground">
+                        {t("comingSoon")}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
