@@ -7,11 +7,13 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  // 'slug' here will now represent the Gumroad Product ID from the URL
+  const { locale, slug } = await params;
+  
   return {
     title: "Product — Stickerly",
     alternates: {
-      canonical: `/${locale}/products/`,
+      canonical: `/${locale}/products/${slug}`,
     },
   };
 }
