@@ -8,7 +8,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 320 90"
+      viewBox="0 0 330 90"
       fill="none"
       role="img"
       aria-label="Stickerly"
@@ -16,7 +16,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
       {...props}
     >
       <defs>
-        {/* Rainbow peel gradient */}
+        {/* Rainbow under-peel gradient */}
         <linearGradient id="logoPeelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#f43f5e" />
           <stop offset="50%" stopColor="#d946ef" />
@@ -32,49 +32,49 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
           <stop offset="100%" stopColor="#38bdf8" />
         </linearGradient>
 
-        {/* Drop shadow under the peeled fold */}
-        <filter id="peelShadow" x="-30%" y="-30%" width="160%" height="160%">
-          <feDropShadow dx="-1" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.25" />
+        {/* Soft drop shadow for paper peel fold */}
+        <filter id="peelFoldShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="-1" dy="1.5" stdDeviation="1.2" floodColor="#000000" floodOpacity="0.25" />
         </filter>
       </defs>
 
-      {/* Main Wordmark - Adapts automatically in Dark Mode */}
+      {/* Main Wordmark Text */}
       <text
         x="0"
         y="68"
         fontFamily="ui-rounded, 'Comfortaa', 'Nunito', system-ui, -apple-system, sans-serif"
-        fontSize="64"
+        fontSize="66"
         fontWeight="900"
         className="fill-slate-900 dark:fill-white"
-        style={{ letterSpacing: "-0.03em" }}
+        style={{ letterSpacing: "-0.035em" }}
       >
         Stickerly
       </text>
 
-      {/* Corner peel fold on bottom-left of 'S' */}
-      <g transform="translate(0, 46)">
+      {/* Corner Peel Fold on bottom-left of 'S' */}
+      <g transform="translate(0, 47)">
         <path
-          d="M 2 22 C 2 12, 8 6, 18 22 C 12 24, 5 24, 2 22 Z"
+          d="M 2 21 C 2 11, 8 5, 20 21 C 14 23, 6 23, 2 21 Z"
           fill="url(#logoPeelGradient)"
         />
         <path
-          d="M 2 22 C 8 18, 14 16, 18 22 C 12 16, 6 17, 2 22 Z"
+          d="M 2 21 C 8 16, 15 14, 20 21 C 13 15, 7 16, 2 21 Z"
           fill="#ffffff"
-          filter="url(#peelShadow)"
+          filter="url(#peelFoldShadow)"
         />
       </g>
 
-      {/* Rainbow Star Sticker - Placed precisely over the 'i' dot */}
-      <g transform="translate(71, 6)">
+      {/* Star Badge placed directly over the 'i' dot */}
+      <g transform="translate(85, 3)">
         <path
-          d="M 10 1 L 12.8 6.8 L 19 7.7 L 14.5 12.1 L 15.5 18.2 L 10 15.3 L 4.5 18.2 L 5.5 12.1 L 1 7.7 L 7.2 6.8 Z"
+          d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
           fill="#ffffff"
           stroke="#ffffff"
           strokeWidth="3.5"
           strokeLinejoin="round"
         />
         <path
-          d="M 10 1 L 12.8 6.8 L 19 7.7 L 14.5 12.1 L 15.5 18.2 L 10 15.3 L 4.5 18.2 L 5.5 12.1 L 1 7.7 L 7.2 6.8 Z"
+          d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
           fill="url(#logoStarGradient)"
         />
       </g>
