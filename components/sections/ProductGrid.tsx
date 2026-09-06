@@ -33,13 +33,6 @@ export function ProductGrid() {
             {t("title")}
           </h2>
           <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
-          <Link
-            href={`/${locale}/categories`}
-            className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-          >
-            {tc("viewAll") || "View all products"}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
@@ -136,6 +129,18 @@ export function ProductGrid() {
 
         {filtered.length === 0 && (
           <p className="mt-12 text-center text-muted-foreground">{t("empty")}</p>
+        )}
+
+        {filtered.length > 6 && (
+          <div className="mt-12 text-center">
+            <Link
+              href={`/${locale}/categories`}
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+            >
+              {tc("viewAll") || "View all"}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         )}
       </div>
     </section>
