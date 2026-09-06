@@ -16,7 +16,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
       {...props}
     >
       <defs>
-        {/* Rainbow under-peel gradient */}
+        {/* Under-peel rainbow gradient */}
         <linearGradient id="stickerlyPeelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#f43f5e" />
           <stop offset="45%" stopColor="#d946ef" />
@@ -51,7 +51,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
         Stickerly
       </text>
 
-      {/* Enlarged Corner Peel Fold on bottom-left curve of 'S' */}
+      {/* Corner Peel Fold on bottom-left curve of 'S' */}
       <g transform="translate(-1, 38) scale(1.35)">
         <path
           d="M 2 22 C 2 12, 8 6, 20 22 C 14 24, 6 24, 2 22 Z"
@@ -64,13 +64,13 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
         />
       </g>
 
-      {/* Pastel Star Sticker placed directly ON top of the 'i' dot to cover it cleanly */}
-      <g transform="translate(66, 12)">
+      {/* Enlarged Star Sticker Centered Directly Over the 'i' Dot */}
+      <g transform="translate(71, 0) scale(1.3)">
         <path
           d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
           fill="#ffffff"
           stroke="#ffffff"
-          strokeWidth="5"
+          strokeWidth="4.5"
           strokeLinejoin="round"
         />
         <path
