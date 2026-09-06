@@ -35,16 +35,16 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
 
         {/* Realistic drop shadow under the paper fold */}
         <filter id="peelFoldShadow" x="-30%" y="-30%" width="160%" height="160%">
-          <feDropShadow dx="-1.5" dy="2" stdDeviation="1.8" floodColor="#000000" floodOpacity="0.32" />
+          <feDropShadow dx="-1" dy="1.5" stdDeviation="1.2" floodColor="#000000" floodOpacity="0.28" />
         </filter>
 
-        {/* Combined Mask: Erases 'i' dot & cleanly clips bottom-left half of 'S' */}
+        {/* Combined Mask: Erases 'i' dot & clips bottom-left corner of 'S' flush along baseline */}
         <mask id="logoCombinedMask">
           <rect x="0" y="0" width="100%" height="100%" fill="#ffffff" />
           {/* Erase native font 'i' dot */}
           <circle cx="76" cy="20" r="14" fill="#000000" />
-          {/* Diagonal clip masking lower-left half of 'S' */}
-          <path d="M -10 46 L 34 82 L -10 95 Z" fill="#000000" />
+          {/* Diagonal clip masking lower-left corner of 'S' */}
+          <path d="M -10 48 L 22 72 L -10 85 Z" fill="#000000" />
         </mask>
       </defs>
 
@@ -62,15 +62,15 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
         Stickerly
       </text>
 
-      {/* Enlarged Under-Peel Rainbow Reveal (Fills bottom-left half of 'S') */}
+      {/* Under-Peel Rainbow Reveal (Aligned flush to S baseline) */}
       <path
-        d="M 1 48 C 1 68, 8 82, 32 80 L 1 48 Z"
+        d="M 1 50 C 1 62, 8 71, 20 71 L 1 50 Z"
         fill="url(#stickerlyPeelGrad)"
       />
 
-      {/* White Rolled Paper Curl (Flips cleanly along fold line) */}
+      {/* White Rolled Paper Curl (Flips cleanly along baseline fold) */}
       <path
-        d="M 1 48 C 10 36, 26 54, 32 80 C 20 62, 8 54, 1 48 Z"
+        d="M 1 50 C 7 42, 16 54, 20 71 C 12 58, 5 54, 1 50 Z"
         fill="#ffffff"
         filter="url(#peelFoldShadow)"
       />
