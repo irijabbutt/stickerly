@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { Product, ProductCategory, getProductName, getProductTagline } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
@@ -29,23 +28,21 @@ export function ProductGrid() {
   return (
     <section id="products" className="bg-muted/30 py-20 lg:py-28 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              {t("title")}
-            </h2>
-            <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
-          </div>
+        <div className="text-center max-w-2xl mx-auto flex flex-col items-center">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            {t("title")}
+          </h2>
+          <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
           <Link
             href={`/${locale}/categories`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+            className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
           >
             {tc("viewAll") || "View all products"}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-2">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
           {filters.map((f) => (
             <button
               key={f.key}
