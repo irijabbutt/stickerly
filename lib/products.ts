@@ -19,6 +19,7 @@ export interface Product {
   tags: string[];
   isPack: boolean;
   isAdmin?: boolean;
+  comingSoon?: boolean;
 }
 
 export const products: Product[] = [];
