@@ -81,7 +81,7 @@ export function Header() {
         </div>
       )}
 
-      {/* Cart Drawer rendered inside sticky container */}
+      {/* Primary Cart Drawer */}
       <CartDrawer />
     </header>
   );
