@@ -1,3 +1,4 @@
+// components/checkout/CheckoutSummary.tsx
 "use client";
 
 import Link from "next/link";
@@ -34,7 +35,8 @@ export function CheckoutSummary() {
     );
   }
 
-  const gumroadUrl = buildGumroadCartUrl(items);
+  const gumroadCart = buildGumroadCartUrl(items);
+  const cartReady = isGumroadCartReady(items) && Boolean(gumroadCart.url);
 
   return (
     <section className="py-12 lg:py-20">
@@ -124,16 +126,23 @@ export function CheckoutSummary() {
             <span>${totalPrice.toFixed(2)}</span>
           </div>
 
-          {isGumroadCartReady(items) && gumroadUrl ? (
-            <a
-              href={gumroadUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 font-medium text-background hover:opacity-90 transition"
-            >
-              <Lock className="h-4 w-4" />
-              {t("proceedToGumroad")}
-            </a>
+          {cartReady ? (
+            <>
+              
+                href={gumroadCart.url!}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 font-medium text-background hover:opacity-90 transition"
+              >
+                <Lock className="h-4 w-4" />
+                {t("proceedToGumroad")}
+              </a>
+              {gumroadCart.splitBySeller && (
+                <p className="mt-3 text-center text-xs text-amber-600">
+                  Some items are from different sellers and can't share one checkout — only the first seller's items were included above.
+                </p>
+              )}
+            </>
           ) : (
             <span className="mt-6 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full bg-muted px-6 py-3 font-medium text-muted-foreground">
               <Lock className="h-4 w-4" />
@@ -141,7 +150,7 @@ export function CheckoutSummary() {
             </span>
           )}
           <p className="mt-3 text-center text-xs text-muted-foreground">
-            {isGumroadCartReady(items) ? t("secureNote") : t("notReadyNote")}
+            {cartReady ? t("secureNote") : t("notReadyNote")}
           </p>
         </div>
 
