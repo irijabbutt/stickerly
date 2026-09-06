@@ -39,14 +39,14 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
         </filter>
       </defs>
 
-      {/* Main Brand Text */}
+      {/* Main Brand Text - automatically switches to white in dark mode */}
       <text
         x="0"
         y="68"
         fontFamily="ui-rounded, 'Comfortaa', 'Nunito', system-ui, -apple-system, sans-serif"
         fontSize="64"
         fontWeight="900"
-        fill="#18192b"
+        className="fill-slate-900 dark:fill-white"
         style={{ letterSpacing: "-0.03em" }}
       >
         Stickerly
