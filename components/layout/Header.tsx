@@ -2,18 +2,15 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { useCart } from "@/components/cart/CartContext";
 import { Logo } from "@/components/icons/Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { CartDrawer } from "@/components/cart/CartDrawer";
 
 export function Header() {
   const t = useTranslations("nav");
   const locale = useLocale();
-  const { totalItems, isOpen, setIsOpen } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const links = [
@@ -45,21 +42,9 @@ export function Header() {
           <LocaleSwitcher />
           <ThemeToggle />
           <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="relative rounded-full p-2 hover:bg-muted transition"
-            aria-label={t("openCart")}
-          >
-            <ShoppingBag className="h-5 w-5" />
-            {totalItems > 0 && (
-              <span className="absolute -top-0.5 -end-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground text-[10px] font-medium text-background px-1">
-                {totalItems}
-              </span>
-            )}
-          </button>
-          <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="rounded-full p-2 hover:bg-muted transition md:hidden"
-            aria-label={mobileOpen ? t("closeCart") : t("openCart")}
+            aria-label={mobileOpen ? "Close Menu" : "Open Menu"}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -80,9 +65,6 @@ export function Header() {
           ))}
         </div>
       )}
-
-      {/* Primary Cart Drawer */}
-      <CartDrawer />
     </header>
   );
 }
