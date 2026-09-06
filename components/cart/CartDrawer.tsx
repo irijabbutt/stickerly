@@ -22,7 +22,7 @@ export function CartDrawer() {
         aria-hidden="true"
       />
       <div
-        className="fixed top-20 bottom-4 left-4 right-4 z-50 flex flex-col rounded-2xl bg-background shadow-2xl sm:left-auto sm:right-4 sm:w-full sm:max-w-md"
+        className="fixed top-20 left-4 right-4 z-50 max-h-[calc(100vh-6rem)] flex flex-col rounded-2xl bg-background shadow-2xl sm:left-auto sm:right-4 sm:w-full sm:max-w-md"
         role="dialog"
         aria-modal="true"
         aria-label={t("title")}
