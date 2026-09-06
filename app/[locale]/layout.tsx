@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AnimeBackground } from "@/components/effects/AnimeBackground";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { SaleCountdownWrapper } from "@/components/sections/SaleCountdownWrapper";
+import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -118,6 +119,7 @@ export default async function LocaleLayout({
               <SaleCountdownWrapper />
               <main className="flex-1">{children}</main>
               <Footer />
+              <Analytics />
             </NextIntlClientProvider>
           </div>
         </ThemeProvider>
