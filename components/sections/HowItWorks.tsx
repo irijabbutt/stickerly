@@ -11,7 +11,7 @@ export function HowItWorks() {
       icon: Search,
     },
     {
-      title: "Checkout on Gumroad",
+      title: "Checkout & Download",
       description: "Pay securely on Gumroad and download instantly.",
       icon: Download,
     },
