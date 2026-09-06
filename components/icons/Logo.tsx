@@ -36,15 +36,22 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
         <filter id="peelFoldShadow" x="-30%" y="-30%" width="160%" height="160%">
           <feDropShadow dx="-1" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.25" />
         </filter>
+
+        {/* Mask to erase the native font's black 'i' dot so no black edge peeks through */}
+        <mask id="eraseIDot">
+          <rect x="0" y="0" width="100%" height="100%" fill="#ffffff" />
+          <circle cx="76" cy="20" r="14" fill="#000000" />
+        </mask>
       </defs>
 
-      {/* Main Brand Wordmark */}
+      {/* Main Brand Wordmark (Masked to hide native 'i' dot) */}
       <text
         x="0"
         y="70"
         fontFamily="ui-rounded, 'Comfortaa', 'Fredoka', 'Quicksand', 'Nunito', system-ui, -apple-system, sans-serif"
         fontSize="68"
         fontWeight="800"
+        mask="url(#eraseIDot)"
         className="fill-slate-900 dark:fill-white"
         style={{ letterSpacing: "-0.03em" }}
       >
@@ -64,13 +71,13 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
         />
       </g>
 
-      {/* Enlarged Star Sticker Centered Directly Over the 'i' Dot */}
-      <g transform="translate(71, 0) scale(1.3)">
+      {/* Star Sticker directly replacing the erased 'i' dot */}
+      <g transform="translate(63, 7) scale(1.2)">
         <path
           d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
           fill="#ffffff"
           stroke="#ffffff"
-          strokeWidth="4.5"
+          strokeWidth="4"
           strokeLinejoin="round"
         />
         <path
