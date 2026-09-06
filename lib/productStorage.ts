@@ -8,6 +8,7 @@ export interface AdminProductInput {
   image: string;
   images: string[];
   discountPercent?: number;
+  comingSoon?: boolean;
 }
 
 export interface GumroadMetadata {
