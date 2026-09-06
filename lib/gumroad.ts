@@ -1,8 +1,5 @@
 import { Product } from './products';
 
-// These slugs are intentionally used as placeholders in the starter template.
-// They currently resolve to other creators' Gumroad products, so any URL built
-// from them must be treated as unsafe until real IDs are configured.
 const PLACEHOLDER_GUMROAD_IDS = new Set([
   'cute-sticker-pack',
   'motion-ui-kit',
@@ -24,18 +21,10 @@ function isConfiguredId(id: string): boolean {
   return Boolean(id) && !PLACEHOLDER_GUMROAD_IDS.has(id);
 }
 
-/**
- * Returns true when the product has a real Gumroad product ID configured.
- * Placeholder IDs are rejected so the UI does not accidentally link to
- * another seller's products.
- */
 export function isGumroadProductReady(product: Product): boolean {
   return isConfiguredId(getGumroadProductId(product));
 }
 
-/**
- * Returns true when every item in the cart has a real Gumroad product ID.
- */
 export function isGumroadCartReady(
   items: { product: Product; quantity: number }[],
 ): boolean {
@@ -49,25 +38,9 @@ function buildSellerProductUrl(product: Product, id: string): string {
   return 'https://gumroad.com/l/' + id;
 }
 
-/**
- * Build a direct Gumroad product page URL for a single product.
- *
- * Override real Gumroad IDs without touching code by setting environment
- * variables like NEXT_PUBLIC_GUMROAD_PRODUCT_ID_STICKERS1.
- *
- * When a seller subdomain is configured, the URL points to
- * https://SELLER.gumroad.com/l/ID so the link resolves to the correct
- * creator even when the slug collides in Gumroad's global namespace.
- *
- * Pass `wanted: true` to append `?wanted=true`, which opens Gumroad's
- * direct purchase / library flow for the product.
- *
- * Returns null when the resolved ID is a placeholder, so callers can disable
- * or hide the buy button instead of linking to the wrong product.
- */
 export function buildGumroadProductUrl(
   product: Product,
-  options?: { wanted?: boolean },
+  options?: { wanted?: boolean; quantity?: number },
 ): string | null {
   const id = getGumroadProductId(product);
   if (!isConfiguredId(id)) return null;
@@ -76,27 +49,27 @@ export function buildGumroadProductUrl(
   if (options?.wanted) {
     url.searchParams.set('wanted', 'true');
   }
+  if (options?.quantity) {
+    url.searchParams.set('quantity', options.quantity.toString());
+  }
   return url.toString();
 }
 
-/**
- * Build a Gumroad checkout URL for the given products.
- * Gumroad supports multiple products in one checkout via repeated
- * `product_ids` query parameters on /checkout.
- *
- * Override real Gumroad IDs without touching code by setting environment
- * variables like NEXT_PUBLIC_GUMROAD_PRODUCT_ID_STICKERS1.
- * Your Gumroad product ID is the slug/permalink from your product URL:
- * https://gumroad.com/l/YOUR_PRODUCT_ID -> "YOUR_PRODUCT_ID"
- *
- * Returns null when any item still uses a placeholder ID.
- */
 export function buildGumroadCartUrl(
   items: { product: Product; quantity: number }[],
 ): string | null {
   if (items.length === 0) return 'https://gumroad.com/discover';
   if (!isGumroadCartReady(items)) return null;
 
+  // Single product checkout: pass direct /l/ link with explicit quantity
+  if (items.length === 1) {
+    return buildGumroadProductUrl(items[0].product, {
+      wanted: true,
+      quantity: items[0].quantity,
+    });
+  }
+
+  // Multi-item cart checkout
   const base = 'https://gumroad.com/checkout';
   const params = new URLSearchParams();
 
