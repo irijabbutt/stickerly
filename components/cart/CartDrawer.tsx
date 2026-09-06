@@ -16,13 +16,16 @@ export function CartDrawer() {
 
   return (
     <>
+      {/* Backdrop */}
       <div
         className="fixed inset-0 z-40 bg-black/40"
         onClick={() => setIsOpen(false)}
         aria-hidden="true"
       />
+
+      {/* Cart Container - Absolute positioning allows it to scroll with the page */}
       <div
-        className="fixed top-16 right-4 z-50 max-h-[calc(100vh-5rem)] w-[calc(100vw-2rem)] sm:w-full sm:max-w-md flex flex-col rounded-2xl bg-background shadow-2xl border border-border"
+        className="absolute top-16 right-4 z-50 max-h-[calc(100vh-5rem)] w-[calc(100vw-2rem)] sm:w-full sm:max-w-md flex flex-col rounded-2xl bg-background shadow-2xl border border-border"
         role="dialog"
         aria-modal="true"
         aria-label={t("title")}
