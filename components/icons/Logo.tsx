@@ -8,7 +8,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 340 95"
+      viewBox="0 0 320 90"
       fill="none"
       role="img"
       aria-label="Stickerly"
@@ -32,40 +32,42 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
           <stop offset="100%" stopColor="#38bdf8" />
         </linearGradient>
 
-        {/* Soft drop shadow under the white peel fold */}
-        <filter id="peelFoldShadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="-1" dy="1.5" stdDeviation="1.2" floodColor="#000000" floodOpacity="0.22" />
+        {/* Soft realistic drop shadow under the paper fold */}
+        <filter id="peelFoldShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="-0.8" dy="1.2" stdDeviation="1" floodColor="#000000" floodOpacity="0.28" />
         </filter>
       </defs>
 
       {/* Main Brand Wordmark */}
       <text
         x="0"
-        y="70"
+        y="68"
         fontFamily="ui-rounded, 'Comfortaa', 'Fredoka', 'Quicksand', 'Nunito', system-ui, -apple-system, sans-serif"
-        fontSize="68"
+        fontSize="64"
         fontWeight="800"
         className="fill-slate-900 dark:fill-white"
-        style={{ letterSpacing: "-0.03em" }}
+        style={{ letterSpacing: "-0.025em" }}
       >
         Stickerly
       </text>
 
-      {/* Corner Peel Fold on bottom-left of 'S' */}
-      <g transform="translate(0, 48)">
+      {/* Corner Peel Fold - Re-anchored seamlessly to the bottom-left tail of 'S' */}
+      <g transform="translate(0, 45)">
+        {/* Underlayer Gradient Reveal */}
         <path
-          d="M 2 22 C 2 12, 8 6, 20 22 C 14 24, 6 24, 2 22 Z"
+          d="M 1.5 23 C 1.5 13, 7 7, 19 23 C 13 25, 5 25, 1.5 23 Z"
           fill="url(#stickerlyPeelGrad)"
         />
+        {/* Curved White Rolled Paper Fold */}
         <path
-          d="M 2 22 C 8 16, 15 14, 20 21 C 13 15, 7 16, 2 22 Z"
+          d="M 1.5 23 C 6.5 17, 13.5 15, 19 23 C 12.5 15.5, 6.5 16.5, 1.5 23 Z"
           fill="#ffffff"
           filter="url(#peelFoldShadow)"
         />
       </g>
 
-      {/* Pastel Star Sticker placed directly above the 't' stem */}
-      <g transform="translate(65, 2)">
+      {/* Pastel Star Sticker placed over the 'i' dot */}
+      <g transform="translate(73, 5)">
         <path
           d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
           fill="#ffffff"
