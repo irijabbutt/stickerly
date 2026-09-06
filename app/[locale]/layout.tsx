@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
 import { locales } from "@/lib/i18n";
 import { baseUrl } from "@/lib/site";
-import { CartProvider } from "@/components/cart/CartContext";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AnimeBackground } from "@/components/effects/AnimeBackground";
@@ -115,12 +114,10 @@ export default async function LocaleLayout({
           <AnimeBackground />
           <div className="relative z-10 flex min-h-full flex-1 flex-col bg-background/70 backdrop-blur-[2px] dark:bg-background/50">
             <NextIntlClientProvider messages={messages} locale={locale} timeZone="UTC">
-              <CartProvider>
-                <Header />
-                <SaleCountdownWrapper />
-                <main className="flex-1">{children}</main>
-                <Footer />
-              </CartProvider>
+              <Header />
+              <SaleCountdownWrapper />
+              <main className="flex-1">{children}</main>
+              <Footer />
             </NextIntlClientProvider>
           </div>
         </ThemeProvider>
