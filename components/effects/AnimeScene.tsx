@@ -9,13 +9,13 @@ export function AnimeScene({ className = "" }: AnimeSceneProps) {
     <div
       className={`relative h-full w-full overflow-hidden rounded-3xl bg-slate-950 shadow-2xl ${className}`}
     >
-      {/* Background Video fills 100% of container */}
+      {/* Background Video scaled up slightly to clip embedded black borders */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 h-full w-full object-cover object-center"
+        className="absolute inset-0 h-full w-full object-cover object-center scale-[1.08]"
       >
         <source src="/anime-city.mp4" type="video/mp4" />
         Your browser does not support the video tag.
