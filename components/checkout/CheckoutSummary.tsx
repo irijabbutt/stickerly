@@ -1,4 +1,3 @@
-// components/checkout/CheckoutSummary.tsx
 "use client";
 
 import Link from "next/link";
@@ -129,7 +128,7 @@ export function CheckoutSummary() {
           {cartReady ? (
             <>
               
-                href={gumroadCart.url!}
+                href={gumroadCart.url ?? undefined}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 font-medium text-background hover:opacity-90 transition"
@@ -139,7 +138,7 @@ export function CheckoutSummary() {
               </a>
               {gumroadCart.splitBySeller && (
                 <p className="mt-3 text-center text-xs text-amber-600">
-                  Some items are from different sellers and can't share one checkout — only the first seller's items were included above.
+                  Some items are from different sellers and can&apos;t share one checkout — only the first seller&apos;s items were included above.
                 </p>
               )}
             </>
