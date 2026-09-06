@@ -8,7 +8,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 320 90"
+      viewBox="0 0 340 95"
       fill="none"
       role="img"
       aria-label="Stickerly"
@@ -32,27 +32,27 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
           <stop offset="100%" stopColor="#38bdf8" />
         </linearGradient>
 
-        {/* Soft shadow under the white peel fold */}
-        <filter id="peelFoldShadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="-1" dy="1.5" stdDeviation="1.2" floodColor="#000000" floodOpacity="0.22" />
+        {/* Soft shadow under the peeled fold */}
+        <filter id="peelFoldShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="-1" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.25" />
         </filter>
       </defs>
 
-      {/* Main Brand Wordmark (Clean native rounded typography without distortion) */}
+      {/* Main Brand Wordmark */}
       <text
         x="0"
-        y="68"
-        fontFamily="ui-rounded, 'Fredoka', 'Comfortaa', 'Quicksand', 'Nunito', system-ui, -apple-system, sans-serif"
-        fontSize="64"
+        y="70"
+        fontFamily="ui-rounded, 'Comfortaa', 'Fredoka', 'Quicksand', 'Nunito', system-ui, -apple-system, sans-serif"
+        fontSize="68"
         fontWeight="800"
         className="fill-slate-900 dark:fill-white"
-        style={{ letterSpacing: "-0.025em" }}
+        style={{ letterSpacing: "-0.03em" }}
       >
         Stickerly
       </text>
 
-      {/* Corner Peel Fold on bottom-left curve of 'S' */}
-      <g transform="translate(0, 48)">
+      {/* Enlarged Corner Peel Fold on bottom-left curve of 'S' */}
+      <g transform="translate(-2, 36) scale(1.4)">
         <path
           d="M 2 22 C 2 12, 8 6, 20 22 C 14 24, 6 24, 2 22 Z"
           fill="url(#stickerlyPeelGrad)"
@@ -64,8 +64,8 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
         />
       </g>
 
-      {/* Kept Star Placement (Centered over the 'i' dot) */}
-      <g transform="translate(76, 8)">
+      {/* Pastel Star Sticker placed right over the top stem of 't' */}
+      <g transform="translate(65, 2)">
         <path
           d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
           fill="#ffffff"
