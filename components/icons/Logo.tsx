@@ -8,7 +8,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 340 95"
+      viewBox="0 0 330 95"
       fill="none"
       role="img"
       aria-label="Stickerly"
@@ -32,7 +32,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
           <stop offset="100%" stopColor="#38bdf8" />
         </linearGradient>
 
-        {/* Soft shadow under the peeled fold */}
+        {/* Soft shadow under the paper fold */}
         <filter id="peelFoldShadow" x="-30%" y="-30%" width="160%" height="160%">
           <feDropShadow dx="-1" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.25" />
         </filter>
@@ -52,7 +52,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
       </text>
 
       {/* Enlarged Corner Peel Fold on bottom-left curve of 'S' */}
-      <g transform="translate(-2, 36) scale(1.4)">
+      <g transform="translate(-1, 38) scale(1.35)">
         <path
           d="M 2 22 C 2 12, 8 6, 20 22 C 14 24, 6 24, 2 22 Z"
           fill="url(#stickerlyPeelGrad)"
@@ -64,13 +64,13 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
         />
       </g>
 
-      {/* Pastel Star Sticker placed right over the top stem of 't' */}
-      <g transform="translate(65, 2)">
+      {/* Pastel Star Sticker placed directly ON top of the 'i' dot to cover it cleanly */}
+      <g transform="translate(66, 12)">
         <path
           d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
           fill="#ffffff"
           stroke="#ffffff"
-          strokeWidth="3.5"
+          strokeWidth="5"
           strokeLinejoin="round"
         />
         <path
