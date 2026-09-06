@@ -24,12 +24,6 @@ export function isGumroadProductReady(product: Product): boolean {
   return isConfiguredId(getGumroadProductId(product));
 }
 
-export function isGumroadCartReady(
-  items: { product: Product; quantity: number }[],
-): boolean {
-  return items.length > 0 && items.every(({ product }) => isGumroadProductReady(product));
-}
-
 function buildSellerProductUrl(product: Product, id: string): string {
   if (product.gumroadSeller) {
     return 'https://' + product.gumroadSeller + '.gumroad.com/l/' + id;
@@ -52,53 +46,24 @@ export function buildGumroadProductUrl(
 }
 
 /**
- * Build a Gumroad checkout URL for the given cart items.
- *
- * Gumroad has no official multi-product checkout endpoint — this groups
- * items by gumroadSeller and builds a single seller's checkout URL with
- * repeated product_ids params. If the cart spans more than one seller,
- * only the first seller's group is included and `splitBySeller` is set so
- * the UI can warn the customer instead of silently dropping items.
+ * Safely extracts the product slug from a full Gumroad URL.
+ * e.g., "https://username.gumroad.com/l/sticker1" -> "sticker1"
  */
-export interface GumroadCartResult {
-  url: string | null;
-  splitBySeller: boolean;
-}
-
-export function buildGumroadCartUrl(
-  items: { product: Product; quantity: number }[],
-): GumroadCartResult {
-  if (items.length === 0) {
-    return { url: 'https://gumroad.com/discover', splitBySeller: false };
-  }
-  if (!isGumroadCartReady(items)) {
-    return { url: null, splitBySeller: false };
-  }
-
-  const bySeller = new Map<string, { product: Product; quantity: number }[]>();
-  items.forEach((item) => {
-    const key = item.product.gumroadSeller || '__none__';
-    bySeller.set(key, [...(bySeller.get(key) || []), item]);
-  });
-
-  const groups = Array.from(bySeller.entries());
-  const [firstSellerKey, firstGroupItems] = groups[0];
-
-  const base =
-    firstSellerKey === '__none__'
-      ? 'https://gumroad.com/checkout'
-      : `https://${firstSellerKey}.gumroad.com/checkout`;
-
-  const params = new URLSearchParams();
-  firstGroupItems.forEach(({ product, quantity }) => {
-    const gumroadId = getGumroadProductId(product);
-    for (let i = 0; i < quantity; i++) {
-      params.append('product_ids', gumroadId);
+export function extractGumroadSlug(gumroadUrl: string): string | null {
+  try {
+    const parsedUrl = new URL(gumroadUrl);
+    
+    // Splits the path and removes empty strings
+    const pathSegments = parsedUrl.pathname.split('/').filter(Boolean);
+    
+    // The slug is almost always the last segment in the URL path
+    if (pathSegments.length > 0) {
+      return pathSegments[pathSegments.length - 1];
     }
-  });
-
-  return {
-    url: `${base}?${params.toString()}`,
-    splitBySeller: groups.length > 1,
-  };
+    
+    return null;
+  } catch (error) {
+    console.error("Invalid Gumroad URL:", gumroadUrl);
+    return null;
+  }
 }
