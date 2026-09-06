@@ -3,16 +3,16 @@
 export function AnimeBackground() {
   return (
     <div
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-slate-950 select-none"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-slate-950 select-none flex items-center justify-center"
       aria-hidden="true"
     >
-      {/* Background Video - scaled up slightly to clip hardcoded black pillarboxes */}
+      {/* Background Video - Scaled to 135% to clip baked-in vertical pillarbox borders */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="h-full w-full object-cover scale-[1.08] opacity-90 dark:opacity-75 transition-opacity duration-500"
+        className="h-full w-full object-cover scale-[1.35] opacity-90 dark:opacity-75 transition-opacity duration-500"
       >
         <source src="/anime-city.mp4" type="video/mp4" />
       </video>
