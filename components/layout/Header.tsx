@@ -8,6 +8,7 @@ import { useCart } from "@/components/cart/CartContext";
 import { Logo } from "@/components/icons/Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -22,7 +23,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-border bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href={`/${locale}`} className="flex items-center text-foreground">
           <Logo className="h-7 w-auto sm:h-8" />
@@ -44,7 +45,7 @@ export function Header() {
           <LocaleSwitcher />
           <ThemeToggle />
           <button
-            onClick={() => setIsOpen(true)}
+            onClick={() => setIsOpen((prev) => !prev)}
             className="relative rounded-full p-2 hover:bg-muted transition"
             aria-label={t("openCart")}
           >
@@ -66,7 +67,7 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden border-t border-border px-4 py-4 space-y-3">
+        <div className="md:hidden border-t border-border px-4 py-4 space-y-3 bg-background">
           {links.map((link) => (
             <a
               key={link.href}
@@ -79,6 +80,9 @@ export function Header() {
           ))}
         </div>
       )}
+
+      {/* Cart Drawer rendered inside sticky container */}
+      <CartDrawer />
     </header>
   );
 }
