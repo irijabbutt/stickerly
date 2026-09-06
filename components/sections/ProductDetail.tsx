@@ -17,11 +17,11 @@ function ProductImageGallery({ images, alt }: { images: string[]; alt: string })
 
   return (
     <div className="space-y-4">
-      <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-muted to-background p-8 lg:p-12">
+      <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-muted to-background p-0">
         <img
           src={images[active]}
           alt={`${alt} ${active + 1}`}
-          className="h-full w-full object-contain"
+          className="h-full w-full object-cover"
           loading="eager"
         />
         {showArrows && (
@@ -49,7 +49,7 @@ function ProductImageGallery({ images, alt }: { images: string[]; alt: string })
             <button
               key={`${src.slice(0, 24)}-${idx}`}
               onClick={() => setActive(idx)}
-              className={`relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-muted p-2 transition ${
+              className={`relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-muted p-0 transition ${
                 active === idx
                   ? "border-primary ring-2 ring-primary"
                   : "border-border hover:border-primary/50"
@@ -59,7 +59,7 @@ function ProductImageGallery({ images, alt }: { images: string[]; alt: string })
               <img
                 src={src}
                 alt={`${alt} thumbnail ${idx + 1}`}
-                className="h-full w-full object-contain"
+                className="h-full w-full object-cover"
                 loading="lazy"
               />
             </button>
@@ -182,11 +182,11 @@ export function ProductDetail({
                   href={`/${locale}/products/${p.slug}/`}
                   className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
                 >
-                  <div className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 text-5xl">
+                  <div className="flex h-48 w-full items-center justify-center overflow-hidden bg-gradient-to-br from-muted to-background p-0">
                     <img
                       src={p.images?.[0] || p.image}
                       alt={getProductName(p, t)}
-                      className="h-full w-full object-contain"
+                      className="h-full w-full object-cover"
                       loading="lazy"
                     />
                   </div>
