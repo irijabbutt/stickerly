@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ArrowLeft, ShoppingCart, ExternalLink, Minus, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { Product, getProductName, getProductDescription, getProductTagline } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
-import { useCart } from "@/components/cart/CartContext";
 
 function ProductImageGallery({ images, alt }: { images: string[]; alt: string }) {
   const [active, setActive] = useState(0);
@@ -71,12 +70,6 @@ function ProductImageGallery({ images, alt }: { images: string[]; alt: string })
   );
 }
 
-function categoryEmoji(category: Product["category"]) {
-  if (category === "stickers") return "🌟";
-  if (category === "animated") return "✨";
-  return "🧊";
-}
-
 function categoryLabel(
   category: Product["category"],
   t: ReturnType<typeof useTranslations>
@@ -96,19 +89,6 @@ export function ProductDetail({
 }) {
   const t = useTranslations("products");
   const tc = useTranslations("cart");
-  const { addItem } = useCart();
-  const [added, setAdded] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-
-  const handleAdd = () => {
-    addItem(product, quantity);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
-  };
-
-  const adjust = (delta: number) => {
-    setQuantity((q) => Math.max(1, q + delta));
-  };
 
   const name = getProductName(product, t);
   const description = getProductDescription(product, t);
@@ -149,49 +129,19 @@ export function ProductDetail({
               )}
             </div>
 
-            <div className="mt-6 flex items-center gap-3">
-              <span className="text-sm font-medium text-muted-foreground">
-                {tc("quantity")}
-              </span>
-              <div className="flex items-center gap-2 rounded-full border border-border bg-background px-2 py-1">
-                <button
-                  onClick={() => adjust(-1)}
-                  className="rounded-full p-1 hover:bg-muted transition"
-                  aria-label="Decrease quantity"
-                >
-                  <Minus className="h-4 w-4" />
-                </button>
-                <span className="w-6 text-center text-sm font-medium">{quantity}</span>
-                <button
-                  onClick={() => adjust(1)}
-                  className="rounded-full p-1 hover:bg-muted transition"
-                  aria-label="Increase quantity"
-                >
-                  <Plus className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <button
-                onClick={handleAdd}
-                className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 font-medium text-background hover:opacity-90 transition"
-              >
-                <ShoppingCart className="h-4 w-4" />
-                {added ? t("added") : t("addToCart")}
-              </button>
               {isGumroadProductReady(product) ? (
                 <a
                   href={buildGumroadProductUrl(product, { wanted: true }) ?? undefined}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-background px-6 py-3 font-medium hover:bg-muted transition"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-foreground px-8 py-3.5 text-base font-medium text-background hover:opacity-90 transition"
                 >
-                  <ExternalLink className="h-4 w-4" />
+                  <ExternalLink className="h-5 w-5" />
                   {tc("checkout")}
                 </a>
               ) : (
-                <span className="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-full border border-border bg-muted/50 px-6 py-3 font-medium text-muted-foreground">
+                <span className="inline-flex w-full sm:w-auto cursor-not-allowed items-center justify-center gap-2 rounded-full border border-border bg-muted/50 px-8 py-3.5 text-base font-medium text-muted-foreground">
                   {t("comingSoon")}
                 </span>
               )}
