@@ -5,7 +5,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { locales } from "@/lib/i18n";
 import { baseUrl } from "@/lib/site";
 import { CartProvider } from "@/components/cart/CartContext";
-import { CartDrawer } from "@/components/cart/CartDrawer";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AnimeBackground } from "@/components/effects/AnimeBackground";
@@ -121,7 +120,6 @@ export default async function LocaleLayout({
                 <SaleCountdownWrapper />
                 <main className="flex-1">{children}</main>
                 <Footer />
-                <CartDrawer />
               </CartProvider>
             </NextIntlClientProvider>
           </div>
