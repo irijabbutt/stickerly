@@ -1,95 +1,53 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
-function Blob({
-  color,
-  size,
-  xFactor,
-  yFactor,
-  initialX,
-  initialY,
-}: {
-  color: string;
-  size: number;
-  xFactor: number;
-  yFactor: number;
-  initialX: string;
-  initialY: string;
-}) {
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-  const springConfig = { damping: 30, stiffness: 60 };
-  const sx = useSpring(mouseX, springConfig);
-  const sy = useSpring(mouseY, springConfig);
+export function InteractiveBackground() {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 60 };
+  const dx = useSpring(mouseX, springConfig);
+  const dy = useSpring(mouseY, springConfig);
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX / window.innerWidth);
-      mouseY.set(e.clientY / window.innerHeight);
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
     window.addEventListener("mousemove", handleMove);
     return () => window.removeEventListener("mousemove", handleMove);
   }, [mouseX, mouseY]);
 
-  const x = useTransform(sx, (v) => (v - 0.5) * xFactor);
-  const y = useTransform(sy, (v) => (v - 0.5) * yFactor);
-
-  return (
-    <motion.div
-      className={`absolute rounded-full blur-3xl opacity-30 ${color}`}
-      style={{
-        width: size,
-        height: size,
-        left: initialX,
-        top: initialY,
-        x,
-        y,
-      }}
-    />
-  );
-}
-
-export function InteractiveBackground() {
   return (
     <div
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-slate-950 select-none"
       aria-hidden="true"
     >
-      <div className="absolute inset-0 bg-background" />
-      <Blob
-        color="bg-primary"
-        size={480}
-        xFactor={120}
-        yFactor={80}
-        initialX="-10%"
-        initialY="10%"
+      {/* Anime City Loop Video Background */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="h-full w-full object-cover opacity-70 dark:opacity-45 transition-opacity duration-500"
+      >
+        <source src="/anime-city.mp4" type="video/mp4" />
+      </video>
+
+      {/* Interactive Mouse-Following Ambient Spotlight */}
+      <motion.div
+        className="absolute -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-amber-400/20 dark:bg-pink-500/15 blur-3xl"
+        style={{
+          left: dx,
+          top: dy,
+        }}
       />
-      <Blob
-        color="bg-accent"
-        size={400}
-        xFactor={-100}
-        yFactor={120}
-        initialX="60%"
-        initialY="-10%"
-      />
-      <Blob
-        color="bg-cyan-400"
-        size={360}
-        xFactor={80}
-        yFactor={-90}
-        initialX="70%"
-        initialY="60%"
-      />
-      <Blob
-        color="bg-yellow-300"
-        size={280}
-        xFactor={-70}
-        yFactor={-60}
-        initialX="20%"
-        initialY="70%"
-      />
+
+      {/* Gradient Vignette Overlays for UI & Text Contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background/90" />
+      <div className="absolute inset-0 bg-radial-[circle_at_center] from-transparent via-background/30 to-background/70" />
     </div>
   );
 }
