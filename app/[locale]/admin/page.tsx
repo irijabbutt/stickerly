@@ -89,6 +89,7 @@ const emptyInput: AdminProductInput = {
   image: "",
   images: [],
   discountPercent: 0,
+  comingSoon: false,
 };
 
 function ProductForm({ onSaved }: { onSaved: () => void }) {
@@ -219,6 +220,19 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
           </p>
         </div>
         <div>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={input.comingSoon ?? false}
+              onChange={(e) =>
+                setInput((i) => ({ ...i, comingSoon: e.target.checked }))
+              }
+              className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+            />
+            <span className="text-sm font-medium">Mark as Coming Soon</span>
+          </label>
+        </div>
+        <div>
           <label className="block text-sm font-medium">
             Product images ({input.images.length}/{MAX_PRODUCT_IMAGES})
           </label>
@@ -306,7 +320,7 @@ function ProductForm({ onSaved }: { onSaved: () => void }) {
             ) : (
               <>${preview.priceUSD.toFixed(2)}</>
             )}{" "}
-            · {preview.category}
+            · {preview.category} {preview.comingSoon && "· Coming Soon"}
           </p>
           {preview.tags.length > 0 && (
             <p className="mt-1 text-xs text-muted-foreground">
@@ -356,7 +370,14 @@ function ProductList({
                     />
                   </div>
                   <div>
-                    <p className="font-medium">{product.name}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium">{product.name}</p>
+                      {product.comingSoon && (
+                        <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                          Coming Soon
+                        </span>
+                      )}
+                    </div>
                     <p className="text-sm text-muted-foreground">
                       {product.originalPriceUSD ? (
                         <>
