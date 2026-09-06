@@ -12,14 +12,14 @@ export function AnimeBackground() {
         loop
         muted
         playsInline
-        className="h-full w-full object-cover opacity-75 dark:opacity-45 transition-opacity duration-500"
+        className="h-full w-full object-cover opacity-90 dark:opacity-75 transition-opacity duration-500"
       >
         <source src="/anime-city.mp4" type="video/mp4" />
       </video>
 
-      {/* Gradient Vignette Overlays for UI Readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background/90" />
-      <div className="absolute inset-0 bg-radial-[circle_at_center] from-transparent via-background/40 to-background/80" />
+      {/* Reduced Backdrop Vignette Overlays to 0.2 (20% Opacity) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background/20" />
+      <div className="absolute inset-0 bg-radial-[circle_at_center] from-transparent via-background/10 to-background/20" />
     </div>
   );
 }
