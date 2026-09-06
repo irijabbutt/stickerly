@@ -20,7 +20,7 @@ export function HowItWorks() {
             {t("title")}
           </h2>
         </div>
-        <div className="mt-12 grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+        <div className="mt-12 grid gap-4 md:grid-cols-2 max-w-2xl mx-auto">
           {steps.map(({ key, icon: Icon }, i) => (
             <motion.div
               key={key}
