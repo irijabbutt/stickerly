@@ -13,7 +13,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 export function Header() {
   const t = useTranslations("nav");
   const locale = useLocale();
-  const { totalItems, setIsOpen } = useCart();
+  const { totalItems, isOpen, setIsOpen } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const links = [
@@ -45,7 +45,7 @@ export function Header() {
           <LocaleSwitcher />
           <ThemeToggle />
           <button
-            onClick={() => setIsOpen((prev) => !prev)}
+            onClick={() => setIsOpen(!isOpen)}
             className="relative rounded-full p-2 hover:bg-muted transition"
             aria-label={t("openCart")}
           >
