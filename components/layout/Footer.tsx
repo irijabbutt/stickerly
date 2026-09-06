@@ -19,8 +19,8 @@ export function Footer() {
             <p className="mt-2 text-sm text-muted-foreground">{t("tagline")}</p>
           </div>
           <div className="text-center text-sm text-muted-foreground">
-            <p>© 2026 RAI Studio. All rights reserved.</p>
-            <p className="mt-1">Checkout powered by Gumroad</p>
+            <p></p>
+            <p className="mt-1">© 2026 RAI Studio. All rights reserved.</p>
           </div>
         </div>
       </div>
