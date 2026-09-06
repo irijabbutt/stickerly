@@ -8,7 +8,7 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 320 90"
+      viewBox="0 0 340 95"
       fill="none"
       role="img"
       aria-label="Stickerly"
@@ -16,69 +16,72 @@ export function Logo({ className = "h-10 w-auto", ...props }: LogoProps) {
       {...props}
     >
       <defs>
-        {/* Under-peel rainbow gradient */}
-        <linearGradient id="logoPeelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        {/* Peel reveal rainbow gradient */}
+        <linearGradient id="stickerlyPeelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#f43f5e" />
-          <stop offset="40%" stopColor="#d946ef" />
-          <stop offset="70%" stopColor="#8b5cf6" />
-          <stop offset="100%" stopColor="#06b6d4" />
+          <stop offset="50%" stopColor="#d946ef" />
+          <stop offset="100%" stopColor="#8b5cf6" />
         </linearGradient>
 
         {/* Star sticker gradient */}
-        <linearGradient id="logoStarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="stickerlyStarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#facc15" />
-          <stop offset="30%" stopColor="#fb923c" />
-          <stop offset="60%" stopColor="#f472b6" />
-          <stop offset="85%" stopColor="#a855f7" />
+          <stop offset="25%" stopColor="#fb923c" />
+          <stop offset="55%" stopColor="#f472b6" />
+          <stop offset="80%" stopColor="#a855f7" />
           <stop offset="100%" stopColor="#38bdf8" />
         </linearGradient>
 
-        {/* Soft shadow under the peel fold */}
-        <filter id="peelShadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="-1" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.25" />
+        {/* Soft shadow for the peel fold */}
+        <filter id="peelFoldShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="-1" dy="2" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.3" />
         </filter>
       </defs>
 
-      {/* Main Brand Text - automatically switches to white in dark mode */}
-      <text
-        x="0"
-        y="68"
-        fontFamily="ui-rounded, 'Comfortaa', 'Nunito', system-ui, -apple-system, sans-serif"
-        fontSize="64"
-        fontWeight="900"
-        className="fill-slate-900 dark:fill-white"
-        style={{ letterSpacing: "-0.03em" }}
-      >
-        Stickerly
-      </text>
+      {/* Main Brand Text - dynamically handles light & dark mode */}
+      <g className="fill-slate-900 dark:fill-white">
+        <text
+          x="0"
+          y="72"
+          fontFamily="ui-rounded, 'Comfortaa', 'Nunito', system-ui, -apple-system, sans-serif"
+          fontSize="70"
+          fontWeight="900"
+          textLength="330"
+          lengthAdjust="spacingAndGlyphs"
+        >
+          Stickerly
+        </text>
+      </g>
 
-      {/* Gradient reveal under the bottom-left peel on 'S' */}
-      <path
-        d="M 2 54 C 2 64, 8 72, 20 72 L 6 72 Z"
-        fill="url(#logoPeelGradient)"
-      />
-
-      {/* Peeled white corner fold */}
-      <path
-        d="M 2 54 C 10 58, 16 64, 20 72 C 14 70, 7 64, 2 54 Z"
-        fill="#ffffff"
-        filter="url(#peelShadow)"
-      />
-
-      {/* Star sticker placed directly over the 'i' */}
-      <g transform="translate(100, 10)">
-        {/* Outer White Sticker Border */}
+      {/* Smooth Bottom-Left Peel on 'S' */}
+      <g transform="translate(0, 42)">
+        {/* Under-layer (revealed gradient) */}
         <path
-          d="M 10 1 L 12.8 6.8 L 19 7.7 L 14.5 12.1 L 15.5 18.2 L 10 15.3 L 4.5 18.2 L 5.5 12.1 L 1 7.7 L 7.2 6.8 Z"
+          d="M 2 30 C 2 20, 10 12, 24 28 C 14 30, 5 30, 2 30 Z"
+          fill="url(#stickerlyPeelGradient)"
+        />
+        {/* Folded white backside */}
+        <path
+          d="M 2 30 C 10 25, 18 22, 24 28 C 16 18, 8 20, 2 30 Z"
+          fill="#ffffff"
+          filter="url(#peelFoldShadow)"
+        />
+      </g>
+
+      {/* Star Badge placed directly over the letter 'i' */}
+      <g transform="translate(108, 4)">
+        {/* White Die-Cut Border */}
+        <path
+          d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
           fill="#ffffff"
           stroke="#ffffff"
           strokeWidth="3.5"
           strokeLinejoin="round"
         />
-        {/* Star Gradient Fill */}
+        {/* Gradient Star */}
         <path
-          d="M 10 1 L 12.8 6.8 L 19 7.7 L 14.5 12.1 L 15.5 18.2 L 10 15.3 L 4.5 18.2 L 5.5 12.1 L 1 7.7 L 7.2 6.8 Z"
-          fill="url(#logoStarGradient)"
+          d="M 11 1 L 13.8 6.8 L 20 7.7 L 15.5 12.1 L 16.5 18.2 L 11 15.3 L 5.5 18.2 L 6.5 12.1 L 2 7.7 L 8.2 6.8 Z"
+          fill="url(#stickerlyStarGradient)"
         />
       </g>
     </svg>
