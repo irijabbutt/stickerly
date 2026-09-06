@@ -17,12 +17,12 @@ export function CartDrawer() {
   return (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+        className="fixed inset-0 z-40 bg-black/40"
         onClick={() => setIsOpen(false)}
         aria-hidden="true"
       />
       <div
-        className="fixed end-0 top-0 bottom-0 z-50 w-full max-w-md bg-background shadow-2xl flex flex-col sm:end-4 sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 sm:h-auto sm:max-h-[80vh] sm:rounded-2xl"
+        className="fixed left-4 right-4 top-4 z-50 max-h-[60vh] rounded-2xl bg-background shadow-2xl flex flex-col sm:left-auto sm:right-4 sm:w-full sm:max-w-md"
         role="dialog"
         aria-modal="true"
         aria-label={t("title")}
