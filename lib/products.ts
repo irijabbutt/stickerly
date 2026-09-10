@@ -49,20 +49,27 @@ export function getProductName(product: Product, t: TranslateFn): string {
 
 export function getProductDescription(product: Product, t: TranslateFn): string {
   if (!product) return "";
-  
-  // Strip leading "products." so next-intl doesn't double-prefix
+
   const relativeKey = product.descriptionKey?.replace(/^products\./, "") || "";
-  
+
   try {
     const translated = t(relativeKey);
-    // Return translated description if valid key found in JSON
-    if (translated && translated !== relativeKey && !translated.startsWith("products.admin")) {
+    if (
+      translated &&
+      translated !== relativeKey &&
+      !translated.startsWith("products.admin") &&
+      !translated.startsWith("admin.")
+    ) {
       return translated;
     }
   } catch {}
 
-  // Fallback to raw Gumroad product description
-  return product.description || product.descriptionKey;
+  // Primary fallback: fetched description from Gumroad
+  if (product.description && !product.description.startsWith("products.admin")) {
+    return product.description;
+  }
+
+  return "";
 }
 export function stripHtml(html: string): string {
   return html
