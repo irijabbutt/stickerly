@@ -145,21 +145,30 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
               dangerouslySetInnerHTML={{ __html: productDesc }}
             />
 
-            {/* Tags */}
+            {/* Tags with locale fallback */}
             {product.tags && product.tags.length > 0 && (
               <div className="mt-8">
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                   Tags
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {product.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {product.tags.map((tag) => {
+                    let displayTag = tag;
+                    try {
+                      const key = `tags.${tag.toLowerCase().replace(/\s+/g, "_")}`;
+                      const translated = t(key);
+                      if (translated && translated !== key) displayTag = translated;
+                    } catch {}
+            
+                    return (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
+                      >
+                        {displayTag}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             )}
