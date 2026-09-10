@@ -125,11 +125,12 @@
     }
   },
   "howItWorks": {
-    "title": "이용 방법",
-    "step1": {
-      "title": "에셋 선택",
-      "description": "스티커, 애니메이션 UI 및 3D 씬을 둘러보세요."
-    },
+  "title": "이용 방법",
+  "step1Title": "에셋 선택",
+  "step1Desc": "스티커, 애니메이션 UI, 3D 씬을 둘러보세요.",
+  "step2Title": "결제 및 다운로드",
+  "step2Desc": "Gumroad에서 안전하게 결제하고 즉시 다운로드하세요."
+  },
     "step2": {
       "title": "장바구니에 추가",
       "description": "번들을 구성하고 총액을 확인하세요."
