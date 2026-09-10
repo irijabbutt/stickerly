@@ -51,9 +51,9 @@ export function ProductGrid() {
           ))}
         </div>
 
-        {/* Horizontal Scrolling Container with Center Alignment */}
-        <div className="mt-10 relative overflow-x-auto pb-6 pt-2 scrollbar-none [-ms-overflow-style:none] [supports(scrollbar-width:none)]:scrollbar-none">
-          <div className="flex w-max mx-auto gap-6 snap-x snap-mandatory px-4">
+        {/* Horizontal Scrolling Container with Visible Scrollbar */}
+        <div className="mt-10 relative overflow-x-auto pb-6 pt-2 custom-scrollbar">
+          <div className="flex w-max gap-6 snap-x snap-mandatory px-4 sm:px-0">
             {filtered.map((product) => (
               <div
                 key={product.id}
