@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ExternalLink, ArrowLeft, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { ExternalLink, ArrowLeft, ChevronLeft, ChevronRight, Loader2, ImageOff } from "lucide-react";
 import { Product } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
@@ -17,8 +17,8 @@ interface ProductDetailProps {
 export function ProductDetail({ product, locale }: ProductDetailProps) {
   const t = useTranslations("products");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageError, setImageError] = useState(false);
 
-  // Instant pre-translated or dynamic translation lookup
   const { productName, productDesc, loadingTranslation } = useDynamicTranslation(
     product,
     locale,
@@ -26,7 +26,11 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
   );
 
   const allImages =
-    product.images && product.images.length > 0 ? product.images : [product.image];
+    product.images && product.images.length > 0
+      ? product.images
+      : [product.image || "/icon.svg"];
+
+  const currentImage = allImages[currentImageIndex] || product.image;
 
   return (
     <section className="py-12 lg:py-20">
@@ -41,27 +45,37 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
           {/* Image Container Card */}
-          <div className="relative lg:sticky lg:top-24 flex flex-col items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
-            <img
-              src={allImages[currentImageIndex]}
-              alt={productName}
-              className="max-h-[550px] w-full rounded-2xl object-contain transition-all duration-300"
-            />
+          <div className="relative lg:sticky lg:top-24 flex min-h-[350px] flex-col items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
+            {!imageError && currentImage ? (
+              <img
+                src={currentImage}
+                alt={productName}
+                onError={() => setImageError(true)}
+                className="max-h-[550px] w-full rounded-2xl object-contain transition-all duration-300"
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
+                <ImageOff className="h-12 w-12 mb-2 stroke-[1.5]" />
+                <p className="text-sm">Image unavailable</p>
+              </div>
+            )}
 
-            {allImages.length > 1 && (
+            {allImages.length > 1 && !imageError && (
               <>
                 <button
-                  onClick={() =>
-                    setCurrentImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1))
-                  }
+                  onClick={() => {
+                    setImageError(false);
+                    setCurrentImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
+                  }}
                   className="absolute left-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md hover:bg-background transition"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
                 <button
-                  onClick={() =>
-                    setCurrentImageIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1))
-                  }
+                  onClick={() => {
+                    setImageError(false);
+                    setCurrentImageIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1));
+                  }}
                   className="absolute right-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md hover:bg-background transition"
                 >
                   <ChevronRight className="h-5 w-5" />
@@ -70,7 +84,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
             )}
           </div>
 
-          {/* Product Metadata */}
+          {/* Product Info */}
           <div className="flex flex-col justify-center">
             <span className="inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary uppercase tracking-wider">
               {product.category}
@@ -113,7 +127,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
               )}
             </div>
 
-            {/* Dynamic HTML Description */}
+            {/* Description */}
             <div className="mt-8 pt-6 border-t border-border">
               {loadingTranslation ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground py-4">
@@ -127,25 +141,6 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
                 />
               )}
             </div>
-
-            {/* Product Tags */}
-            {product.tags && product.tags.length > 0 && (
-              <div className="mt-8">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                  Tags
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {product.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
