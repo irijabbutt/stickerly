@@ -1,3 +1,4 @@
+import { products } from "../lib/products";
 export type ProductCategory = 'stickers' | 'animated' | '3d';
 
 export interface Product {
