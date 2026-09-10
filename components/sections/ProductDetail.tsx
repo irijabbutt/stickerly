@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ExternalLink, ArrowLeft, ChevronLeft, ChevronRight, Loader2, ImageOff } from "lucide-react";
+import { ExternalLink, ArrowLeft, ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
 import { Product } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
@@ -11,7 +11,6 @@ import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 interface ProductDetailProps {
   product: Product;
   locale: string;
-  related?: Product[];
 }
 
 export function ProductDetail({ product, locale }: ProductDetailProps) {
@@ -19,18 +18,14 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
 
-  const { productName, productDesc, loadingTranslation } = useDynamicTranslation(
-    product,
-    locale,
-    t
-  );
+  const { productName, productDesc } = useDynamicTranslation(product, locale, t);
 
-  const allImages =
-    product.images && product.images.length > 0
-      ? product.images
-      : [product.image || "/icon.svg"];
+  // Filter out empty or whitespace-only image strings
+  const validImages = (product.images || [])
+    .concat(product.image || [])
+    .filter((img): img is string => Boolean(img && img.trim().length > 0));
 
-  const currentImage = allImages[currentImageIndex] || product.image;
+  const currentImage = validImages[currentImageIndex] || null;
 
   return (
     <section className="py-12 lg:py-20">
@@ -44,8 +39,8 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
-          {/* Image Container Card */}
-          <div className="relative lg:sticky lg:top-24 flex min-h-[350px] flex-col items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
+          {/* Image Display Card */}
+          <div className="relative lg:sticky lg:top-24 flex min-h-[380px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
             {!imageError && currentImage ? (
               <img
                 src={currentImage}
@@ -56,16 +51,16 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
             ) : (
               <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
                 <ImageOff className="h-12 w-12 mb-2 stroke-[1.5]" />
-                <p className="text-sm">Image unavailable</p>
+                <p className="text-sm font-medium">Image unavailable</p>
               </div>
             )}
 
-            {allImages.length > 1 && !imageError && (
+            {validImages.length > 1 && !imageError && (
               <>
                 <button
                   onClick={() => {
                     setImageError(false);
-                    setCurrentImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
+                    setCurrentImageIndex((prev) => (prev === 0 ? validImages.length - 1 : prev - 1));
                   }}
                   className="absolute left-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md hover:bg-background transition"
                 >
@@ -74,7 +69,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
                 <button
                   onClick={() => {
                     setImageError(false);
-                    setCurrentImageIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1));
+                    setCurrentImageIndex((prev) => (prev === validImages.length - 1 ? 0 : prev + 1));
                   }}
                   className="absolute right-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md hover:bg-background transition"
                 >
@@ -84,7 +79,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
             )}
           </div>
 
-          {/* Product Info */}
+          {/* Product Details */}
           <div className="flex flex-col justify-center">
             <span className="inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary uppercase tracking-wider">
               {product.category}
@@ -105,7 +100,6 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
               </span>
             </div>
 
-            {/* Buy Now Button */}
             <div className="mt-6 flex gap-4">
               {isGumroadProductReady(product) ? (
                 <a
@@ -118,28 +112,17 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
                   {t("buyNow")}
                 </a>
               ) : (
-                <button
-                  disabled
-                  className="cursor-not-allowed rounded-full border border-border bg-muted/50 px-6 py-3 font-medium text-muted-foreground"
-                >
+                <button disabled className="cursor-not-allowed rounded-full border border-border bg-muted/50 px-6 py-3 font-medium text-muted-foreground">
                   {t("comingSoon")}
                 </button>
               )}
             </div>
 
-            {/* Description */}
             <div className="mt-8 pt-6 border-t border-border">
-              {loadingTranslation ? (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground py-4">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Translating details...
-                </div>
-              ) : (
-                <div
-                  className="prose dark:prose-invert max-w-none text-muted-foreground leading-relaxed space-y-4"
-                  dangerouslySetInnerHTML={{ __html: productDesc }}
-                />
-              )}
+              <div
+                className="prose dark:prose-invert max-w-none text-muted-foreground leading-relaxed space-y-4"
+                dangerouslySetInnerHTML={{ __html: productDesc }}
+              />
             </div>
           </div>
         </div>
