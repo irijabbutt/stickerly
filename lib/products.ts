@@ -27,11 +27,29 @@ export const products: Product[] = [];
 export type TranslateFn = (key: string) => string;
 
 export function getProductName(product: Product, t: TranslateFn): string {
-  return product.name || t(product.nameKey);
+  try {
+    const translated = t(product.nameKey);
+    // If a translation exists and isn't returning the raw key, return the localized name
+    if (translated && translated !== product.nameKey) {
+      return translated;
+    }
+  } catch {
+    // Fallback if key missing in dictionary
+  }
+  return product.name || product.nameKey;
 }
 
 export function getProductDescription(product: Product, t: TranslateFn): string {
-  return product.description || t(product.descriptionKey);
+  try {
+    const translated = t(product.descriptionKey);
+    // If a translation exists and isn't returning the raw key, return the localized description
+    if (translated && translated !== product.descriptionKey) {
+      return translated;
+    }
+  } catch {
+    // Fallback if key missing in dictionary
+  }
+  return product.description || product.descriptionKey;
 }
 
 export function stripHtml(html: string): string {
