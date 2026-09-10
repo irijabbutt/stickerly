@@ -30,31 +30,40 @@ export const products: Product[] = [
 export type TranslateFn = (key: string) => string;
 
 export function getProductName(product: Product, t: TranslateFn): string {
-  const key = product.nameKey.replace(/^products\./, "");
+  if (!product) return "";
+  
+  // Strip leading "products." so next-intl doesn't double-prefix
+  const relativeKey = product.nameKey?.replace(/^products\./, "") || "";
+  
   try {
-    const translated = t(key);
-    if (translated && translated !== key) return translated;
+    const translated = t(relativeKey);
+    // Return translated string if valid key found in JSON
+    if (translated && translated !== relativeKey && !translated.startsWith("products.admin")) {
+      return translated;
+    }
   } catch {}
-  try {
-    const translatedRoot = t(product.nameKey);
-    if (translatedRoot && translatedRoot !== product.nameKey) return translatedRoot;
-  } catch {}
+
+  // Fallback to raw Gumroad product name
   return product.name || product.nameKey;
 }
 
 export function getProductDescription(product: Product, t: TranslateFn): string {
-  const key = product.descriptionKey.replace(/^products\./, "");
+  if (!product) return "";
+  
+  // Strip leading "products." so next-intl doesn't double-prefix
+  const relativeKey = product.descriptionKey?.replace(/^products\./, "") || "";
+  
   try {
-    const translated = t(key);
-    if (translated && translated !== key) return translated;
+    const translated = t(relativeKey);
+    // Return translated description if valid key found in JSON
+    if (translated && translated !== relativeKey && !translated.startsWith("products.admin")) {
+      return translated;
+    }
   } catch {}
-  try {
-    const translatedRoot = t(product.descriptionKey);
-    if (translatedRoot && translatedRoot !== product.descriptionKey) return translatedRoot;
-  } catch {}
+
+  // Fallback to raw Gumroad product description
   return product.description || product.descriptionKey;
 }
-
 export function stripHtml(html: string): string {
   return html
     .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
