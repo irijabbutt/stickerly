@@ -20,6 +20,7 @@ export interface Product {
   isPack: boolean;
   isAdmin?: boolean;
   comingSoon?: boolean;
+  translations?: Record<string, { name: string; description: string }>;
 }
 
 // Single definition containing your product objects:
@@ -29,26 +30,38 @@ export const products: Product[] = [
 
 export type TranslateFn = (key: string) => string;
 
-export function getProductName(product: Product, t: TranslateFn): string {
+export function getProductName(product: Product, t: TranslateFn, locale?: string): string {
   if (!product) return "";
-  
-  // Strip leading "products." so next-intl doesn't double-prefix
+
+  // Check auto-generated translations stored in product object
+  if (locale && product.translations?.[locale]?.name) {
+    return product.translations[locale].name;
+  }
+
   const relativeKey = product.nameKey?.replace(/^products\./, "") || "";
-  
+
   try {
     const translated = t(relativeKey);
-    // Return translated string if valid key found in JSON
-    if (translated && translated !== relativeKey && !translated.startsWith("products.admin")) {
+    if (
+      translated &&
+      translated !== relativeKey &&
+      !translated.startsWith("products.admin") &&
+      !translated.startsWith("admin.")
+    ) {
       return translated;
     }
   } catch {}
 
-  // Fallback to raw Gumroad product name
   return product.name || product.nameKey;
 }
 
-export function getProductDescription(product: Product, t: TranslateFn): string {
+export function getProductDescription(product: Product, t: TranslateFn, locale?: string): string {
   if (!product) return "";
+
+  // Check auto-generated translations stored in product object
+  if (locale && product.translations?.[locale]?.description) {
+    return product.translations[locale].description;
+  }
 
   const relativeKey = product.descriptionKey?.replace(/^products\./, "") || "";
 
@@ -64,12 +77,7 @@ export function getProductDescription(product: Product, t: TranslateFn): string 
     }
   } catch {}
 
-  // Primary fallback: fetched description from Gumroad
-  if (product.description && !product.description.startsWith("products.admin")) {
-    return product.description;
-  }
-
-  return "";
+  return product.description || product.descriptionKey;
 }
 export function stripHtml(html: string): string {
   return html
