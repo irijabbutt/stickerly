@@ -1,4 +1,3 @@
-import { products } from "../lib/products";
 export type ProductCategory = 'stickers' | 'animated' | '3d';
 
 export interface Product {
@@ -23,33 +22,30 @@ export interface Product {
   comingSoon?: boolean;
 }
 
-export const products: Product[] = [];
+// Single definition containing your product objects:
+export const products: Product[] = [
+  // ... your product entries here
+];
 
 export type TranslateFn = (key: string) => string;
 
 export function getProductName(product: Product, t: TranslateFn): string {
   try {
     const translated = t(product.nameKey);
-    // If a translation exists and isn't returning the raw key, return the localized name
     if (translated && translated !== product.nameKey) {
       return translated;
     }
-  } catch {
-    // Fallback if key missing in dictionary
-  }
+  } catch {}
   return product.name || product.nameKey;
 }
 
 export function getProductDescription(product: Product, t: TranslateFn): string {
   try {
     const translated = t(product.descriptionKey);
-    // If a translation exists and isn't returning the raw key, return the localized description
     if (translated && translated !== product.descriptionKey) {
       return translated;
     }
-  } catch {
-    // Fallback if key missing in dictionary
-  }
+  } catch {}
   return product.description || product.descriptionKey;
 }
 
