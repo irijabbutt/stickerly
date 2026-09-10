@@ -23,15 +23,6 @@ export interface GumroadMetadata {
   reviewCount?: number;
 }
 
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
-}
-
 function parseGumroadUrl(url: string): { seller?: string; productId: string } | null {
   try {
     const parsed = new URL(url);
@@ -67,7 +58,9 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
 
   const metadata = await fetchGumroadMetadata(input.gumroadUrl);
   const displayName = metadata.title || parsed.productId;
-  const id = slugify(displayName);
+
+  // Use Gumroad permalink (e.g. "floating3d") directly as id/slug
+  const id = parsed.productId;
 
   const discountPercent = Math.max(0, Math.min(100, input.discountPercent || 0));
   const originalPrice = metadata.priceUSD;
@@ -79,8 +72,8 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
   const product: Product & { isAdmin: boolean } = {
     id,
     slug: id,
-    nameKey: `admin.${id}.name`,
-    descriptionKey: `admin.${id}.description`,
+    nameKey: `products.admin.${id}.name`,
+    descriptionKey: `products.admin.${id}.description`,
     name: displayName,
     description: metadata.description,
     priceUSD: discountedPrice,
@@ -95,6 +88,7 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
     tags: metadata.tags.length > 0 ? metadata.tags : ['digital', input.category],
     isPack: true,
     isAdmin: true,
+    comingSoon: input.comingSoon,
   };
 
   const existing = getAdminProducts();
