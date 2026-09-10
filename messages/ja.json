@@ -125,11 +125,12 @@
     }
   },
   "howItWorks": {
-    "title": "使い方",
-    "step1": {
-      "title": "素材を選ぶ",
-      "description": "ステッカー、アニメーションUI、3Dシーンを閲覧。"
-    },
+  "title": "使い方",
+  "step1Title": "素材を選ぶ",
+  "step1Desc": "ステッカー、アニメーションUI、3Dシーンを閲覧。",
+  "step2Title": "チェックアウト＆ダウンロード",
+  "step2Desc": "Gumroadで安全に支払い、即座にダウンロード。"
+  },
     "step2": {
       "title": "カートに追加",
       "description": "バンドルを作って合計を確認。"
