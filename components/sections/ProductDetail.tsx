@@ -29,9 +29,7 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
           {t("backToProducts")}
         </Link>
 
-        {/* lg:items-start prevents image card from stretching to match long text */}
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
-          
           {/* Image Container Card */}
           <div className="lg:sticky lg:top-24 flex items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
             <img
@@ -62,13 +60,8 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
               </span>
             </div>
 
-            {/* Formatted Description */}
-            <div
-              className="prose dark:prose-invert max-w-none text-muted-foreground leading-relaxed mt-6 space-y-4"
-              dangerouslySetInnerHTML={{ __html: productDesc }}
-            />
-
-            <div className="mt-8 flex gap-4">
+            {/* Buy Now Button - Positioned immediately below Price & Title */}
+            <div className="mt-6 flex gap-4">
               {isGumroadProductReady(product) ? (
                 <a
                   href={buildGumroadProductUrl(product, { wanted: true }) ?? undefined}
@@ -88,6 +81,12 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
                 </button>
               )}
             </div>
+
+            {/* Formatted Description */}
+            <div
+              className="prose dark:prose-invert max-w-none text-muted-foreground leading-relaxed mt-8 pt-6 border-t border-border space-y-4"
+              dangerouslySetInnerHTML={{ __html: productDesc }}
+            />
 
             {/* Tags */}
             {product.tags && product.tags.length > 0 && (
