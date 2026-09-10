@@ -29,17 +29,19 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
           {t("backToProducts")}
         </Link>
 
-        <div className="mt-8 grid gap-10 lg:grid-cols-2">
-          {/* Product Image */}
-          <div className="overflow-hidden rounded-3xl border border-border bg-background shadow-sm">
+        {/* lg:items-start prevents image card from stretching to match long text */}
+        <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
+          
+          {/* Image Container Card */}
+          <div className="lg:sticky lg:top-24 flex items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
             <img
               src={product.images?.[0] || product.image}
               alt={productName}
-              className="h-full w-full object-cover"
+              className="max-h-[550px] w-full rounded-2xl object-contain"
             />
           </div>
 
-          {/* Product Details */}
+          {/* Product Info */}
           <div className="flex flex-col justify-center">
             <span className="inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary uppercase tracking-wider">
               {product.category}
@@ -60,7 +62,7 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
               </span>
             </div>
 
-            {/* Render full Gumroad HTML description with line breaks and formatting */}
+            {/* Formatted Description */}
             <div
               className="prose dark:prose-invert max-w-none text-muted-foreground leading-relaxed mt-6 space-y-4"
               dangerouslySetInnerHTML={{ __html: productDesc }}
