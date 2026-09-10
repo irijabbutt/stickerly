@@ -125,11 +125,12 @@
     }
   },
   "howItWorks": {
-    "title": "购买流程",
-    "step1": {
-      "title": "挑选素材",
-      "description": "浏览贴纸、动画UI和3D场景。"
-    },
+  "title": "使用指南",
+  "step1Title": "选择您的素材",
+  "step1Desc": "浏览贴纸、动态 UI 和 3D 场景。",
+  "step2Title": "结账与下载",
+  "step2Desc": "在 Gumroad 安全支付并立即下载。"
+  },
     "step2": {
       "title": "加入购物车",
       "description": "构建你的素材包并查看总价。"
