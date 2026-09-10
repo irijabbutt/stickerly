@@ -110,7 +110,7 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
     gumroadProductId: parsed.productId,
     gumroadSeller: parsed.seller,
     category: input.category,
-    image: input.images[0] || input.image || metadata.image || '/products/kawaii-animals.svg',
+    image: input.images[0],
     images: input.images.length > 0 ? input.images : undefined,
     ratingValue: metadata.ratingValue,
     reviewCount: metadata.reviewCount,
