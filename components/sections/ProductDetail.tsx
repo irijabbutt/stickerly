@@ -11,21 +11,22 @@ import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 interface ProductDetailProps {
   product: Product;
   locale: string;
-  related: Product[];
+  related?: Product[];
 }
 
 export function ProductDetail({ product, locale }: ProductDetailProps) {
   const t = useTranslations("products");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Dynamic Translation fallback for runtime products
+  // Instant pre-translated or dynamic translation lookup
   const { productName, productDesc, loadingTranslation } = useDynamicTranslation(
     product,
     locale,
     t
   );
 
-  const allImages = product.images && product.images.length > 0 ? product.images : [product.image];
+  const allImages =
+    product.images && product.images.length > 0 ? product.images : [product.image];
 
   return (
     <section className="py-12 lg:py-20">
@@ -53,7 +54,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
                   onClick={() =>
                     setCurrentImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1))
                   }
-                  className="absolute left-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md"
+                  className="absolute left-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md hover:bg-background transition"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
@@ -61,7 +62,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
                   onClick={() =>
                     setCurrentImageIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1))
                   }
-                  className="absolute right-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md hover:bg-background transition"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>
@@ -126,6 +127,25 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
                 />
               )}
             </div>
+
+            {/* Product Tags */}
+            {product.tags && product.tags.length > 0 && (
+              <div className="mt-8">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                  Tags
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {product.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
