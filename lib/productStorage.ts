@@ -1,6 +1,7 @@
 import { Product } from './products';
 
 const STORAGE_KEY = 'stickerly-admin-products';
+const LOCALES = ['ur', 'ko', 'ja', 'zh'] as const;
 
 export interface AdminProductInput {
   gumroadUrl: string;
@@ -52,14 +53,39 @@ export async function fetchGumroadMetadata(url: string): Promise<GumroadMetadata
   return response.json();
 }
 
+async function translateProductLocales(name: string, description: string) {
+  const translations: Record<string, { name: string; description: string }> = {};
+
+  await Promise.all(
+    LOCALES.map(async (locale) => {
+      try {
+        const res = await fetch('/api/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, description, locale }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.name && data.description) {
+            translations[locale] = {
+              name: data.name,
+              description: data.description,
+            };
+          }
+        }
+      } catch {}
+    })
+  );
+
+  return translations;
+}
+
 export async function createAdminProduct(input: AdminProductInput): Promise<Product | null> {
   const parsed = parseGumroadUrl(input.gumroadUrl);
   if (!parsed) return null;
 
   const metadata = await fetchGumroadMetadata(input.gumroadUrl);
   const displayName = metadata.title || parsed.productId;
-
-  // Use Gumroad permalink (e.g. "floating3d") directly as id/slug
   const id = parsed.productId;
 
   const discountPercent = Math.max(0, Math.min(100, input.discountPercent || 0));
@@ -68,6 +94,9 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
     discountPercent > 0
       ? Math.round(originalPrice * (1 - discountPercent / 100) * 100) / 100
       : originalPrice;
+
+  // Automatically fetch translations for all locales upon creation
+  const translations = await translateProductLocales(displayName, metadata.description || '');
 
   const product: Product & { isAdmin: boolean } = {
     id,
@@ -89,6 +118,7 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
     isPack: true,
     isAdmin: true,
     comingSoon: input.comingSoon,
+    translations,
   };
 
   const existing = getAdminProducts();
@@ -96,10 +126,8 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Prod
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Storage failed";
-    throw new Error(
-      `Failed to save product. Images may be too large for browser storage. ${message}`
-    );
+    const message = err instanceof Error ? err.message : 'Storage failed';
+    throw new Error(`Failed to save product. Images may be too large for browser storage. ${message}`);
   }
   return product;
 }
