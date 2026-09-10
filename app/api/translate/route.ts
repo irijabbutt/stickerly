@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-
 export async function POST(req: Request) {
   let name = "";
   let description = "";
@@ -12,7 +10,12 @@ export async function POST(req: Request) {
     description = body.description || "";
     const locale = body.locale;
 
-    if (!locale || locale === "en" || !OPENROUTER_API_KEY) {
+    const apiKey = process.env.OPENROUTER_API_KEY;
+
+    if (!locale || locale === "en" || !apiKey) {
+      if (!apiKey) {
+        console.warn("OPENROUTER_API_KEY is missing in environment variables.");
+      }
       return NextResponse.json({ name, description });
     }
 
@@ -29,7 +32,7 @@ Description: ${description}`;
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
