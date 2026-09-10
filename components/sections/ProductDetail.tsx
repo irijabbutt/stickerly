@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ExternalLink, ArrowLeft, ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
-import { Product } from "@/lib/products";
+import { Product, getProductName, getProductDescription } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
-import { useDynamicTranslation } from "@/hooks/useDynamicTranslation";
 
 interface ProductDetailProps {
   product: Product;
   locale: string;
+  related?: Product[];
 }
 
 export function ProductDetail({ product, locale }: ProductDetailProps) {
@@ -18,14 +18,15 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
 
-  const { productName, productDesc } = useDynamicTranslation(product, locale, t);
+  const productName = getProductName(product, t);
+  const productDesc = getProductDescription(product, t);
 
-  // Filter out empty or whitespace-only image strings
-  const validImages = (product.images || [])
-    .concat(product.image || [])
-    .filter((img): img is string => Boolean(img && img.trim().length > 0));
+  const allImages =
+    product.images && product.images.length > 0
+      ? product.images
+      : [product.image].filter(Boolean);
 
-  const currentImage = validImages[currentImageIndex] || null;
+  const currentImage = allImages[currentImageIndex] || product.image;
 
   return (
     <section className="py-12 lg:py-20">
@@ -39,7 +40,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
-          {/* Image Display Card */}
+          {/* Image Container Card */}
           <div className="relative lg:sticky lg:top-24 flex min-h-[380px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
             {!imageError && currentImage ? (
               <img
@@ -55,23 +56,25 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
               </div>
             )}
 
-            {validImages.length > 1 && !imageError && (
+            {allImages.length > 1 && !imageError && (
               <>
                 <button
                   onClick={() => {
                     setImageError(false);
-                    setCurrentImageIndex((prev) => (prev === 0 ? validImages.length - 1 : prev - 1));
+                    setCurrentImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
                   }}
                   className="absolute left-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md hover:bg-background transition"
+                  aria-label="Previous Image"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => {
                     setImageError(false);
-                    setCurrentImageIndex((prev) => (prev === validImages.length - 1 ? 0 : prev + 1));
+                    setCurrentImageIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1));
                   }}
                   className="absolute right-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground backdrop-blur-md hover:bg-background transition"
+                  aria-label="Next Image"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>
@@ -79,7 +82,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
             )}
           </div>
 
-          {/* Product Details */}
+          {/* Product Info */}
           <div className="flex flex-col justify-center">
             <span className="inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary uppercase tracking-wider">
               {product.category}
@@ -100,6 +103,7 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
               </span>
             </div>
 
+            {/* Buy Now Button */}
             <div className="mt-6 flex gap-4">
               {isGumroadProductReady(product) ? (
                 <a
@@ -112,18 +116,41 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
                   {t("buyNow")}
                 </a>
               ) : (
-                <button disabled className="cursor-not-allowed rounded-full border border-border bg-muted/50 px-6 py-3 font-medium text-muted-foreground">
+                <button
+                  disabled
+                  className="cursor-not-allowed rounded-full border border-border bg-muted/50 px-6 py-3 font-medium text-muted-foreground"
+                >
                   {t("comingSoon")}
                 </button>
               )}
             </div>
 
+            {/* Description */}
             <div className="mt-8 pt-6 border-t border-border">
               <div
                 className="prose dark:prose-invert max-w-none text-muted-foreground leading-relaxed space-y-4"
                 dangerouslySetInnerHTML={{ __html: productDesc }}
               />
             </div>
+
+            {/* Tags */}
+            {product.tags && product.tags.length > 0 && (
+              <div className="mt-8">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                  Tags
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {product.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
