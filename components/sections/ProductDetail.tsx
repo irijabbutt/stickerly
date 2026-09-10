@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { ExternalLink, ArrowLeft } from "lucide-react";
+import { ExternalLink, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { Product, getProductName, getProductDescription } from "@/lib/products";
 import { buildGumroadProductUrl, isGumroadProductReady } from "@/lib/gumroad";
 
@@ -14,9 +15,23 @@ interface ProductDetailProps {
 
 export function ProductDetail({ product, locale, related }: ProductDetailProps) {
   const t = useTranslations("products");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const productName = getProductName(product, t);
   const productDesc = getProductDescription(product, t);
+
+  // Combine image array with main image fallback
+  const allImages = product.images && product.images.length > 0
+    ? product.images
+    : [product.image];
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <section className="py-12 lg:py-20">
@@ -30,13 +45,55 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
-          {/* Image Container Card */}
-          <div className="lg:sticky lg:top-24 flex items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
+          {/* Image Container Card with Navigation Controls */}
+          <div className="relative lg:sticky lg:top-24 flex flex-col items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm group">
             <img
-              src={product.images?.[0] || product.image}
-              alt={productName}
-              className="max-h-[550px] w-full rounded-2xl object-contain"
+              src={allImages[currentImageIndex]}
+              alt={`${productName} - Image ${currentImageIndex + 1}`}
+              className="max-h-[550px] w-full rounded-2xl object-contain transition-all duration-300"
             />
+
+            {/* Render Navigation Arrows if product has multiple images */}
+            {allImages.length > 1 && (
+              <>
+                <button
+                  onClick={handlePrevImage}
+                  aria-label="Previous Image"
+                  className="absolute left-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground shadow-md backdrop-blur-md hover:bg-background transition"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+
+                <button
+                  onClick={handleNextImage}
+                  aria-label="Next Image"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 rounded-full border border-border bg-background/80 p-2.5 text-foreground shadow-md backdrop-blur-md hover:bg-background transition"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+
+                {/* Counter Badge */}
+                <div className="absolute top-6 right-6 rounded-full border border-border bg-background/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur-md shadow-sm">
+                  {currentImageIndex + 1} / {allImages.length}
+                </div>
+
+                {/* Dot Indicators */}
+                <div className="mt-4 flex gap-2">
+                  {allImages.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentImageIndex(idx)}
+                      className={`h-2 rounded-full transition-all ${
+                        idx === currentImageIndex
+                          ? "w-6 bg-primary"
+                          : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Product Info */}
