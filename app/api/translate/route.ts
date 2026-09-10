@@ -3,8 +3,14 @@ import { NextResponse } from "next/server";
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 export async function POST(req: Request) {
+  let name = "";
+  let description = "";
+
   try {
-    const { name, description, locale } = await req.json();
+    const body = await req.json();
+    name = body.name || "";
+    description = body.description || "";
+    const locale = body.locale;
 
     if (!locale || locale === "en" || !OPENROUTER_API_KEY) {
       return NextResponse.json({ name, description });
@@ -17,8 +23,8 @@ Return ONLY a valid JSON object:
   "description": "Translated detailed HTML description (preserve exact HTML tags and formatting)"
 }
 
-Title: ${name || ""}
-Description: ${description || ""}`;
+Title: ${name}
+Description: ${description}`;
 
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
