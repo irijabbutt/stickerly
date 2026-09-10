@@ -126,10 +126,11 @@
   },
   "howItWorks": {
     "title": "How it works",
-    "step1": {
-      "title": "Pick your assets",
-      "description": "Browse stickers, animated UI, and 3D scenes."
-    },
+    "step1Title": "Pick your assets",
+    "step1Desc": "Browse stickers, animated UI, and 3D scenes.",
+    "step2Title": "Checkout & Download",
+    "step2Desc": "Pay securely on Gumroad and download instantly."
+  },
     "step2": {
       "title": "Add to cart",
       "description": "Build your bundle and review your total."
