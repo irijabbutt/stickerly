@@ -39,7 +39,7 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
             />
           </div>
 
-          {/* Product Info */}
+          {/* Product Details */}
           <div className="flex flex-col justify-center">
             <span className="inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary uppercase tracking-wider">
               {product.category}
@@ -60,9 +60,9 @@ export function ProductDetail({ product, locale, related }: ProductDetailProps) 
               </span>
             </div>
 
-            {/* Render Full Formatted HTML Description */}
+            {/* Render full Gumroad HTML description with line breaks and formatting */}
             <div
-              className="prose dark:prose-invert max-w-none text-muted-foreground leading-relaxed mt-6"
+              className="prose dark:prose-invert max-w-none text-muted-foreground leading-relaxed mt-6 space-y-4"
               dangerouslySetInnerHTML={{ __html: productDesc }}
             />
 
