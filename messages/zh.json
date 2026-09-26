@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "title": "Stickerly — 剪贴画、动画UI与3D设计素材",
+    "description": "为创作者提供的高品质数字贴纸、动画UI组件和交互式3D设计素材。通过Gumroad即时下载。"
+  },
+  "nav": {
+    "home": "首页",
+    "products": "产品",
+    "features": "特色",
+    "faq": "常见问题",
+    "cart": "购物车",
+    "openCart": "打开购物车",
+    "closeCart": "关闭购物车",
+    "themeLight": "切换到浅色模式",
+    "themeDark": "切换到深色模式"
+  },
+  "hero": {
+    "badge": "每周上新创意素材",
+    "headline": "让设计更出彩的贴纸、动效与3D素材",
+    "subheadline": "下载精选剪贴画素材包、动画UI组件和交互式3D场景。免版税、多语言，并为你的下一个项目做好准备。",
+    "ctaPrimary": "浏览产品",
+    "ctaSecondary": "了解如何购买",
+    "flashSale": "限时闪购 — 仅剩1小时",
+    "hours": "时",
+    "minutes": "分",
+    "seconds": "秒"
+  },
+  "products": {
+    "title": "精选设计素材",
+    "subtitle": "选择素材包，加入购物车，并通过Gumroad安全结账。",
+    "filterAll": "全部",
+    "filterStickers": "贴纸",
+    "filterAnimated": "动画UI",
+    "filter3d": "3D场景",
+    "addToCart": "加入购物车",
+    "added": "已添加",
+    "viewCart": "查看购物车",
+    "viewDetails": "查看详情",
+    "tags": "标签",
+    "backToProducts": "返回产品",
+    "relatedTitle": "你可能也喜欢",
+    "price": "${price}",
+    "empty": "该分类下暂无产品。",
+    "stickers1": {
+      "name": "可爱动漫生物贴纸",
+      "description": "一组可爱的可爱风动漫生物贴纸，适用于社交媒体帖子、应用和创意项目。透明背景PNG文件。"
+    },
+    "cuteStickerPack": {
+      "name": "可爱贴纸包",
+      "description": "60多张手绘风格可爱贴纸，提供PNG和SVG格式。"
+    },
+    "motionUiKit": {
+      "name": "动效UI套件",
+      "description": "基于Framer Motion的生产级React动画与过渡组件。"
+    },
+    "threeDIconScene": {
+      "name": "3D图标场景",
+      "description": "包含Three.js源文件的交互式3D图标组合。"
+    },
+    "kawaiiAnimals": {
+      "name": "萌系动物",
+      "description": "一组适合社交媒体和应用使用的萌系动物贴纸。"
+    },
+    "loaderCollection": {
+      "name": "加载动画合集",
+      "description": "适用于现代网页应用的流畅加载动画和转圈圈。"
+    },
+    "floatingShapes": {
+      "name": "漂浮3D形状",
+      "description": "适用于首屏和背景的抽象漂浮3D形状。"
+    },
+    "buyNow": "立即购买",
+    "comingSoon": "即将推出",
+    "allProducts": {
+      "title": "全部商品",
+      "subtitle": "浏览 Stickerly 的完整目录——贴纸、动效 UI 套件和 3D 场景。",
+      "metaTitle": "全部商品 — Stickerly",
+      "metaDescription": "浏览 Stickerly 目录中的所有贴纸包、动效 UI 套件和 3D 场景。"
+    }
+  },
+  "categories": {
+    "stickers": {
+      "title": "贴纸包 — 创作者剪贴画",
+      "description": "浏览手绘贴纸包、萌系角色和剪贴画套装。提供PNG和SVG格式，免版税。",
+      "headline": "脱颖而出的贴纸包",
+      "subheadline": "为社交媒体帖子、应用和创意项目准备的手绘剪贴画与萌系角色。"
+    },
+    "animated": {
+      "title": "动画UI组件 — React动效",
+      "description": "基于React和Framer Motion构建的生产级动画UI组件、加载器和过渡效果。",
+      "headline": "轻松实现动效UI",
+      "subheadline": "适用于现代网页应用的生产级React动画、加载器和过渡效果。"
+    },
+    "3d": {
+      "title": "3D设计素材 — 图标与场景",
+      "description": "包含Three.js源文件和GLB模型的交互式3D图标场景与抽象形状。",
+      "headline": "为大胆设计而生的3D素材",
+      "subheadline": "包含Three.js源文件的交互式3D图标构成与抽象场景。"
+    },
+    "viewAll": "查看全部产品",
+    "showcaseTitle": "按类别选购",
+    "showcaseSubtitle": "选择你的创意工具包 — 剪贴画贴纸、动态UI组件或交互式3D场景。"
+  },
+  "cart": {
+    "title": "您的购物车",
+    "empty": "购物车是空的。",
+    "browse": "浏览产品",
+    "remove": "移除",
+    "quantity": "数量",
+    "subtotal": "小计",
+    "checkout": "在Gumroad结账",
+    "continue": "继续购物"
+  },
+  "features": {
+    "title": "创作者为何喜爱Stickerly",
+    "instant": {
+      "title": "即时下载",
+      "description": "通过Gumroad在购买后立即获取文件。"
+    },
+    "multilingual": {
+      "title": "多语言就绪",
+      "description": "支持英语、中文、日语、韩语和乌尔都语购物，内置从右到左排版支持。"
+    },
+    "royalty": {
+      "title": "免版税许可",
+      "description": "在个人和商业项目中使用素材，无隐藏费用。"
+    },
+    "secure": {
+      "title": "安全结账",
+      "description": "由Gumroad安全处理付款。"
+    }
+  },
+  "howItWorks": {
+    "title": "使用指南",
+    "step1Title": "选择您的素材",
+    "step1Desc": "浏览贴纸、动态 UI 和 3D 场景。",
+    "step2Title": "结账与下载",
+    "step2Desc": "在 Gumroad 安全支付并立即下载。"
+  },
+  "testimonials": {
+    "title": "深受设计师喜爱",
+    "quote1": "动画UI包为我节省了大量原型设计时间。干净、有趣且易于定制。",
+    "author1": "Ayesha K.，产品设计师",
+    "quote2": "自从在社媒帖子中使用Stickerly剪贴画后，我的贴纸定制订单翻了一倍。",
+    "author2": "Li W.，内容创作者",
+    "outOf": "满分",
+    "basedOn": "基于 {count} 条 Gumroad 评价"
+  },
+  "faq": {
+    "title": "常见问题",
+    "q1": "文件是什么格式？",
+    "a1": "贴纸提供PNG和SVG格式。动画UI组件是React/Framer Motion代码片段。3D场景包含GLB文件和Three.js示例。",
+    "q2": "可以商用吗？",
+    "a2": "可以。每个素材包都包含个人和商业项目的免版税许可。",
+    "q3": "如何接收文件？",
+    "a3": "在Gumroad结账后，你会立即收到下载链接和交付邮件。",
+    "q4": "支持退款吗？",
+    "a4": "由于文件为数字商品，退款由Gumroad根据具体情况处理。"
+  },
+  "ctaBanner": {
+    "title": "准备好升级你的创意工具箱了吗？",
+    "subtitle": "加入每周使用Stickerly素材的数百位创作者。",
+    "button": "开始购物",
+    "affiliate": "成为联盟伙伴 — 3% 佣金"
+  },
+  "footer": {
+    "tagline": "为充满好奇的创作者提供优质数字素材。",
+    "rights": "© {year} Stickerly。保留所有权利。",
+    "powered": "结账由Gumroad提供支持"
+  },
+  "checkout": {
+    "title": "结账 — Stickerly",
+    "description": "查看购物车并通过Gumroad安全完成购买。高品质贴纸、动画UI组件和3D设计素材。",
+    "summaryTitle": "结账",
+    "summarySubtitle": "确认商品后前往Gumroad进行安全付款。",
+    "quantity": "数量",
+    "remove": "移除",
+    "subtotal": "小计",
+    "total": "合计",
+    "emptyTitle": "购物车是空的",
+    "emptySubtitle": "添加贴纸、动画UI组件或3D素材以开始。",
+    "continueShopping": "继续购物",
+    "proceedToGumroad": "前往Gumroad",
+    "secureNote": "你将被重定向到Gumroad以安全完成购买。",
+    "itemCount": "{count} 件商品",
+    "comingSoon": "即将推出",
+    "notReadyNote": "结账前需要配置 Gumroad 产品 ID。"
+  }
+}

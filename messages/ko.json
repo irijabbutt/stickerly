@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "title": "Stickerly — 클립아트, 애니메이션 UI 및 3D 디자인 에셋",
+    "description": "크리에이터를 위한 프리미엄 디지털 스티커, 애니메이션 UI 컴포넌트, 인터랙티브 3D 디자인 에셋. Gumroad를 통해 즉시 다운로드."
+  },
+  "nav": {
+    "home": "홈",
+    "products": "제품",
+    "features": "특징",
+    "faq": "자주 묻는 질문",
+    "cart": "장바구니",
+    "openCart": "장바구니 열기",
+    "closeCart": "장바구니 닫기",
+    "themeLight": "라이트 모드로 전환",
+    "themeDark": "다크 모드로 전환"
+  },
+  "hero": {
+    "badge": "매주 새로운 크리에이티브 드롭",
+    "headline": "디자인을 돋보이게 하는 스티커, 모션 및 3D 에셋",
+    "subheadline": "엄선된 클립아트 팩, 애니메이션 UI 컴포넌트, 인터랙티브 3D 씬을 다운로드하세요. 로열티 프리, 다국어 지원, 다음 프로젝트를 위한 준비 완료.",
+    "ctaPrimary": "제품 둘러보기",
+    "ctaSecondary": "이용 방법 보기",
+    "flashSale": "플래시 세일 — 1시간 남음",
+    "hours": "시간",
+    "minutes": "분",
+    "seconds": "초"
+  },
+  "products": {
+    "title": "엄선된 디자인 에셋",
+    "subtitle": "팩을 선택하고 장바구니에 담은 후 Gumroad에서 안전하게 결제하세요.",
+    "filterAll": "전체",
+    "filterStickers": "스티커",
+    "filterAnimated": "애니메이션 UI",
+    "filter3d": "3D 씬",
+    "addToCart": "장바구니에 추가",
+    "added": "추가됨",
+    "viewCart": "장바구니 보기",
+    "viewDetails": "자세히 보기",
+    "tags": "태그",
+    "backToProducts": "제품으로 돌아가기",
+    "relatedTitle": "이런 제품도 좋아요",
+    "price": "${price}",
+    "empty": "이 카테고리에 제품이 없습니다.",
+    "stickers1": {
+      "name": "귀여운 애니메이션 크리처 스티커",
+      "description": "소셜 포스트, 앱, 크리에이티브 프로젝트를 위한 귀여운 카와이 애니메이션 크리처 스티커 팩. 투명 배경 PNG 파일."
+    },
+    "cuteStickerPack": {
+      "name": "귀여운 스티커 팩",
+      "description": "PNG 및 SVG 형식의 60개 이상의 사랑스러운 손그림 스티커."
+    },
+    "motionUiKit": {
+      "name": "모션 UI 키트",
+      "description": "Framer Motion을 활용한 프로덕션 준비 완료 React 애니메이션 및 전환 효과."
+    },
+    "threeDIconScene": {
+      "name": "3D 아이콘 씬",
+      "description": "Three.js 소스 파일이 포함된 인터랙티브 3D 아이콘 구성."
+    },
+    "kawaiiAnimals": {
+      "name": "카와이 동물",
+      "description": "소셜 포스트와 앱에 적합한 재미있는 카와이 동물 스티커 세트."
+    },
+    "loaderCollection": {
+      "name": "로더 컬렉션",
+      "description": "현대적인 웹 앱을 위한 부드러운 애니메이션 로더 및 스피너."
+    },
+    "floatingShapes": {
+      "name": "플로팅 쉐입스 3D",
+      "description": "히어로 섹션과 배경에 완벽한 추상 플로팅 3D 쉐입."
+    },
+    "buyNow": "지금 구매",
+    "comingSoon": "곧 출시",
+    "allProducts": {
+      "title": "전체 상품",
+      "subtitle": "Stickerly의 전체 카탈로그를 둘러보세요 — 스티커, 애니메이션 UI 키트, 3D 씬.",
+      "metaTitle": "전체 상품 — Stickerly",
+      "metaDescription": "Stickerly 카탈로그의 모든 스티커 팩, 애니메이션 UI 키트, 3D 씬을 둘러보세요."
+    }
+  },
+  "categories": {
+    "stickers": {
+      "title": "스티커 팩 — 크리에이터용 클립아트",
+      "description": "손그림 스티커 팩, 카와이 캐릭터, 클립아트 세트를 둘러보세요. PNG 및 SVG 형식, 로열티 프리.",
+      "headline": "눈에 띄는 스티커 팩",
+      "subheadline": "소셜 포스트, 앱, 크리에이티브 프로젝트를 위한 손그림 클립아트와 카와이 캐릭터."
+    },
+    "animated": {
+      "title": "애니메이션 UI 컴포넌트 — React 모션",
+      "description": "React 및 Framer Motion으로 구축된 프로덕션 준비 완료 애니메이션 UI 컴포넌트, 로더 및 전환 효과.",
+      "headline": "쉬운 모션 UI",
+      "subheadline": "현대적인 웹 앱을 위한 프로덕션 준비 완료 React 애니메이션, 로더 및 전환 효과."
+    },
+    "3d": {
+      "title": "3D 디자인 에셋 — 아이콘 및 씬",
+      "description": "Three.js 소스 파일과 GLB 모델이 포함된 인터랙티브 3D 아이콘 씬 및 추상 쉐입.",
+      "headline": "대담한 디자인을 위한 3D 에셋",
+      "subheadline": "Three.js 소스 파일이 포함된 인터랙티브 3D 아이콘 구성 및 추상 씬."
+    },
+    "viewAll": "모든 제품 보기",
+    "showcaseTitle": "카테고리별 쇼핑",
+    "showcaseSubtitle": "크리에이티브 툴킷을 선택하세요 — 클립아트 스티커, 모션 UI 컴포넌트 또는 인터랙티브 3D 씬."
+  },
+  "cart": {
+    "title": "장바구니",
+    "empty": "장바구니가 비어 있습니다.",
+    "browse": "제품 둘러보기",
+    "remove": "제거",
+    "quantity": "수량",
+    "subtotal": "소계",
+    "checkout": "Gumroad에서 결제",
+    "continue": "쇼핑 계속"
+  },
+  "features": {
+    "title": "크리에이터가 Stickerly를 사랑하는 이유",
+    "instant": {
+      "title": "즉시 다운로드",
+      "description": "Gumroad를 통해 구매 후 즉시 파일을 받으세요."
+    },
+    "multilingual": {
+      "title": "다국어 지원",
+      "description": "영어, 중국어, 일본어, 한국어, 우르두어로 쇼핑할 수 있으며 RTL 지원이 포함되어 있습니다."
+    },
+    "royalty": {
+      "title": "로열티 프리 라이선스",
+      "description": "개인 및 상업 프로젝트에서 추가 비용 없이 에셋을 사용하세요."
+    },
+    "secure": {
+      "title": "안전한 결제",
+      "description": "결제는 Gumroad에서 안전하게 처리됩니다."
+    }
+  },
+  "howItWorks": {
+    "title": "이용 방법",
+    "step1Title": "에셋 선택",
+    "step1Desc": "스티커, 애니메이션 UI, 3D 씬을 둘러보세요.",
+    "step2Title": "결제 및 다운로드",
+    "step2Desc": "Gumroad에서 안전하게 결제하고 즉시 다운로드하세요."
+  },
+  "testimonials": {
+    "title": "디자이너들의 사랑을 받는",
+    "quote1": "애니메이션 UI 팩이 프로토타이핑 시간을 크게 절약해줬어요. 깔끔하고 재미있으며 커스터마이징도 쉽습니다.",
+    "author1": "Ayesha K., 프로덕트 디자이너",
+    "quote2": "소셜 포스트에 Stickerly 클립아트를 사용하기 시작한 후 스티커 의뢰가 두 배로 늘었어요.",
+    "author2": "Li W., 콘텐츠 크리에이터",
+    "outOf": "중",
+    "basedOn": "{count}개의 Gumroad 리뷰 기준"
+  },
+  "faq": {
+    "title": "자주 묻는 질문",
+    "q1": "파일은 어떤 형식인가요?",
+    "a1": "스티커는 PNG와 SVG 형식입니다. 애니메이션 UI 컴포넌트는 React/Framer Motion 스니펫입니다. 3D 씬에는 GLB 파일과 Three.js 예제가 포함됩니다.",
+    "q2": "상업적으로 사용할 수 있나요?",
+    "a2": "네. 모든 팩에 개인 및 상업 프로젝트용 로열티 프리 라이선스가 포함되어 있습니다.",
+    "q3": "파일은 어떻게 받나요?",
+    "a3": "Gumroad에서 결제 후 즉시 다운로드 링크와 배달 이메일을 받습니다.",
+    "q4": "환불이 가능한가요?",
+    "a4": "파일은 디지털 상품이므로 환불은 Gumroad에서 개별적으로 처리됩니다."
+  },
+  "ctaBanner": {
+    "title": "크리에이티브 툴킷을 업그레이드할 준비가 되셨나요?",
+    "subtitle": "매주 Stickerly 에셋을 사용하는 수백 명의 크리에이터에 참여하세요.",
+    "button": "쇼핑 시작",
+    "affiliate": "제휴사 되기 — 3% 커미션"
+  },
+  "footer": {
+    "tagline": "호기심 많은 크리에이터를 위한 프리미엄 디지털 에셋.",
+    "rights": "© {year} Stickerly. All rights reserved.",
+    "powered": "Checkout powered by Gumroad"
+  },
+  "checkout": {
+    "title": "결제 — Stickerly",
+    "description": "장바구니를 확인하고 Gumroad에서 안전하게 구매를 완료하세요. 프리미엄 스티커, 애니메이션 UI 컴포넌트, 3D 디자인 에셋.",
+    "summaryTitle": "결제",
+    "summarySubtitle": "상품을 확인하고 안전한 결제를 위해 Gumroad로 이동하세요.",
+    "quantity": "수량",
+    "remove": "제거",
+    "subtotal": "소계",
+    "total": "합계",
+    "emptyTitle": "장바구니가 비어 있습니다",
+    "emptySubtitle": "시작하려면 스티커, 애니메이션 UI 컴포넌트 또는 3D 에셋을 추가하세요.",
+    "continueShopping": "쇼핑 계속",
+    "proceedToGumroad": "Gumroad로 이동",
+    "secureNote": "안전하게 구매를 완료하기 위해 Gumroad로 리디렉션됩니다.",
+    "itemCount": "{count}개 상품",
+    "comingSoon": "곧 출시",
+    "notReadyNote": "결제 전에 Gumroad 상품 ID를 구성해야 합니다."
+  }
+}

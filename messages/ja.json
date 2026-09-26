@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "title": "Stickerly — クリップアート、アニメーションUI、3Dデザイン素材",
+    "description": "クリエイター向けの高品質なデジタルステッカー、アニメーションUIコンポーネント、インタラクティブな3Dデザイン素材。Gumroadで即座にダウンロード。"
+  },
+  "nav": {
+    "home": "ホーム",
+    "products": "商品",
+    "features": "特徴",
+    "faq": "よくある質問",
+    "cart": "カート",
+    "openCart": "カートを開く",
+    "closeCart": "カートを閉じる",
+    "themeLight": "ライトモードに切り替え",
+    "themeDark": "ダークモードに切り替え"
+  },
+  "hero": {
+    "badge": "毎週新作クリエイティブが登場",
+    "headline": "デザインを引き立てるステッカー、モーション、3D素材",
+    "subheadline": "厳選されたクリップアートパック、アニメーションUIコンポーネント、インタラクティブな3Dシーンをダウンロード。ロイヤリティフリー、多言語対応、次のプロジェクトですぐに使えます。",
+    "ctaPrimary": "商品を見る",
+    "ctaSecondary": "使い方を見る",
+    "flashSale": "フラッシュセール — 残り1時間",
+    "hours": "時間",
+    "minutes": "分",
+    "seconds": "秒"
+  },
+  "products": {
+    "title": "厳選されたデザイン素材",
+    "subtitle": "パックを選んでカートに入れ、Gumroadで安全にチェックアウト。",
+    "filterAll": "すべて",
+    "filterStickers": "ステッカー",
+    "filterAnimated": "アニメーションUI",
+    "filter3d": "3Dシーン",
+    "addToCart": "カートに追加",
+    "added": "追加済み",
+    "viewCart": "カートを見る",
+    "viewDetails": "詳細を見る",
+    "tags": "タグ",
+    "backToProducts": "商品一覧に戻る",
+    "relatedTitle": "こちらもおすすめ",
+    "price": "${price}",
+    "empty": "このカテゴリに商品はありません。",
+    "stickers1": {
+      "name": "カワイイアニメクリーチャーステッカー",
+      "description": "ソーシャル投稿、アプリ、クリエイティブプロジェクト向けのかわいいカワイイアニメクリーチャーステッカーのセット。背景透過PNGファイル。"
+    },
+    "cuteStickerPack": {
+      "name": "キュートステッカーパック",
+      "description": "PNGとSVG形式の60枚以上の手描き風かわいいステッカー。"
+    },
+    "motionUiKit": {
+      "name": "モーションUIキット",
+      "description": "Framer Motionを使った本番利用可能なReactアニメーションとトランジション。"
+    },
+    "threeDIconScene": {
+      "name": "3Dアイコンシーン",
+      "description": "Three.jsソースファイル付きのインタラクティブな3Dアイコン構成。"
+    },
+    "kawaiiAnimals": {
+      "name": "カワイイアニマルズ",
+      "description": "ソーシャル投稿やアプリにぴったりの遊び心あふれるカワイイ動物ステッカー。"
+    },
+    "loaderCollection": {
+      "name": "ローダーコレクション",
+      "description": "モダンなウェブアプリ向けの滑らかなアニメーションローダーとスピナー。"
+    },
+    "floatingShapes": {
+      "name": "フローティングシェイプス3D",
+      "description": "ヒーローセクションや背景に最適な抽象的な浮遊3Dシェイプ。"
+    },
+    "buyNow": "今すぐ購入",
+    "comingSoon": "近日公開",
+    "allProducts": {
+      "title": "すべての商品",
+      "subtitle": "Stickerly の全カタログ — ステッカー、アニメーションUIキット、3Dシーン。",
+      "metaTitle": "すべての商品 — Stickerly",
+      "metaDescription": "Stickerly カタログのすべてのステッカーパック、アニメーションUIキット、3Dシーンをご覧ください。"
+    }
+  },
+  "categories": {
+    "stickers": {
+      "title": "ステッカーパック — クリエイター向けクリップアート",
+      "description": "手描きステッカーパック、カワイイキャラクター、クリップアートセットを閲覧。PNGとSVG形式、ロイヤリティフリー。",
+      "headline": "目を引くステッカーパック",
+      "subheadline": "ソーシャル投稿、アプリ、クリエイティブプロジェクト向けの手描きクリップアートとカワイイキャラクター。"
+    },
+    "animated": {
+      "title": "アニメーションUIコンポーネント — Reactモーション",
+      "description": "ReactとFramer Motionで構築された本番利用可能なアニメーションUIコンポーネント、ローダー、トランジション。",
+      "headline": "モーションUIを簡単に",
+      "subheadline": "モダンなウェブアプリ向けの本番利用可能なReactアニメーション、ローダー、トランジション。"
+    },
+    "3d": {
+      "title": "3Dデザイン素材 — アイコンとシーン",
+      "description": "Three.jsソースファイルとGLBモデル付きのインタラクティブな3Dアイコンシーンと抽象シェイプ。",
+      "headline": "大胆なデザインのための3D素材",
+      "subheadline": "Three.jsソースファイル付きのインタラクティブな3Dアイコン構成と抽象シーン。"
+    },
+    "viewAll": "すべての商品を見る",
+    "showcaseTitle": "カテゴリーから探す",
+    "showcaseSubtitle": "クリエイティブツールキットを選ぼう — クリップアートステッカー、モーションUIコンポーネント、インタラクティブな3Dシーン。"
+  },
+  "cart": {
+    "title": "あなたのカート",
+    "empty": "カートは空です。",
+    "browse": "商品を見る",
+    "remove": "削除",
+    "quantity": "数量",
+    "subtotal": "小計",
+    "checkout": "Gumroadでチェックアウト",
+    "continue": "買い物を続ける"
+  },
+  "features": {
+    "title": "クリエイターがStickerlyを愛する理由",
+    "instant": {
+      "title": "即時ダウンロード",
+      "description": "Gumroad経由で購入後すぐにファイルを入手。"
+    },
+    "multilingual": {
+      "title": "多言語対応",
+      "description": "英語、中国語、ウルドゥ語、日本語、韓国語でショッピング可能。RTL対応も組み込まれています。"
+    },
+    "royalty": {
+      "title": "ロイヤリティフリーライセンス",
+      "description": "個人・商用プロジェクトで追加料金なしに素材を使用可能。"
+    },
+    "secure": {
+      "title": "安全なチェックアウト",
+      "description": "支払いはGumroadによって安全に処理されます。"
+    }
+  },
+  "howItWorks": {
+    "title": "使い方",
+    "step1Title": "素材を選ぶ",
+    "step1Desc": "ステッカー、アニメーションUI、3Dシーンを閲覧。",
+    "step2Title": "チェックアウト＆ダウンロード",
+    "step2Desc": "Gumroadで安全に支払い、即座にダウンロード。"
+  },
+  "testimonials": {
+    "title": "デザイナーに愛されている",
+    "quote1": "アニメーションUIパックでプロトタイピングの時間を大幅に削減できました。クリーンで遊び心があり、カスタマイズも簡単です。",
+    "author1": "Ayesha K.、プロダクトデザイナー",
+    "quote2": "Stickerlyのクリップアートをソーシャル投稿に使い始めてから、ステッカーの注文が2倍になりました。",
+    "author2": "Li W.、コンテンツクリエイター",
+    "outOf": "中",
+    "basedOn": "{count} 件の Gumroad レビューに基づく"
+  },
+  "faq": {
+    "title": "よくある質問",
+    "q1": "ファイル形式は何ですか？",
+    "a1": "ステッカーはPNGとSVG形式です。アニメーションUIコンポーネントはReact/Framer Motionのスニペットです。3DシーンにはGLBファイルとThree.jsのサンプルが含まれています。",
+    "q2": "商用利用できますか？",
+    "a2": "はい。すべてのパックに個人・商用プロジェクト向けのロイヤリティフリーライセンスが含まれています。",
+    "q3": "ファイルはどうやって受け取れますか？",
+    "a3": "Gumroadでチェックアウト後、即座にダウンロードリンクと配信メールが届きます。",
+    "q4": "返金はできますか？",
+    "a4": "デジタル商品のため、返金はGumroadが個別に対応いたします。"
+  },
+  "ctaBanner": {
+    "title": "クリエイティブツールキットをアップグレードする準備はできましたか？",
+    "subtitle": "毎週Stickerlyの素材を使う何百人ものクリエイターに参加しましょう。",
+    "button": "買い物を始める",
+    "affiliate": "アフィリエイトになる — 3% コミッション"
+  },
+  "footer": {
+    "tagline": "好奇心旺盛なクリエイター向けのプレミアムデジタル素材。",
+    "rights": "© {year} Stickerly. All rights reserved.",
+    "powered": "Checkout powered by Gumroad"
+  },
+  "checkout": {
+    "title": "チェックアウト — Stickerly",
+    "description": "カートを確認し、Gumroadで安全に購入を完了します。プレミアムステッカー、アニメーションUIコンポーネント、3Dデザイン素材。",
+    "summaryTitle": "チェックアウト",
+    "summarySubtitle": "商品を確認して、安全な支払いのためGumroadに進みます。",
+    "quantity": "数量",
+    "remove": "削除",
+    "subtotal": "小計",
+    "total": "合計",
+    "emptyTitle": "カートは空です",
+    "emptySubtitle": "ステッカー、アニメーションUIコンポーネント、3D素材を追加してください。",
+    "continueShopping": "買い物を続ける",
+    "proceedToGumroad": "Gumroadに進む",
+    "secureNote": "安全に購入を完了するため、Gumroadにリダイレクトされます。",
+    "itemCount": "{count} 点",
+    "comingSoon": "近日公開",
+    "notReadyNote": "チェックアウトの前に Gumroad の商品 ID を設定する必要があります。"
+  }
+}
