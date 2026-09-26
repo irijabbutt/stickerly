@@ -1,0 +1,59 @@
+# Stickerly
+
+A multilingual e-commerce landing page for clip-art stickers, animated UI components, and interactive 3D design assets. Built with Next.js, Tailwind CSS, and Framer Motion.
+
+## Features
+
+- Multilingual support: English, 中文 (Chinese), اردو (Urdu), 日本語 (Japanese)
+- Manual light/dark mode toggle
+- Anime-style motion background scene
+- Product catalog with persistent local-storage cart
+- Dedicated SEO checkout page per locale
+- Direct "Buy now" Gumroad links on product cards
+- Checkout redirect to Gumroad
+- SEO-optimized landing pages and sitemap
+
+## Getting Started
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Build
+
+```bash
+npm run build
+```
+
+## Deploy
+
+Connected to Vercel with GitHub integration. Pushes to `main` trigger production deployments.
+
+## Connect real Gumroad products
+
+1. Create your products on [Gumroad](https://gumroad.com/).
+2. Copy each product's permalink ID from its URL: `https://gumroad.com/l/YOUR_PRODUCT_ID`.
+3. Copy `gumroad-config.json.example` to `gumroad-config.json` and replace the placeholder IDs.
+4. Run the env setup script:
+
+```bash
+node scripts/set-gumroad-env.mjs
+vercel env pull .env.local
+vercel --prod
+```
+
+You can also set variables one-by-one in the Vercel dashboard or with `vercel env add`.
+
+## Use a custom domain
+
+1. Purchase or add your domain in the Vercel dashboard for this project.
+2. Update `siteUrl` in `gumroad-config.json` (or set `NEXT_PUBLIC_SITE_URL` in Vercel).
+3. Re-run the env setup script and redeploy.
+
+## Environment variables
+
+See `.env.example` for the full list of configurable values.
