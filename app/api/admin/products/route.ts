@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 import { requireAdmin } from "@/lib/adminApiHelpers";
 import { adminCreateProduct, PRODUCTS_TAG, ProductInput } from "@/lib/productsData";
+import { translateProductToAllLocales } from "@/lib/translateProduct";
+
+export const maxDuration = 60; // room for the one-off translation call
 
 export async function POST(request: NextRequest) {
   const unauthorized = requireAdmin(request);
@@ -22,7 +25,10 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const product = await adminCreateProduct(body);
+    // Translate once at save time; stored in Supabase and served to everyone.
+    const translations =
+      body.translations ?? (await translateProductToAllLocales(body.name, body.description || ""));
+    const product = await adminCreateProduct({ ...body, translations });
     revalidateTag(PRODUCTS_TAG, "max");
     return NextResponse.json(product, { status: 201 });
   } catch (err) {
