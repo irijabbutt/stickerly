@@ -4,9 +4,13 @@ import { requireAdmin } from "@/lib/adminApiHelpers";
 import {
   adminUpdateProduct,
   adminDeleteProduct,
+  getProductById,
   PRODUCTS_TAG,
   ProductInput,
 } from "@/lib/productsData";
+import { translateProductToAllLocales } from "@/lib/translateProduct";
+
+export const maxDuration = 60;
 
 export async function PATCH(
   request: NextRequest,
@@ -24,6 +28,16 @@ export async function PATCH(
   }
 
   try {
+    if (
+      body.translations === undefined &&
+      (body.name !== undefined || body.description !== undefined)
+    ) {
+      const existing = await getProductById(id);
+      const name = body.name ?? existing?.name ?? "";
+      const description = body.description ?? existing?.description ?? "";
+      const translations = await translateProductToAllLocales(name, description);
+      if (Object.keys(translations).length > 0) body.translations = translations;
+    }
     const product = await adminUpdateProduct(id, body);
     revalidateTag(PRODUCTS_TAG, "max");
     return NextResponse.json(product);
