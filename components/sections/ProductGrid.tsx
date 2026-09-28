@@ -67,7 +67,7 @@ export function ProductGrid() {
                     src={product.images?.[0] || product.image}
                     alt={getProductName(product, t)}
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                    loading="lazy"
+                    loading="eager"
                   />
                 </Link>
                 <div className="flex flex-1 flex-col p-6">
