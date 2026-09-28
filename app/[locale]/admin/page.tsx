@@ -352,7 +352,13 @@ function ProductList({
     try {
       const r = await translateMissingProducts();
       alert(
-        r.translated + " translated, " + r.failed + " failed, " + r.skipped + " already translated."
+        r.translated +
+          " translated, " +
+          r.failed +
+          " failed, " +
+          r.skipped +
+          " already translated." +
+          (r.errors && r.errors.length ? "\n\nReason:\n" + r.errors.join("\n") : "")
       );
       onChange();
     } catch (err) {
