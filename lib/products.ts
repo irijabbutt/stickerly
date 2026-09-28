@@ -39,6 +39,10 @@ export function getProductName(product: Product, t: TranslateFn, locale?: string
     return product.translations[locale].name;
   }
 
+  // Products from Supabase have no entries in the messages/*.json files, so
+  // skip that lookup entirely (it only produced MISSING_MESSAGE log spam).
+  if (product.isAdmin) return product.name || product.nameKey;
+
   const relativeKey = product.nameKey?.replace(/^products\./, "") || "";
 
   try {
@@ -63,6 +67,8 @@ export function getProductDescription(product: Product, t: TranslateFn, locale?:
   if (locale && product.translations?.[locale]?.description) {
     return product.translations[locale].description;
   }
+
+  if (product.isAdmin) return product.description || product.descriptionKey;
 
   const relativeKey = product.descriptionKey?.replace(/^products\./, "") || "";
 
