@@ -100,7 +100,7 @@ export function AllProductsGrid({ products }: { products: Product[] }) {
                     </div>
                   </div>
                   <p className="mt-2 line-clamp-2 flex-1 text-sm text-muted-foreground">
-                    {getProductTagline(product, t)}
+                    {getProductTagline(product, t, locale)}
                   </p>
                   <div className="mt-5 grid grid-cols-2 gap-2">
                     <Link
