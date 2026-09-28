@@ -40,7 +40,9 @@ async function callModel(apiKey: string, model: string, prompt: string): Promise
   const data = await res.json().catch(() => ({}));
   if (!res.ok || data?.error) {
     const msg = data?.error?.message || `HTTP ${res.status}`;
-    throw new Error(`${model}: ${msg}`);
+    const err = new Error(`${model}: ${msg}`) as Error & { retryable?: boolean };
+    err.retryable = res.status === 429 || res.status >= 500;
+    throw err;
   }
   const content: string = data.choices?.[0]?.message?.content?.trim() || "";
   if (!content) throw new Error(`${model}: empty response`);
@@ -81,16 +83,40 @@ DESCRIPTION:
 ${description}`;
 
   for (const model of candidateModels()) {
-    try {
-      const parsed = parseReply(await callModel(apiKey, model, prompt));
-      if (parsed) return parsed;
-      errors.push(`${model}: unexpected reply format`);
-    } catch (e) {
-      errors.push(e instanceof Error ? e.message : String(e));
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const parsed = parseReply(await callModel(apiKey, model, prompt));
+        if (parsed) return parsed;
+        errors.push(`${model}: unexpected reply format`);
+        break;
+      } catch (e) {
+        const retryable = (e as { retryable?: boolean }).retryable;
+        if (retryable && attempt < 2) {
+          await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
+          continue;
+        }
+        errors.push(e instanceof Error ? e.message : String(e));
+        break;
+      }
     }
   }
   return null;
 }
+
+/** Translate one product into ONE locale. Never throws. */
+export async function translateProductLocale(
+  name: string,
+  description: string,
+  locale: string
+): Promise<{ value: { name: string; description: string } | null; errors: string[] }> {
+  const errors: string[] = [];
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) return { value: null, errors: ["OPENROUTER_API_KEY is not set"] };
+  const value = await translateOne(apiKey, locale, name, description, errors);
+  return { value, errors };
+}
+
+export const TARGET_LOCALES = locales.filter((l) => l !== "en");
 
 /** Translates into every non-English locale; reports why anything failed. */
 export async function translateProductDetailed(
