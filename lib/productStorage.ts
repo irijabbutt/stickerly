@@ -122,6 +122,7 @@ export interface TranslateMissingResult {
   translated: number;
   failed: number;
   skipped: number;
+  remaining?: number;
   errors?: string[];
 }
 
