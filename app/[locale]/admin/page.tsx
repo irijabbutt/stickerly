@@ -7,6 +7,7 @@ import { login, logout, isAdminSession, AdminCredentials } from "@/lib/adminAuth
 import {
   createAdminProduct,
   deleteAdminProduct,
+  translateMissingProducts,
   getAdminProducts,
   AdminProductInput,
 } from "@/lib/productStorage";
@@ -344,6 +345,22 @@ function ProductList({
   onChange: () => void;
 }) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [translating, setTranslating] = useState(false);
+
+  const handleTranslate = async () => {
+    setTranslating(true);
+    try {
+      const r = await translateMissingProducts();
+      alert(
+        r.translated + " translated, " + r.failed + " failed, " + r.skipped + " already translated."
+      );
+      onChange();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Translation failed");
+    } finally {
+      setTranslating(false);
+    }
+  };
 
   const handleDelete = async (id: string) => {
     setDeletingId(id);
@@ -359,7 +376,19 @@ function ProductList({
 
   return (
     <div className="rounded-2xl border border-border bg-background p-6 shadow-sm">
-      <h2 className="text-lg font-semibold">Admin-added products</h2>
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold">Admin-added products</h2>
+        {products.length > 0 && (
+          <button
+            onClick={handleTranslate}
+            disabled={translating}
+            className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-1.5 text-sm font-medium hover:bg-muted transition disabled:opacity-50"
+          >
+            {translating && <Loader2 className="h-4 w-4 animate-spin" />}
+            {translating ? "Translating..." : "Translate missing"}
+          </button>
+        )}
+      </div>
       {products.length === 0 ? (
         <p className="mt-4 text-sm text-muted-foreground">
           No admin products yet. Add one above.
