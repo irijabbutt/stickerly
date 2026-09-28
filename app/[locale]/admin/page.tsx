@@ -353,11 +353,10 @@ function ProductList({
       const r = await translateMissingProducts();
       alert(
         r.translated +
-          " translated, " +
+          " translations saved, " +
           r.failed +
-          " failed, " +
-          r.skipped +
-          " already translated." +
+          " failed." +
+          (r.remaining ? "\n" + r.remaining + " still to do: click the button again." : "") +
           (r.errors && r.errors.length ? "\n\nReason:\n" + r.errors.join("\n") : "")
       );
       onChange();
