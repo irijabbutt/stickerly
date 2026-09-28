@@ -122,6 +122,7 @@ export interface TranslateMissingResult {
   translated: number;
   failed: number;
   skipped: number;
+  errors?: string[];
 }
 
 /** Translates every product that has no stored translations yet (admin only). */
