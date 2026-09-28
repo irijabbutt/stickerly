@@ -95,7 +95,7 @@ export function truncate(text: string, maxLength: number): string {
   return trimmed.slice(0, trimmed.lastIndexOf(" ")) + "…";
 }
 
-export function getProductTagline(product: Product, t: TranslateFn, maxLength = 110): string {
-  const description = getProductDescription(product, t);
+export function getProductTagline(product: Product, t: TranslateFn, locale?: string, maxLength = 110): string {
+  const description = getProductDescription(product, t, locale);
   return truncate(stripHtml(description), maxLength);
 }
