@@ -18,8 +18,8 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
 
-  const productName = getProductName(product, t);
-  const productDesc = getProductDescription(product, t);
+  const productName = getProductName(product, t, locale);
+  const productDesc = getProductDescription(product, t, locale);
 
   const allImages =
     product.images && product.images.length > 0
