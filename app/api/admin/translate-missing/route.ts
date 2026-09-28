@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 import { requireAdmin } from "@/lib/adminApiHelpers";
 import { adminListProducts, adminUpdateProduct, PRODUCTS_TAG } from "@/lib/productsData";
-import { translateProductToAllLocales } from "@/lib/translateProduct";
+import { translateProductDetailed } from "@/lib/translateProduct";
 
 export const maxDuration = 60;
 
@@ -27,11 +27,13 @@ export async function POST(request: NextRequest) {
     const products = await adminListProducts();
     const todo = products.filter((p) => force || !p.translations || Object.keys(p.translations).length === 0);
 
+    const errors: string[] = [];
     const results = await Promise.all(
       todo.map(async (p) => {
-        const translations = await translateProductToAllLocales(p.name ?? "", p.description ?? "");
-        if (Object.keys(translations).length === 0) return false;
-        await adminUpdateProduct(p.id, { translations });
+        const outcome = await translateProductDetailed(p.name ?? "", p.description ?? "");
+        errors.push(...outcome.errors);
+        if (Object.keys(outcome.translations).length === 0) return false;
+        await adminUpdateProduct(p.id, { translations: outcome.translations });
         return true;
       })
     );
@@ -42,6 +44,7 @@ export async function POST(request: NextRequest) {
       translated,
       failed: results.length - translated,
       skipped: products.length - todo.length,
+      errors: Array.from(new Set(errors)).slice(0, 3),
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Translation failed";
