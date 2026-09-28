@@ -66,6 +66,7 @@ export function AllProductsGrid({ products }: { products: Product[] }) {
                     alt={getProductName(product, t, locale)}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    loading="eager"
                     className="object-cover transition duration-300 group-hover:scale-105"
                   />
                   {product.comingSoon && (
