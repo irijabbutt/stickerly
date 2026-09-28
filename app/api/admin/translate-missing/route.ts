@@ -2,13 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 import { requireAdmin } from "@/lib/adminApiHelpers";
 import { adminListProducts, adminUpdateProduct, PRODUCTS_TAG } from "@/lib/productsData";
-import { translateProductDetailed } from "@/lib/translateProduct";
+import { translateProductLocale, TARGET_LOCALES, ProductTranslations } from "@/lib/translateProduct";
 
 export const maxDuration = 60;
 
+const CONCURRENCY = 4; // stay under OpenRouter rate limits
+const TIME_BUDGET_MS = 30_000; // stop starting new jobs after this; click again for the rest
+
 /**
- * One-off backfill: translates every product that has no stored translations
- * (or all products with ?force=1) and saves the result to Supabase.
+ * Fills in whatever product/language combinations are missing (or everything
+ * with ?force=1), merging into existing translations. Safe to click repeatedly.
  */
 export async function POST(request: NextRequest) {
   const unauthorized = requireAdmin(request);
@@ -22,28 +25,56 @@ export async function POST(request: NextRequest) {
   }
 
   const force = request.nextUrl.searchParams.get("force") === "1";
+  const started = Date.now();
 
   try {
     const products = await adminListProducts();
-    const todo = products.filter((p) => force || !p.translations || Object.keys(p.translations).length === 0);
 
+    type Job = { productId: string; name: string; description: string; locale: string };
+    const jobs: Job[] = [];
+    let skipped = 0;
+    for (const p of products) {
+      const missing = TARGET_LOCALES.filter((l) => force || !p.translations?.[l]?.name);
+      if (missing.length === 0) skipped++;
+      for (const locale of missing) {
+        jobs.push({ productId: p.id, name: p.name ?? "", description: p.description ?? "", locale });
+      }
+    }
+
+    const done: Record<string, ProductTranslations> = {};
     const errors: string[] = [];
-    const results = await Promise.all(
-      todo.map(async (p) => {
-        const outcome = await translateProductDetailed(p.name ?? "", p.description ?? "");
-        errors.push(...outcome.errors);
-        if (Object.keys(outcome.translations).length === 0) return false;
-        await adminUpdateProduct(p.id, { translations: outcome.translations });
-        return true;
-      })
-    );
+    let cursor = 0;
+    let failed = 0;
+
+    async function worker() {
+      while (cursor < jobs.length && Date.now() - started < TIME_BUDGET_MS) {
+        const job = jobs[cursor++];
+        const { value, errors: errs } = await translateProductLocale(job.name, job.description, job.locale);
+        if (value) {
+          (done[job.productId] ??= {})[job.locale] = value;
+        } else {
+          failed++;
+          errors.push(...errs);
+        }
+      }
+    }
+    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+
+    let translated = 0;
+    for (const p of products) {
+      const fresh = done[p.id];
+      if (!fresh) continue;
+      translated += Object.keys(fresh).length;
+      await adminUpdateProduct(p.id, { translations: { ...(p.translations ?? {}), ...fresh } });
+    }
 
     revalidateTag(PRODUCTS_TAG, "max");
-    const translated = results.filter(Boolean).length;
+    const remaining = jobs.length - translated - failed;
     return NextResponse.json({
       translated,
-      failed: results.length - translated,
-      skipped: products.length - todo.length,
+      failed,
+      skipped,
+      remaining: Math.max(0, remaining),
       errors: Array.from(new Set(errors)).slice(0, 3),
     });
   } catch (err) {
