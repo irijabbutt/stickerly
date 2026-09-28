@@ -1,137 +1,70 @@
-import fs from "fs";
-import path from "path";
-import { products, Product } from "../lib/products";
+import { locales } from "./i18n";
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-if (!OPENROUTER_API_KEY) {
-  console.error("Error: OPENROUTER_API_KEY environment variable is missing.");
-  process.exit(1);
-}
+export type ProductTranslations = Record<string, { name: string; description: string }>;
 
-const LOCALES = ["ur", "ko", "ja", "zh"] as const;
-type SupportedLocale = (typeof LOCALES)[number];
-
-const MESSAGES_DIR = path.join(process.cwd(), "messages");
-
-const LANGUAGE_NAMES: Record<SupportedLocale, string> = {
+const LANG_NAMES: Record<string, string> = {
+  zh: "Simplified Chinese",
   ur: "Urdu",
-  ko: "Korean",
   ja: "Japanese",
-  zh: "Chinese (Simplified)",
+  ko: "Korean",
 };
 
-interface TranslationResult {
-  title: string;
-  tagline: string;
-  description: string;
-}
+/**
+ * Translates a product's name + description into every non-English locale in
+ * ONE model call, so the result can be stored in the products.translations
+ * column and served instantly to every visitor (no per-visitor API calls).
+ * Never throws: on any failure it returns {} and the product simply falls back
+ * to its original text.
+ */
+export async function translateProductToAllLocales(
+  name: string,
+  description: string
+): Promise<ProductTranslations> {
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey || (!name && !description)) return {};
 
-interface MessagesFile {
-  products?: Record<
-    string,
-    {
-      title: string;
-      tagline: string;
-      description: string;
+  const targets = locales.filter((l) => l !== "en");
+  const list = targets.map((l) => `"${l}" = ${LANG_NAMES[l] ?? l}`).join(", ");
+
+  const prompt = `You are a professional product localizer. Translate this product's title and description into these languages: ${list}.
+Keep the description's HTML tags, attributes, links and structure exactly as-is; translate only the human-readable text. Keep brand names (e.g. Stickerly) untranslated.
+Return ONLY a valid JSON object shaped like:
+{ ${targets.map((l) => `"${l}": { "name": "...", "description": "..." }`).join(", ")} }
+
+Title: ${name}
+Description: ${description}`;
+
+  try {
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: process.env.OPENROUTER_MODEL || "google/gemini-2.0-flash-001",
+        response_format: { type: "json_object" },
+        messages: [{ role: "user", content: prompt }],
+      }),
+    });
+    if (!res.ok) return {};
+
+    const data = await res.json();
+    let content: string = data.choices?.[0]?.message?.content?.trim() || "";
+    if (content.startsWith("```")) {
+      content = content.replace(/^```(json)?\n?/, "").replace(/\n?```$/, "");
     }
-  >;
-  [key: string]: unknown;
-}
+    const parsed = JSON.parse(content);
 
-async function translateWithOpenRouter(
-  product: Product,
-  locale: SupportedLocale
-): Promise<TranslationResult> {
-  const prompt = `You are a professional localizer for an e-commerce website.
-Translate the following product metadata into ${LANGUAGE_NAMES[locale]} (${locale}).
-
-Rules:
-- Retain exact HTML tags, attributes, and formatting inside the description.
-- Keep brand names like "Stickerly" or "Gumroad" untranslated unless natural.
-- Return ONLY valid JSON matching this schema:
-{
-  "title": "Translated product title",
-  "tagline": "Translated short tagline",
-  "description": "Translated detailed HTML description"
-}
-
-Product Title: ${product.name || ""}
-Product Tagline: ${product.description || ""}
-Product Description: ${product.description || ""}`;
-
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": "https://stickerly.app",
-      "X-Title": "Stickerly",
-    },
-    body: JSON.stringify({
-      model: "google/gemini-2.0-flash-001",
-      response_format: { type: "json_object" },
-      messages: [{ role: "user", content: prompt }],
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error(`OpenRouter API error: ${res.statusText}`);
-  }
-
-  const data = (await res.json()) as {
-    choices: Array<{ message: { content: string } }>;
-  };
-  let rawContent = data.choices[0].message.content.trim();
-
-  if (rawContent.startsWith("```")) {
-    rawContent = rawContent.replace(/^```(json)?\n?/, "").replace(/\n?```$/, "");
-  }
-
-  return JSON.parse(rawContent) as TranslationResult;
-}
-
-async function run() {
-  for (const locale of LOCALES) {
-    const filePath = path.join(MESSAGES_DIR, `${locale}.json`);
-    let fileContent: MessagesFile = {};
-
-    if (fs.existsSync(filePath)) {
-      try {
-        const rawText = fs.readFileSync(filePath, "utf-8").trim();
-        if (rawText) {
-          fileContent = JSON.parse(rawText) as MessagesFile;
-        }
-      } catch {
-        console.warn(`Warning: Could not parse ${locale}.json, resetting structure.`);
-        fileContent = {};
-      }
-    }
-
-    if (!fileContent.products) {
-      fileContent.products = {};
-    }
-
-    console.log(`\nTranslating products for locale: [${locale.toUpperCase()}]...`);
-
-    for (const product of products) {
-      console.log(` -> Processing: "${product.name || product.slug}"`);
-      try {
-        const translated = await translateWithOpenRouter(product, locale);
-
-        fileContent.products[product.slug] = {
-          title: translated.title,
-          tagline: translated.tagline,
-          description: translated.description,
+    const out: ProductTranslations = {};
+    for (const l of targets) {
+      const entry = parsed?.[l];
+      if (entry && typeof entry.name === "string" && entry.name.trim()) {
+        out[l] = {
+          name: entry.name,
+          description: typeof entry.description === "string" ? entry.description : description,
         };
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : String(err);
-        console.error(`Failed to translate ${product.slug} to ${locale}:`, errorMessage);
       }
     }
-
-    fs.writeFileSync(filePath, JSON.stringify(fileContent, null, 2), "utf-8");
-    console.log(`Saved translations to messages/${locale}.json`);
+    return out;
+  } catch {
+    return {};
   }
 }
-
-run();
