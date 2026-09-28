@@ -126,6 +126,18 @@ function authHeaders(key: string) {
   };
 }
 
+/** Fresh (uncached) list for admin tasks such as translation backfill. */
+export async function adminListProducts(): Promise<Product[]> {
+  const key = getServiceRoleKey();
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=created_at.asc`, {
+    headers: { apikey: key, Authorization: `Bearer ${key}` },
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Failed to list products: ${await res.text()}`);
+  const rows: ProductRow[] = await res.json();
+  return rows.map(mapRow);
+}
+
 export async function adminCreateProduct(input: ProductInput): Promise<Product> {
   const key = getServiceRoleKey();
   const res = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
