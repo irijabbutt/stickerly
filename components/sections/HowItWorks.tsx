@@ -22,7 +22,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="py-20 bg-background/50 relative overflow-hidden">
+    <section id="how-it-works" className="scroll-mt-20 py-20 bg-background/50 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
