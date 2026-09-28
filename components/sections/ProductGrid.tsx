@@ -65,7 +65,7 @@ export function ProductGrid() {
                 >
                   <img
                     src={product.images?.[0] || product.image}
-                    alt={getProductName(product, t)}
+                    alt={getProductName(product, t, locale)}
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                     loading="eager"
                   />
@@ -74,7 +74,7 @@ export function ProductGrid() {
                   <div className="flex items-start justify-between gap-3">
                     <Link href={`/${locale}/products/${product.slug}/`}>
                       <h3 className="text-lg font-semibold hover:underline line-clamp-1">
-                        {getProductName(product, t)}
+                        {getProductName(product, t, locale)}
                       </h3>
                     </Link>
                     <div className="flex shrink-0 items-center gap-2 rounded-full bg-primary/10 px-3 py-1">
@@ -95,7 +95,7 @@ export function ProductGrid() {
                     </div>
                   </div>
                   <p className="mt-2 line-clamp-2 flex-1 text-sm text-muted-foreground">
-                    {getProductTagline(product, t)}
+                    {getProductTagline(product, t, locale)}
                   </p>
                   
                   <div className="mt-6 grid grid-cols-2 gap-2">
