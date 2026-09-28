@@ -117,3 +117,20 @@ export async function deleteAdminProduct(id: string): Promise<void> {
     throw new Error(data.error || `Failed to delete product (${response.status})`);
   }
 }
+
+export interface TranslateMissingResult {
+  translated: number;
+  failed: number;
+  skipped: number;
+}
+
+/** Translates every product that has no stored translations yet (admin only). */
+export async function translateMissingProducts(force = false): Promise<TranslateMissingResult> {
+  const response = await fetch(`/api/admin/translate-missing${force ? '?force=1' : ''}`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || `Translation failed (${response.status})`);
+  return data as TranslateMissingResult;
+}
