@@ -83,6 +83,16 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return rows[0] ? mapRow(rows[0]) : null;
 }
 
+export async function getProductById(id: string): Promise<Product | null> {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/products?select=*&id=eq.${encodeURIComponent(id)}&limit=1`,
+    { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, cache: "no-store" }
+  );
+  if (!res.ok) return null;
+  const rows: ProductRow[] = await res.json();
+  return rows[0] ? mapRow(rows[0]) : null;
+}
+
 // ---------------------------------------------------------------------------
 // Admin (service-role) mutations — only ever called from app/api/admin/* route
 // handlers, which check the signed admin session cookie first.
