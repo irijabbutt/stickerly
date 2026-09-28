@@ -56,16 +56,16 @@ export function CategoryGrid({
               >
                 <img
                   src={product.images?.[0] || product.image}
-                  alt={getProductName(product, t)}
+                  alt={getProductName(product, t, locale)}
                   className="h-full w-full object-contain"
-                  loading="lazy"
+                  loading="eager"
                 />
               </Link>
               <div className="flex flex-1 flex-col p-6">
                 <div className="flex items-start justify-between gap-3">
                   <Link href={`/${locale}/products/${product.slug}/`}>
                     <h2 className="text-lg font-semibold hover:underline">
-                      {getProductName(product, t)}
+                      {getProductName(product, t, locale)}
                     </h2>
                   </Link>
                   <div className="flex shrink-0 items-center gap-2 rounded-full bg-primary/10 px-3 py-1">
@@ -86,7 +86,7 @@ export function CategoryGrid({
                   </div>
                 </div>
                 <p className="mt-2 line-clamp-2 flex-1 text-sm text-muted-foreground">
-                  {getProductTagline(product, t)}
+                  {getProductTagline(product, t, locale)}
                 </p>
                 
                 {/* Updated Button Layout */}
