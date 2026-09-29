@@ -2,6 +2,7 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Product, getProductName, getProductTagline } from "@/lib/products";
@@ -43,7 +44,7 @@ export function CategoryGrid({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
           {products.map((product) => (
             <div
@@ -52,19 +53,25 @@ export function CategoryGrid({
             >
               <Link
                 href={`/${locale}/products/${product.slug}/`}
-                className="flex h-48 items-center justify-center bg-gradient-to-br from-muted to-background p-6 transition hover:opacity-90"
+                className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-gradient-to-br from-muted to-background transition hover:opacity-90"
               >
-                <img
+                <Image
                   src={product.images?.[0] || product.image}
                   alt={getProductName(product, t, locale)}
-                  className="h-full w-full object-contain"
-                  loading="eager"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition duration-300 group-hover:scale-105"
                 />
+                {product.comingSoon && (
+                  <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-foreground shadow-sm">
+                    {t("comingSoon")}
+                  </span>
+                )}
               </Link>
-              <div className="flex flex-1 flex-col p-6">
+              <div className="flex flex-1 flex-col p-5">
                 <div className="flex items-start justify-between gap-3">
                   <Link href={`/${locale}/products/${product.slug}/`}>
-                    <h2 className="text-lg font-semibold hover:underline">
+                    <h2 className="text-base font-semibold hover:underline line-clamp-1">
                       {getProductName(product, t, locale)}
                     </h2>
                   </Link>
@@ -89,8 +96,7 @@ export function CategoryGrid({
                   {getProductTagline(product, t, locale)}
                 </p>
                 
-                {/* Updated Button Layout */}
-                <div className="mt-6 grid grid-cols-2 gap-2">
+                <div className="mt-5 grid grid-cols-2 gap-2">
                   <Link
                     href={`/${locale}/products/${product.slug}/`}
                     className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
