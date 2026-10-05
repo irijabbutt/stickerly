@@ -99,12 +99,25 @@ export default async function HomePage({
     })),
   };
 
+  const faq = messages.faq as Record<string, string>;
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [1, 2, 3, 4]
+      .filter((n) => faq?.[`q${n}`] && faq?.[`a${n}`])
+      .map((n) => ({
+        "@type": "Question",
+        name: faq[`q${n}`],
+        acceptedAnswer: { "@type": "Answer", text: faq[`a${n}`] },
+      })),
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify([organizationLd, productListLd]),
+          __html: JSON.stringify([organizationLd, productListLd, faqLd]),
         }}
       />
       <Hero />

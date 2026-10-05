@@ -1,6 +1,7 @@
 import { NextIntlClientProvider, Locale, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import type { Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { locales } from "@/lib/i18n";
 import { baseUrl } from "@/lib/site";
@@ -13,9 +14,20 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "../globals.css";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -72,13 +84,11 @@ export async function generateMetadata({
       siteName: "Stickerly",
       locale,
       type: "website",
-      images: [{ url: "/logo.svg", alt: "Stickerly" }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/logo.svg"],
     },
     icons: {
       icon: "/icon.svg",
@@ -117,7 +127,7 @@ export default async function LocaleLayout({
       <body className="relative isolate min-h-full flex flex-col text-foreground">
         <ThemeProvider>
           <AnimeBackground />
-          <div className="relative z-10 flex min-h-full flex-1 flex-col bg-background/70 backdrop-blur-[2px] dark:bg-background/50">
+          <div className="relative z-10 flex min-h-full flex-1 flex-col bg-background/70 dark:bg-background/50">
             <NextIntlClientProvider messages={messages} locale={locale} timeZone="UTC">
               <Header />
               <SaleCountdownWrapper />
