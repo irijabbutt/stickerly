@@ -20,7 +20,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 pt-[env(safe-area-inset-top)] backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link 
           href={`/${locale}`} 
@@ -42,13 +42,15 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <LocaleSwitcher />
           <ThemeToggle />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-full p-2 hover:bg-muted transition md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full transition hover:bg-muted md:hidden"
             aria-label={mobileOpen ? "Close Menu" : "Open Menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -56,13 +58,13 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden border-t border-border px-4 py-4 space-y-3 bg-background">
+        <div id="mobile-nav" className="space-y-1 border-t border-border bg-background px-4 py-3 md:hidden">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block text-base font-medium text-muted-foreground hover:text-foreground"
+              className="block rounded-xl px-2 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               {link.label}
             </a>

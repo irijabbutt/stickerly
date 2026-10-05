@@ -43,20 +43,22 @@ export function LocaleSwitcher() {
     <div ref={dropdownRef} className="relative inline-block text-left z-50">
       <button
         type="button"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
-        className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors focus:outline-none"
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-sm font-medium hover:bg-muted transition-colors focus:outline-none"
       >
         <span>{currentLocale.name}</span>
         <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-32 rounded-2xl border border-border bg-background py-2 shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
+        <div className="absolute end-0 mt-2 w-36 rounded-2xl border border-border bg-background py-2 shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
           {locales.map((loc) => (
             <button
               key={loc.code}
               onClick={() => handleSelect(loc.code)}
-              className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-muted ${
+              className={`block min-h-11 w-full px-4 py-2 text-start text-sm transition-colors hover:bg-muted ${
                 locale === loc.code ? "font-semibold text-primary" : "text-foreground"
               }`}
             >
