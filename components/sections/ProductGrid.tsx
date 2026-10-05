@@ -26,7 +26,7 @@ export function ProductGrid() {
     filter === "all" ? products : products.filter((p) => p.category === filter);
 
   return (
-    <section id="products" className="bg-muted/30 py-20 lg:py-28 overflow-hidden">
+    <section id="products" className="scroll-mt-20 overflow-hidden bg-muted/30 py-14 sm:py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto flex flex-col items-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -40,7 +40,7 @@ export function ProductGrid() {
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition ${
                 filter === f.key
                   ? "bg-foreground text-background"
                   : "border border-border bg-background hover:bg-muted"
@@ -52,12 +52,12 @@ export function ProductGrid() {
         </div>
 
         {/* Horizontal Scrolling Container with Visible Scrollbar */}
-        <div className="mt-10 relative overflow-x-auto pb-6 pt-2 custom-scrollbar">
-          <div className="flex w-max gap-6 snap-x snap-mandatory px-4 sm:px-0">
+        <div className="custom-scrollbar relative -mx-4 mt-10 snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-px-4 pb-6 pt-2 sm:mx-0 xl:overflow-visible">
+          <div className="flex w-max gap-4 px-4 sm:gap-6 sm:px-0 xl:grid xl:w-auto xl:grid-cols-3 xl:gap-8 2xl:grid-cols-4">
             {filtered.map((product) => (
               <div
                 key={product.id}
-                className="group relative flex flex-col shrink-0 w-[300px] sm:w-[350px] snap-start overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
+                className="group relative flex flex-col w-[80vw] max-w-[350px] shrink-0 snap-start xl:w-auto xl:max-w-none overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
               >
                 <Link
                   href={`/${locale}/products/${product.slug}/`}
@@ -67,7 +67,10 @@ export function ProductGrid() {
                     src={product.images?.[0] || product.image}
                     alt={getProductName(product, t, locale)}
                     className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                    loading="eager"
+                    loading="lazy"
+                    decoding="async"
+                    width={700}
+                    height={512}
                   />
                 </Link>
                 <div className="flex flex-1 flex-col p-6">
@@ -101,7 +104,7 @@ export function ProductGrid() {
                   <div className="mt-6 grid grid-cols-2 gap-2">
                     <Link
                       href={`/${locale}/products/${product.slug}/`}
-                      className="inline-flex items-center justify-center gap-1 rounded-full border border-border px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
+                      className="inline-flex items-center justify-center gap-1 rounded-full border border-border min-h-11 px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition"
                     >
                       {t("viewDetails")}
                     </Link>
@@ -110,13 +113,13 @@ export function ProductGrid() {
                         href={buildGumroadProductUrl(product, { wanted: true }) ?? undefined}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-1 rounded-full bg-foreground px-3 py-2 text-sm font-medium text-background hover:opacity-90 transition"
+                        className="inline-flex items-center justify-center gap-1 rounded-full bg-foreground min-h-11 px-3 py-2 text-sm font-medium text-background hover:opacity-90 transition"
                       >
                         <ExternalLink className="h-3.5 w-3.5" />
                         {t("buyNow")}
                       </a>
                     ) : (
-                      <span className="inline-flex cursor-not-allowed items-center justify-center gap-1 rounded-full border border-border bg-muted/50 px-3 py-2 text-sm font-medium text-muted-foreground">
+                      <span className="inline-flex cursor-not-allowed items-center justify-center gap-1 rounded-full border border-border bg-muted/50 min-h-11 px-3 py-2 text-sm font-medium text-muted-foreground">
                         {t("comingSoon")}
                       </span>
                     )}

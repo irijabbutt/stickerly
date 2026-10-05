@@ -12,7 +12,7 @@ export function FAQ() {
   const questions = ["q1", "q2", "q3", "q4"];
 
   return (
-    <section id="faq" className="bg-muted/30 py-20 lg:py-28">
+    <section id="faq" className="cv-auto scroll-mt-20 bg-muted/30 py-20 lg:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -27,7 +27,8 @@ export function FAQ() {
             >
               <button
                 onClick={() => setOpen(open === key ? null : key)}
-                className="flex w-full items-center justify-between px-6 py-4 text-start font-medium"
+                aria-expanded={open === key}
+                className="flex min-h-12 w-full items-center justify-between px-6 py-4 text-start font-medium"
               >
                 {t(key)}
                 <ChevronDown

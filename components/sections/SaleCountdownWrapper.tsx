@@ -10,7 +10,7 @@ export function SaleCountdownWrapper() {
   }
 
   return (
-    <div className="relative z-20 flex justify-center bg-background/70 px-4 py-2 backdrop-blur-md dark:bg-background/50">
+    <div className="relative z-20 flex justify-center bg-background/70 px-4 py-2 dark:bg-background/50">
       <SaleCountdown />
     </div>
   );

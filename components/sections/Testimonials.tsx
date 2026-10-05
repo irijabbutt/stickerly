@@ -95,7 +95,7 @@ export function Testimonials() {
     : quotes.map((q) => ({ type: "quote" as const, ...q }));
 
   return (
-    <section className="py-20 lg:py-28">
+    <section className="cv-auto py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
