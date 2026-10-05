@@ -11,7 +11,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="rounded-full p-2 hover:bg-muted transition"
+      className="flex h-11 w-11 items-center justify-center rounded-full transition hover:bg-muted"
       aria-label={
         resolvedTheme === "dark" ? t("themeLight") : t("themeDark")
       }
