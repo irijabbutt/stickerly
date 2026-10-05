@@ -9,6 +9,16 @@ export function CTABanner() {
   const t = useTranslations("ctaBanner");
   const locale = useLocale();
 
+  // Scroll straight to the products section when it's on this page; if it isn't
+  // (e.g. the banner is shown on another page), fall through to normal navigation.
+  const goToProducts = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const el = document.getElementById("products");
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", `/${locale}/#products`);
+  };
+
   return (
     <section className="cv-auto py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -24,6 +34,7 @@ export function CTABanner() {
           <p className="mt-4 text-lg opacity-90">{t("subtitle")}</p>
           <Link
             href={`/${locale}/#products`}
+            onClick={goToProducts}
             className="mt-8 inline-flex items-center rounded-full bg-primary-foreground px-8 py-3 text-base font-semibold text-primary hover:opacity-90 transition"
           >
             {t("button")}
