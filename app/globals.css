@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --primary: #8b5cf6;
+  --primary-foreground: #ffffff;
+  --accent: #f472b6;
+  --accent-foreground: #ffffff;
+  --border: #e5e5e5;
+  --ring: #8b5cf6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --muted: #171717;
+  --muted-foreground: #a3a3a3;
+  --primary: #a78bfa;
+  --primary-foreground: #171717;
+  --accent: #f9a8d4;
+  --accent-foreground: #171717;
+  --border: #262626;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom Visible Scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* =====================================================================
+   Responsive foundation: phones -> tablets -> desktops -> LED walls / 4K
+   ===================================================================== */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-x: clip; min-height: 100dvh; }
+
+/* Tailwind is rem-based (type, spacing, max-w-7xl). Scaling the root size on
+   very large screens scales the whole layout proportionally instead of
+   leaving a tiny centered column on TVs / LED walls / 4K monitors. */
+@media (min-width: 1920px) { html { font-size: 112.5%; } }  /* 18px  */
+@media (min-width: 2560px) { html { font-size: 150%; } }    /* 24px  */
+@media (min-width: 3840px) { html { font-size: 225%; } }    /* 36px  */
+
+/* Lightweight, GPU-friendly "scene" used instead of video on phones/tablets */
+.mesh-bg {
+  background:
+    radial-gradient(60% 50% at 20% 10%, rgb(139 92 246 / .40), transparent 70%),
+    radial-gradient(50% 40% at 85% 20%, rgb(244 114 182 / .34), transparent 70%),
+    radial-gradient(60% 50% at 50% 100%, rgb(56 189 248 / .24), transparent 70%),
+    #0b1020;
+}
+@keyframes float { 0%,100% { transform: translate3d(0,0,0) } 50% { transform: translate3d(0,-14px,0) } }
+.animate-float { animation: float 6s ease-in-out infinite; will-change: transform; }
+/* transform-only entrance: text paints immediately (no opacity:0 -> better LCP) */
+@keyframes rise { from { transform: translateY(16px) } to { transform: none } }
+.animate-rise { animation: rise .6s cubic-bezier(.2,.8,.2,1) both; }
+/* skip rendering work for off-screen sections */
+.cv-auto { content-visibility: auto; contain-intrinsic-size: auto 700px; }
