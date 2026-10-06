@@ -41,13 +41,13 @@ export function ProductDetail({ product, locale }: ProductDetailProps) {
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
           {/* Image Container Card */}
-          <div className="relative lg:sticky lg:top-24 flex min-h-[380px] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
+          <div className="relative lg:sticky lg:top-24 flex min-h-[23.75rem] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-border bg-muted/20 p-4 shadow-sm">
             {!imageError && currentImage ? (
               <img
                 src={currentImage}
                 alt={productName}
                 onError={() => setImageError(true)}
-                className="max-h-[550px] w-full rounded-2xl object-contain transition-all duration-300"
+                className="max-h-[34.375rem] w-full rounded-2xl object-contain transition-all duration-300"
               />
             ) : (
               <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
