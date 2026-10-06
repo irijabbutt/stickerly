@@ -7,7 +7,7 @@ export function AnimeBackground() {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden select-none mesh-bg"
+      className="pointer-events-none fixed inset-0 -z-10 hidden overflow-hidden select-none mesh-bg lg:block"
       aria-hidden="true"
     >
       {/* 11 MB video only on wide, capable, motion-OK connections */}
@@ -19,6 +19,7 @@ export function AnimeBackground() {
           playsInline
           disablePictureInPicture
           preload="metadata"
+          poster="/anime-city-poster.webp"
           className="h-full w-full scale-[1.35] object-cover opacity-90 transition-opacity duration-500 dark:opacity-75"
         >
           <source src="/anime-city.mp4" type="video/mp4" />
