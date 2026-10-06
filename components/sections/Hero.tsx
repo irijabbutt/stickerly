@@ -40,7 +40,7 @@ export function Hero() {
           </div>
 
           {/* Reserved height = no layout shift; shorter on phones so the CTA stays above the fold */}
-          <div className="relative h-56 w-full rounded-3xl border border-border shadow-lg sm:h-72 lg:h-[420px]">
+          <div className="relative h-56 w-full rounded-3xl border border-border shadow-lg sm:h-72 lg:h-[26.25rem]">
             <AnimeScene />
           </div>
         </div>
