@@ -57,7 +57,7 @@ export function ProductGrid() {
             {filtered.map((product) => (
               <div
                 key={product.id}
-                className="group relative flex flex-col w-[80vw] max-w-[350px] shrink-0 snap-start xl:w-auto xl:max-w-none overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
+                className="group relative flex flex-col w-[80vw] max-w-[21.875rem] shrink-0 snap-start xl:w-auto xl:max-w-none overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition hover:shadow-lg"
               >
                 <Link
                   href={`/${locale}/products/${product.slug}/`}
